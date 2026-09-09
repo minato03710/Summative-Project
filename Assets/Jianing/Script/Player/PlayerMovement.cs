@@ -7,13 +7,17 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
 
+    [Header("Jump")]
+    public float jumpHeight = 2f;
+
     [Header("Gravity")]
     public float gravity = -20f;
 
     private CharacterController controller;
     private Vector3 velocity;
-    //Dash
+
     private PlayerDash playerDash;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -23,15 +27,18 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Move();
+        Jump();
         ApplyGravity();
     }
 
     void Move()
     {
+        // Dash Ê±Í£Ö¹ÆÕÍ¨ÒÆ¶¯
         if (playerDash != null && playerDash.IsDashing())
         {
             return;
         }
+
         Vector2 input = Vector2.zero;
 
         if (Keyboard.current != null)
@@ -49,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
                 input.x += 1;
         }
 
-        // Prevent diagonal movement from becoming faster
         input = Vector2.ClampMagnitude(input, 1f);
 
         Vector3 moveDirection = new Vector3(
@@ -58,12 +64,10 @@ public class PlayerMovement : MonoBehaviour
             input.y
         );
 
-        // Move
         controller.Move(
             moveDirection * moveSpeed * Time.deltaTime
         );
 
-        // The character turns toward the direction of movement.
         if (moveDirection.sqrMagnitude > 0.01f)
         {
             Quaternion targetRotation =
@@ -74,6 +78,20 @@ public class PlayerMovement : MonoBehaviour
                 targetRotation,
                 rotationSpeed * Time.deltaTime
             );
+        }
+    }
+
+    void Jump()
+    {
+        if (controller.isGrounded)
+        {
+            if (Keyboard.current != null &&
+                Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                velocity.y = Mathf.Sqrt(
+                    jumpHeight * -2f * gravity
+                );
+            }
         }
     }
 
@@ -91,4 +109,6 @@ public class PlayerMovement : MonoBehaviour
         );
     }
 }
+
+
 
