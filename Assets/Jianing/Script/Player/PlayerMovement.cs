@@ -27,13 +27,14 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Move();
-        Jump();
+
         ApplyGravity();
+
+        Jump();
     }
 
     void Move()
     {
-        // Dash  ±Õ£÷π∆’Õ®“∆∂Ø
         if (playerDash != null && playerDash.IsDashing())
         {
             return;
@@ -60,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 moveDirection = new Vector3(
             input.x,
-            0,
+            0f,
             input.y
         );
 
@@ -81,23 +82,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void Jump()
-    {
-        if (controller.isGrounded)
-        {
-            if (Keyboard.current != null &&
-                Keyboard.current.spaceKey.wasPressedThisFrame)
-            {
-                velocity.y = Mathf.Sqrt(
-                    jumpHeight * -2f * gravity
-                );
-            }
-        }
-    }
-
     void ApplyGravity()
     {
-        if (controller.isGrounded && velocity.y < 0)
+        if (controller.isGrounded && velocity.y < 0f)
         {
             velocity.y = -2f;
         }
@@ -108,7 +95,34 @@ public class PlayerMovement : MonoBehaviour
             velocity * Time.deltaTime
         );
     }
+
+    void Jump()
+    {
+        if (Keyboard.current == null)
+            return;
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            Debug.Log(
+                "Space Pressed | Grounded = " +
+                controller.isGrounded
+            );
+
+            if (controller.isGrounded)
+            {
+                velocity.y = Mathf.Sqrt(
+                    jumpHeight * -2f * gravity
+                );
+
+                Debug.Log("JUMP!");
+            }
+        }
+    }
 }
+
+
+
+
 
 
 
