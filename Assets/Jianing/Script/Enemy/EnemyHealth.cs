@@ -13,7 +13,6 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    // 受到伤害
     public void TakeDamage(float damage)
     {
         if (isDead)
@@ -21,10 +20,15 @@ public class EnemyHealth : MonoBehaviour
 
         currentHealth -= damage;
 
-        currentHealth = Mathf.Max(currentHealth, 0);
+        currentHealth = Mathf.Max(
+            currentHealth,
+            0
+        );
 
         Debug.Log(
-            gameObject.name + " HP: " + currentHealth
+            gameObject.name +
+            " HP: " +
+            currentHealth
         );
 
         if (currentHealth <= 0)
@@ -35,11 +39,27 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
+        if (isDead)
+            return;
+
         isDead = true;
 
-        Debug.Log(gameObject.name + " Died!");
+        Debug.Log(
+            gameObject.name +
+            " Died!"
+        );
 
-        // 暂时直接销毁敌人
+        // 获取随机掉落系统
+        EnemyDropSystem dropSystem =
+            GetComponent<EnemyDropSystem>();
+
+        // 如果存在掉落系统，就生成资源
+        if (dropSystem != null)
+        {
+            dropSystem.DropResources();
+        }
+
+        // 销毁敌人
         Destroy(gameObject);
     }
 
@@ -58,6 +78,10 @@ public class EnemyHealth : MonoBehaviour
         return isDead;
     }
 }
+
+
+
+
 
 
 
