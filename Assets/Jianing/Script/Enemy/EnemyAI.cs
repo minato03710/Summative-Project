@@ -5,19 +5,34 @@ public class EnemyAI : MonoBehaviour
     [Header("Target")]
     public Transform player;
 
-    [Header("Movement")]
+[Header("Movement")]
     public float moveSpeed = 3f;
     public float stoppingDistance = 1.5f;
 
     [Header("Detection")]
     public float detectionRange = 10f;
 
+    [Header("Enemy Separation")]
+    public float separationRadius = 1.5f;
+    public float separationStrength = 2f;
+
+    [Header("Gravity")]
+    public float gravity = -20f;
+
     protected bool playerDetected;
+
+    // 只在父类定义一次
+    protected CharacterController controller;
+
+    private float verticalVelocity;
 
     protected virtual void Start()
     {
-        // Auto find Player
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        controller =
+            GetComponent<CharacterController>();
+
+        GameObject playerObject =
+            GameObject.FindGameObjectWithTag("Player");
 
         if (playerObject != null)
         {
@@ -25,66 +40,81 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    protected virtual void Update()
+    protected void ApplyGravity()
     {
-        if (player == null)
+        if (controller == null)
             return;
 
-        // Player is within detection range
-        float distance = Vector3.Distance(
-            transform.position,
-            player.position
-        );
-
-        if (distance <= detectionRange)
+        if (controller.isGrounded)
         {
-            playerDetected = true;
+            if (verticalVelocity < 0f)
+            {
+                verticalVelocity = -2f;
+            }
         }
         else
         {
-            playerDetected = false;
+            verticalVelocity +=
+                gravity * Time.deltaTime;
         }
 
-        if (playerDetected)
-        {
-            MoveTowardsPlayer();
-        }
+        controller.Move(
+            Vector3.up *
+            verticalVelocity *
+            Time.deltaTime
+        );
     }
 
-    protected virtual void MoveTowardsPlayer()
+    protected Vector3 CalculateSeparation()
     {
-        if (player == null)
-            return;
+        Vector3 separation =
+            Vector3.zero;
 
-        Vector3 direction =
-            player.position - transform.position;
-
-        direction.y = 0;
-
-        float distance = direction.magnitude;
-
-        // Close enough to the player
-        if (distance <= stoppingDistance)
-            return;
-
-        direction.Normalize();
-
-        transform.position +=
-            direction * moveSpeed * Time.deltaTime;
-
-        // Faceing player
-        if (direction.sqrMagnitude > 0.01f)
-        {
-            Quaternion targetRotation =
-                Quaternion.LookRotation(direction);
-
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                10f * Time.deltaTime
+        Collider[] nearbyObjects =
+            Physics.OverlapSphere(
+                transform.position,
+                separationRadius
             );
+
+        foreach (Collider other in nearbyObjects)
+        {
+            if (other.gameObject == gameObject)
+                continue;
+
+            if (!other.CompareTag("Enemy"))
+                continue;
+
+            Vector3 difference =
+                transform.position -
+                other.transform.position;
+
+            difference.y = 0f;
+
+            float distance =
+                difference.magnitude;
+
+            if (distance <= 0.01f)
+                continue;
+
+            float strength =
+                1f -
+                Mathf.Clamp01(
+                    distance /
+                    separationRadius
+                );
+
+            separation +=
+                difference.normalized *
+                strength;
         }
+
+        return separation;
     }
+
+
 }
+
+
+
 
 
