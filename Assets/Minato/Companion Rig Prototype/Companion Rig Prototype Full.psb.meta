@@ -1,0 +1,1078 @@
+fileFormatVersion: 2
+guid: 9a764af364f8a9b4b90d47928a70fbc6
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 0
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  singleSpriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 6d8a15d54de9a884e8a3764a63f88ed3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+    spritePosition: {x: 0, y: 0}
+  multiSpriteImportData: []
+  layeredSpriteImportData:
+  - name: Upper Back Leg
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 491
+      width: 221
+      height: 270
+    spriteID: f3a13d776716a0d4d9137d73087bf9b5
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: -684, y: 147}
+    spritePosition: {x: 688, y: 344}
+  - name: Middle Back Leg
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 769
+      width: 200
+      height: 178
+    spriteID: 3c185ccfb57db954d802b911db9c045d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: -763, y: 446}
+    spritePosition: {x: 767, y: 323}
+  - name: Lower Back Leg
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1148
+      y: 246
+      width: 93
+      height: 134
+    spriteID: a76720cbb9e19cb48b49ac052d0009f9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 268, y: 19}
+    spritePosition: {x: 880, y: 227}
+  - name: Back Talon Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1774
+      y: 180
+      width: 68
+      height: 40
+    spriteID: db0a39b6e38470840b830ed0af3aca4c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 912, y: -29}
+    spritePosition: {x: 862, y: 209}
+  - name: Back Talon 1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1968
+      y: 4
+      width: 69
+      height: 86
+    spriteID: 4804f7189653429459fa92241a0367d5
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1195, y: -149}
+    spritePosition: {x: 773, y: 153}
+  - name: Back Talon 1 Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 935
+      y: 440
+      width: 79
+      height: 36
+    spriteID: 02730dcbf562cd1449c84c75d3498ba9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 121, y: 231}
+    spritePosition: {x: 814, y: 209}
+  - name: Back Talon 2 Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1923
+      y: 142
+      width: 76
+      height: 27
+    spriteID: 7d5749dc593530946a190379b2fec694
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1105, y: -78}
+    spritePosition: {x: 818, y: 220}
+  - name: Back Talon 2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1052
+      y: 358
+      width: 88
+      height: 83
+    spriteID: 6e1f30c8b2ca6e64b88d639317d17525
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 298, y: 193}
+    spritePosition: {x: 754, y: 165}
+  - name: Back Talon 3 Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1968
+      y: 98
+      width: 69
+      height: 36
+    spriteID: 97905538e4c680940808fd2835becf2e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1065, y: -113}
+    spritePosition: {x: 903, y: 211}
+  - name: Back Talon 3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1672
+      y: 142
+      width: 94
+      height: 79
+    spriteID: 09f84029c31464a479a1a9a85e3f8fc0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 737, y: -20}
+    spritePosition: {x: 935, y: 162}
+  - name: Back Talon 4 Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1774
+      y: 142
+      width: 141
+      height: 30
+    spriteID: 6101bf56bea75874c87be7e27982f361
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 945, y: -75}
+    spritePosition: {x: 829, y: 217}
+  - name: Back Talon 4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 935
+      y: 358
+      width: 109
+      height: 74
+    spriteID: e048305dba0ed2042ae8540da49334b2
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 7, y: 184}
+    spritePosition: {x: 928, y: 174}
+  - name: Upper Front Leg
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 233
+      y: 491
+      width: 180
+      height: 260
+    spriteID: 4174c68081e528a4381a0c238860d6a8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: -78, y: 148}
+    spritePosition: {x: 311, y: 343}
+  - name: Lower Front Leg
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 830
+      y: 358
+      width: 97
+      height: 119
+    spriteID: 97ccfac17f0325942be30409914e0757
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 464, y: 110}
+    spritePosition: {x: 366, y: 248}
+  - name: Front Talon Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1052
+      y: 449
+      width: 72
+      height: 34
+    spriteID: 8adac991f06448d4395f161d1d559697
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 709, y: 217}
+    spritePosition: {x: 343, y: 232}
+  - name: Front Talon 1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 593
+      y: 405
+      width: 98
+      height: 67
+    spriteID: 50ac97dba9443ea4bbdfa1bc64ae52af
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 358, y: 218}
+    spritePosition: {x: 235, y: 187}
+  - name: Front Talon 1 Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1907
+      y: 180
+      width: 52
+      height: 34
+    spriteID: 9df472d3cb4cb5e4393f6bb8d65caaf9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1592, y: -49}
+    spritePosition: {x: 315, y: 229}
+  - name: Front Talon 2 Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1967
+      y: 180
+      width: 51
+      height: 27
+    spriteID: 233defc93cdf2864ba94cb4fb63b9027
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1651, y: -58}
+    spritePosition: {x: 316, y: 238}
+  - name: Front Talon 2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 955
+      width: 101
+      height: 59
+    spriteID: b8a35b3b967a660408a32f51a5bffdce
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: -223, y: 757}
+    spritePosition: {x: 227, y: 198}
+  - name: Front Talon 3 Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1850
+      y: 180
+      width: 49
+      height: 39
+    spriteID: 21f073c56b474244ba05be6a949a7697
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1462, y: -43}
+    spritePosition: {x: 388, y: 223}
+  - name: Front Talon 3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 699
+      y: 405
+      width: 96
+      height: 64
+    spriteID: 6269f0cd0d029eb4aa05f977b8e30ddb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 285, y: 222}
+    spritePosition: {x: 414, y: 183}
+  - name: Front Talon 4 Base
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1249
+      y: 246
+      width: 49
+      height: 28
+    spriteID: 6515e1f7ff93b6c48b79d3639496b5f6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 862, y: 15}
+    spritePosition: {x: 387, y: 231}
+  - name: Front Talon 4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 113
+      y: 955
+      width: 99
+      height: 59
+    spriteID: d590b7be7b3c2f84eac56faf5e9fbf93
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: -306, y: 759}
+    spritePosition: {x: 419, y: 196}
+  - name: Tail
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 1332
+      height: 234
+    spriteID: e9eb99558fcb81f4eae2060c85e8301f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: -510, y: -437}
+    spritePosition: {x: 514, y: 441}
+  - name: L Ear
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 830
+      y: 246
+      width: 310
+      height: 104
+    spriteID: 0dcb98ee9d2fb284eb8bb8ce1b24a91b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 644, y: -387}
+    spritePosition: {x: 186, y: 633}
+  - name: Head
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 593
+      y: 246
+      width: 229
+      height: 151
+    spriteID: d6488149284cdbb4aa8c317ec04a92b4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 506, y: -308}
+    spritePosition: {x: 87, y: 554}
+  - name: R Ear
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1672
+      y: 4
+      width: 288
+      height: 130
+    spriteID: d1137141403355c48aa8e07d8aa6379a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1493, y: -642}
+    spritePosition: {x: 179, y: 646}
+  - name: Neck
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 1344
+      y: 4
+      width: 320
+      height: 211
+    spriteID: 3727472def242fe4b924ea20e7cefacd
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 1177, y: -471}
+    spritePosition: {x: 167, y: 475}
+  - name: Body
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 246
+      width: 581
+      height: 237
+    spriteID: 3dccece9437401144b6be429f8958bdb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: -291, y: -190}
+    spritePosition: {x: 295, y: 436}
+  spriteImportData: []
+  rigSpriteImportData: []
+  sharedRigSpriteImportData: []
+  mosaicSpriteImportData: []
+  platformSettings: []
+  mosaicLayers: 1
+  characterMode: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  layerMappingOption: 2
+  generatePhysicsShape: 0
+  paperDollMode: 0
+  keepDupilcateSpriteName: 1
+  generateTileAssets: 0
+  tilePaletteCellLayout: 0
+  tilePaletteHexagonLayout: 0
+  tilePaletteCellSize: {x: 1, y: 1, z: 0}
+  tilePaletteCellSizing: 0
+  transparencySortMode: 0
+  transparencySortAxis: {x: 0, y: 0, z: 1}
+  tileTemplate: {instanceID: 0}
+  padding: 4
+  spriteSizeExpand: 0
+  skeletonAssetReferenceID: 
+  pipeline: {instanceID: 0}
+  pipelineVersion: 
+  spritePackingTag: 
+  resliceFromLayer: 0
+  pSDLayerImportSetting: []
+  psdLayers:
+  - name: Upper Back Leg
+    spriteName: Upper Back Leg
+    isGroup: 0
+    parentIndex: -1
+    spriteID: f3a13d776716a0d4d9137d73087bf9b5
+    layerID: 30
+    mosaicPosition: {x: 4, y: 491}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Middle Back Leg
+    spriteName: Middle Back Leg
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 3c185ccfb57db954d802b911db9c045d
+    layerID: 29
+    mosaicPosition: {x: 4, y: 769}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Lower Back Leg
+    spriteName: Lower Back Leg
+    isGroup: 0
+    parentIndex: -1
+    spriteID: a76720cbb9e19cb48b49ac052d0009f9
+    layerID: 28
+    mosaicPosition: {x: 1148, y: 246}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Back Talon Base
+    spriteName: Back Talon Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: db0a39b6e38470840b830ed0af3aca4c
+    layerID: 27
+    mosaicPosition: {x: 1774, y: 180}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Back Talon 1
+    spriteName: Back Talon 1
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 4804f7189653429459fa92241a0367d5
+    layerID: 26
+    mosaicPosition: {x: 1968, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Back Talon 1 Base
+    spriteName: Back Talon 1 Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 02730dcbf562cd1449c84c75d3498ba9
+    layerID: 25
+    mosaicPosition: {x: 935, y: 440}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Back Talon 2 Base
+    spriteName: Back Talon 2 Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 7d5749dc593530946a190379b2fec694
+    layerID: 24
+    mosaicPosition: {x: 1923, y: 142}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Back Talon 2
+    spriteName: Back Talon 2
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 6e1f30c8b2ca6e64b88d639317d17525
+    layerID: 23
+    mosaicPosition: {x: 1052, y: 358}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Back Talon 3 Base
+    spriteName: Back Talon 3 Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 97905538e4c680940808fd2835becf2e
+    layerID: 22
+    mosaicPosition: {x: 1968, y: 98}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Back Talon 3
+    spriteName: Back Talon 3
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 09f84029c31464a479a1a9a85e3f8fc0
+    layerID: 21
+    mosaicPosition: {x: 1672, y: 142}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Back Talon 4 Base
+    spriteName: Back Talon 4 Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 6101bf56bea75874c87be7e27982f361
+    layerID: 20
+    mosaicPosition: {x: 1774, y: 142}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Back Talon 4
+    spriteName: Back Talon 4
+    isGroup: 0
+    parentIndex: -1
+    spriteID: e048305dba0ed2042ae8540da49334b2
+    layerID: 19
+    mosaicPosition: {x: 935, y: 358}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Upper Front Leg
+    spriteName: Upper Front Leg
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 4174c68081e528a4381a0c238860d6a8
+    layerID: 18
+    mosaicPosition: {x: 233, y: 491}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Lower Front Leg
+    spriteName: Lower Front Leg
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 97ccfac17f0325942be30409914e0757
+    layerID: 17
+    mosaicPosition: {x: 830, y: 358}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Front Talon Base
+    spriteName: Front Talon Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 8adac991f06448d4395f161d1d559697
+    layerID: 16
+    mosaicPosition: {x: 1052, y: 449}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Front Talon 1
+    spriteName: Front Talon 1
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 50ac97dba9443ea4bbdfa1bc64ae52af
+    layerID: 15
+    mosaicPosition: {x: 593, y: 405}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Front Talon 1 Base
+    spriteName: Front Talon 1 Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 9df472d3cb4cb5e4393f6bb8d65caaf9
+    layerID: 14
+    mosaicPosition: {x: 1907, y: 180}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Front Talon 2 Base
+    spriteName: Front Talon 2 Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 233defc93cdf2864ba94cb4fb63b9027
+    layerID: 13
+    mosaicPosition: {x: 1967, y: 180}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Front Talon 2
+    spriteName: Front Talon 2
+    isGroup: 0
+    parentIndex: -1
+    spriteID: b8a35b3b967a660408a32f51a5bffdce
+    layerID: 12
+    mosaicPosition: {x: 4, y: 955}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Front Talon 3 Base
+    spriteName: Front Talon 3 Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 21f073c56b474244ba05be6a949a7697
+    layerID: 11
+    mosaicPosition: {x: 1850, y: 180}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Front Talon 3
+    spriteName: Front Talon 3
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 6269f0cd0d029eb4aa05f977b8e30ddb
+    layerID: 10
+    mosaicPosition: {x: 699, y: 405}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Front Talon 4 Base
+    spriteName: Front Talon 4 Base
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 6515e1f7ff93b6c48b79d3639496b5f6
+    layerID: 9
+    mosaicPosition: {x: 1249, y: 246}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Front Talon 4
+    spriteName: Front Talon 4
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d590b7be7b3c2f84eac56faf5e9fbf93
+    layerID: 8
+    mosaicPosition: {x: 113, y: 955}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Tail
+    spriteName: Tail
+    isGroup: 0
+    parentIndex: -1
+    spriteID: e9eb99558fcb81f4eae2060c85e8301f
+    layerID: 7
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: L Ear
+    spriteName: L Ear
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 0dcb98ee9d2fb284eb8bb8ce1b24a91b
+    layerID: 6
+    mosaicPosition: {x: 830, y: 246}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Head
+    spriteName: Head
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d6488149284cdbb4aa8c317ec04a92b4
+    layerID: 5
+    mosaicPosition: {x: 593, y: 246}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: R Ear
+    spriteName: R Ear
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d1137141403355c48aa8e07d8aa6379a
+    layerID: 4
+    mosaicPosition: {x: 1672, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Neck
+    spriteName: Neck
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 3727472def242fe4b924ea20e7cefacd
+    layerID: 3
+    mosaicPosition: {x: 1344, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Body
+    spriteName: Body
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 3dccece9437401144b6be429f8958bdb
+    layerID: 2
+    mosaicPosition: {x: 4, y: 246}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Background
+    spriteName: 
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 38a77321637455c449709fa6b4c65d47
+    layerID: 1
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  mosaicPSDLayers: []
+  rigPSDLayers: []
+  sharedRigPSDLayers: []
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 0
+  spriteSizeExpandChanged: 0
+  generateGOHierarchy: 0
+  textureAssetName: 
+  prefabAssetName: 
+  spriteLibAssetName: 
+  skeletonAssetName: 
+  secondarySpriteTextures: []
