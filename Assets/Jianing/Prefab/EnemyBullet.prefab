@@ -129,6 +129,9 @@ MonoBehaviour:
   speed: 10
   damage: 10
   lifetime: 5
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!54 &7300333638682642140
 Rigidbody:
   m_ObjectHideFlags: 0

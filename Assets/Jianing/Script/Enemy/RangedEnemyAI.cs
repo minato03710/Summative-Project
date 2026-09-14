@@ -7,7 +7,7 @@ public class RangedEnemyAI : EnemyAI
     public float attackDamage = 10f;
     public float attackCooldown = 2f;
 
-    [Header("Projectile")]
+[Header("Projectile")]
     public GameObject bulletPrefab;
     public Transform attackPoint;
 
@@ -16,54 +16,72 @@ public class RangedEnemyAI : EnemyAI
     protected override void Start()
     {
         base.Start();
-
-        attackTimer = 0f;
     }
 
-    protected override void Update()
+    void Update()
     {
         if (player == null)
+        {
+            ApplyGravity();
             return;
+        }
 
-        // attack cooldown
         if (attackTimer > 0f)
         {
             attackTimer -= Time.deltaTime;
         }
 
-        float distance = Vector3.Distance(
-            transform.position,
-            player.position
-        );
+        float distance =
+            Vector3.Distance(
+                transform.position,
+                player.position
+            );
 
-        // Player is outside the detection range
         if (distance > detectionRange)
         {
             playerDetected = false;
+
+            ApplyGravity();
+
             return;
         }
 
         playerDetected = true;
 
-        // The player has not yet entered the attack range.
         if (distance > attackRange)
         {
             MoveTowardsPlayer();
         }
         else
         {
-            // stop moving
             AttackPlayer();
         }
+
+        ApplyGravity();
     }
 
-    protected override void MoveTowardsPlayer()
+    void MoveTowardsPlayer()
     {
-        if (player == null)
+        Vector3 direction =
+            player.position -
+            transform.position;
+
+        direction.y = 0f;
+
+        float distance =
+            direction.magnitude;
+
+        if (distance <= stoppingDistance)
             return;
 
-        Vector3 direction =
-            player.position - transform.position;
+        direction.Normalize();
+
+        Vector3 separation =
+            CalculateSeparation();
+
+        direction +=
+            separation *
+            separationStrength;
 
         direction.y = 0f;
 
@@ -72,25 +90,30 @@ public class RangedEnemyAI : EnemyAI
 
         direction.Normalize();
 
-        transform.position +=
-            direction * moveSpeed * Time.deltaTime;
+        controller.Move(
+            direction *
+            moveSpeed *
+            Time.deltaTime
+        );
 
-        LookAtPlayer();
+        LookAtPlayer(direction);
     }
 
     void AttackPlayer()
     {
-        // Facing player
-        LookAtPlayer();
+        Vector3 direction =
+            player.position -
+            transform.position;
 
-        // cooldown
+        LookAtPlayer(direction);
+
         if (attackTimer > 0f)
             return;
 
         FireBullet();
 
-        // Reset attack cooldown
-        attackTimer = attackCooldown;
+        attackTimer =
+            attackCooldown;
     }
 
     void FireBullet()
@@ -99,7 +122,7 @@ public class RangedEnemyAI : EnemyAI
         {
             Debug.LogWarning(
                 gameObject.name +
-                " No Bullet Prefab!"
+                " 没有设置 Bullet Prefab!"
             );
 
             return;
@@ -109,14 +132,15 @@ public class RangedEnemyAI : EnemyAI
         {
             Debug.LogWarning(
                 gameObject.name +
-                " No Attack Point!"
+                " 没有设置 Attack Point!"
             );
 
             return;
         }
 
         Vector3 direction =
-            player.position - attackPoint.position;
+            player.position -
+            attackPoint.position;
 
         direction.y = 0f;
 
@@ -125,50 +149,52 @@ public class RangedEnemyAI : EnemyAI
 
         direction.Normalize();
 
-        GameObject bullet = Instantiate(
-            bulletPrefab,
-            attackPoint.position,
-            Quaternion.LookRotation(direction)
-        );
+        GameObject bullet =
+            Instantiate(
+                bulletPrefab,
+                attackPoint.position,
+                Quaternion.LookRotation(
+                    direction
+                )
+            );
 
         EnemyBullet enemyBullet =
             bullet.GetComponent<EnemyBullet>();
 
         if (enemyBullet != null)
         {
-            enemyBullet.SetDirection(direction);
-            enemyBullet.damage = attackDamage;
-        }
+            enemyBullet.SetDirection(
+                direction
+            );
 
-        Debug.Log(
-            gameObject.name +
-            " fired a bullet!"
-        );
+            enemyBullet.damage =
+                attackDamage;
+        }
     }
 
-    void LookAtPlayer()
+    void LookAtPlayer(Vector3 direction)
     {
-        if (player == null)
-            return;
-
-        Vector3 direction =
-            player.position - transform.position;
-
         direction.y = 0f;
 
         if (direction.sqrMagnitude <= 0.01f)
             return;
 
         Quaternion targetRotation =
-            Quaternion.LookRotation(direction);
+            Quaternion.LookRotation(
+                direction
+            );
 
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            10f * Time.deltaTime
-        );
+        transform.rotation =
+            Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                10f * Time.deltaTime
+            );
     }
+
+
 }
+
 
 
 

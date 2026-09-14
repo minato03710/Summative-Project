@@ -7,6 +7,10 @@ public class EnemyBullet : MonoBehaviour
     public float damage = 10f;
     public float lifetime = 5f;
 
+
+[Header("Layers")]
+    public LayerMask obstacleLayer;
+
     private Vector3 direction;
     private bool hasHit = false;
 
@@ -31,9 +35,18 @@ public class EnemyBullet : MonoBehaviour
         if (hasHit)
             return;
 
-        Debug.Log(
-            "Bullet collided with: " + other.gameObject.name
-        );
+        // =========================
+        // 1. ºöÂÔµÐÈË
+        // =========================
+
+        if (other.CompareTag("Enemy"))
+        {
+            return;
+        }
+
+        // =========================
+        // 2. Íæ¼Ò
+        // =========================
 
         PlayerHealth playerHealth =
             other.GetComponentInParent<PlayerHealth>();
@@ -43,15 +56,44 @@ public class EnemyBullet : MonoBehaviour
             hasHit = true;
 
             Debug.Log(
-                "Bullet hit Player! Damage = " + damage
+                "Bullet hit Player! Damage = " +
+                damage
             );
 
             playerHealth.TakeDamage(damage);
 
             Destroy(gameObject);
+
+            return;
+        }
+
+        // =========================
+        // 3. ³¡¾°ÕÏ°­Îï
+        // =========================
+
+        if (obstacleLayer.value != 0)
+        {
+            if (((1 << other.gameObject.layer) &
+                 obstacleLayer.value) != 0)
+            {
+                hasHit = true;
+
+                Debug.Log(
+                    "Bullet hit obstacle: " +
+                    other.gameObject.name
+                );
+
+                Destroy(gameObject);
+
+                return;
+            }
         }
     }
+
+
 }
+
+
 
 
 

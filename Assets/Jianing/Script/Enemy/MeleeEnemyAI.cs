@@ -7,63 +7,80 @@ public class MeleeEnemyAI : EnemyAI
     public float attackDamage = 10f;
     public float attackCooldown = 1.2f;
 
-    private float attackTimer;
 
-    private CharacterController controller;
+private float attackTimer;
 
     protected override void Start()
     {
         base.Start();
-
-        controller = GetComponent<CharacterController>();
     }
 
-    protected override void Update()
+    void Update()
     {
         if (player == null)
+        {
+            ApplyGravity();
             return;
+        }
 
-        // attack cooldown
-        if (attackTimer > 0)
+        if (attackTimer > 0f)
         {
             attackTimer -= Time.deltaTime;
         }
 
-        float distance = Vector3.Distance(
-            transform.position,
-            player.position
-        );
+        float distance =
+            Vector3.Distance(
+                transform.position,
+                player.position
+            );
 
-        // Player is not within detection range
         if (distance > detectionRange)
         {
             playerDetected = false;
+
+            ApplyGravity();
+
             return;
         }
 
         playerDetected = true;
 
-        // Not yet within attack range
         if (distance > attackRange)
         {
             MoveTowardsPlayer();
         }
         else
         {
-            // stop and attack
             Attack();
         }
+
+        ApplyGravity();
     }
 
-    protected override void MoveTowardsPlayer()
+    void MoveTowardsPlayer()
     {
-        if (player == null)
+        Vector3 direction =
+            player.position -
+            transform.position;
+
+        direction.y = 0f;
+
+        float distance =
+            direction.magnitude;
+
+        if (distance <= stoppingDistance)
             return;
 
-        Vector3 direction =
-            player.position - transform.position;
+        direction.Normalize();
 
-        direction.y = 0;
+        Vector3 separation =
+            CalculateSeparation();
+
+        direction +=
+            separation *
+            separationStrength;
+
+        direction.y = 0f;
 
         if (direction.sqrMagnitude <= 0.01f)
             return;
@@ -71,23 +88,27 @@ public class MeleeEnemyAI : EnemyAI
         direction.Normalize();
 
         controller.Move(
-            direction * moveSpeed * Time.deltaTime
+            direction *
+            moveSpeed *
+            Time.deltaTime
         );
 
-        // Faceing player
         Quaternion targetRotation =
-            Quaternion.LookRotation(direction);
+            Quaternion.LookRotation(
+                direction
+            );
 
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            10f * Time.deltaTime
-        );
+        transform.rotation =
+            Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                10f * Time.deltaTime
+            );
     }
 
     void Attack()
     {
-        if (attackTimer > 0)
+        if (attackTimer > 0f)
             return;
 
         PlayerHealth playerHealth =
@@ -95,13 +116,23 @@ public class MeleeEnemyAI : EnemyAI
 
         if (playerHealth != null)
         {
-            playerHealth.TakeDamage(attackDamage);
+            playerHealth.TakeDamage(
+                attackDamage
+            );
 
-            Debug.Log("Melee Enemy attacked Player!");
+            Debug.Log(
+                "Melee Enemy attacked Player!"
+            );
         }
 
-        attackTimer = attackCooldown;
+        attackTimer =
+            attackCooldown;
     }
+
+
 }
+
+
+
 
 
