@@ -393,9 +393,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1039629520879870093, guid: c328e2f0663479944a486c4be1199b73, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6997106
+      objectReference: {fileID: 0}
+    - target: {fileID: -1039629520879870093, guid: c328e2f0663479944a486c4be1199b73, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7144264
+      objectReference: {fileID: 0}
+    - target: {fileID: -1039629520879870093, guid: c328e2f0663479944a486c4be1199b73, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -91.192
+      objectReference: {fileID: 0}
     - target: {fileID: 1262950889517479084, guid: c328e2f0663479944a486c4be1199b73, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4827955262128748349, guid: c328e2f0663479944a486c4be1199b73, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5954771341335360642, guid: c328e2f0663479944a486c4be1199b73, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1462,7 +1478,7 @@ Transform:
   m_GameObject: {fileID: 411893889}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.89, y: 1.7, z: 4.23}
+  m_LocalPosition: {x: 4.89, y: 1.325, z: 4.23}
   m_LocalScale: {x: 1, y: 1, z: 3.2753}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1866,13 +1882,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 9a764af364f8a9b4b90d47928a70fbc6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 794826379}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 9a764af364f8a9b4b90d47928a70fbc6, type: 3}
 --- !u!4 &794826377 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 9a764af364f8a9b4b90d47928a70fbc6, type: 3}
   m_PrefabInstance: {fileID: 794826376}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &794826378 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: 9a764af364f8a9b4b90d47928a70fbc6, type: 3}
+  m_PrefabInstance: {fileID: 794826376}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &794826379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794826378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfc69c2d60d8f04b99b705931e48495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpriteBillboard
 --- !u!1 &827111389
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,7 +2740,7 @@ Transform:
   m_GameObject: {fileID: 1189966762}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.23, y: 1.7, z: 4.23}
+  m_LocalPosition: {x: -6.23, y: 1.31, z: 4.23}
   m_LocalScale: {x: 1, y: 1, z: 3.2753}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5271,7 +5307,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Companion
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4878210875658033941, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5159523035502090603, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
