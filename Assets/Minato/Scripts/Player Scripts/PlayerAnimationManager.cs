@@ -15,12 +15,12 @@ public class PlayerAnimationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        while(Input.GetKey(KeyCode.LeftArrow))
+        if(Input.GetKey(KeyCode.LeftArrow))
         {
             playerWalking = true;
         }
 
-        while(Input.GetKey(KeyCode.RightArrow))
+        if(Input.GetKey(KeyCode.RightArrow))
         {
             playerWalking = true;
         }
@@ -32,7 +32,7 @@ public class PlayerAnimationManager : MonoBehaviour
     {
         if (playerWalking)
         {
-            playerAnimator.SetBool("isWalking", false);
+            playerAnimator.SetBool("isWalking", true);
             playerWalking = false;
         }
     }
