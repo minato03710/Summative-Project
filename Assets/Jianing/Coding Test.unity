@@ -785,104 +785,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 210282356}
   m_CullTransparentMesh: 1
---- !u!1 &377240569 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6877685984504950688, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
-  m_PrefabInstance: {fileID: 7806587221565268886}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &377240570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377240569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abe74df8042857e45ad9e24d74e9aabd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CompanionMovement
-  rotationSpeed: 10
-  gravity: -20
---- !u!114 &377240571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377240569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f042502955ac3e4469834572b6525336, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CompanionFollow
-  stoppingDistance: 1.8
-  followSpeed: 4
---- !u!114 &377240577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377240569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1354ed7942ddce648b066bea150a7276, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CompanionCombat
-  enemyDetectionRange: 6
-  attackRange: 1.8
-  attackDamage: 15
-  attackCooldown: 1
-  combatMoveSpeed: 4
---- !u!114 &377240578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377240569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94c448738493061469f0c3f1ab67da5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CompanionJump
-  jumpForce: 7
-  jumpCooldown: 1
-  checkDistance: 1
-  checkHeight: 0.5
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 64
---- !u!114 &377240579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377240569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f6e7d9eb804a624096fd71061d55a18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CompanionTeleport
-  teleportDistance: 12
-  teleportBehindDistance: 2.5
-  teleportCooldown: 1
---- !u!114 &377240580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377240569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 581ad9bad6957de49a9f2ae26905841c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CompanionUpgrade
-  attackUpgradeAmount: 1
-  attackUpgradeCost: 10
 --- !u!1 &384128170
 GameObject:
   m_ObjectHideFlags: 0
@@ -5082,7 +4984,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4827955262128748349, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5954771341335360642, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5299,29 +5201,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Companion
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2781583458199936863, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6877685984504950688, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 377240571}
-    - targetCorrespondingSourceObject: {fileID: 6877685984504950688, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 377240570}
-    - targetCorrespondingSourceObject: {fileID: 6877685984504950688, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 377240577}
-    - targetCorrespondingSourceObject: {fileID: 6877685984504950688, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 377240578}
-    - targetCorrespondingSourceObject: {fileID: 6877685984504950688, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 377240579}
-    - targetCorrespondingSourceObject: {fileID: 6877685984504950688, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 377240580}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
 --- !u!1001 &8396052441359229356
 PrefabInstance:
