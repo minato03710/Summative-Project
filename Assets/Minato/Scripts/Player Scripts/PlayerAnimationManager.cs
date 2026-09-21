@@ -10,6 +10,7 @@ public class PlayerAnimationManager : MonoBehaviour
     void Start()
     {
         playerAnimator = GetComponentInChildren<Animator>();
+        playerAnimator.SetBool("onGround", true);
     }
 
     // Update is called once per frame
