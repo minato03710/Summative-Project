@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 public class NewMonoBehaviourScript : MonoBehaviour
 {
     public string PlayGame;
+    public GameObject MainMenu;
+    public GameObject SettingsMenu;
+    public GameObject AudioMenu;
+    public GameObject ControlsMenu;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,6 +22,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
         
     }
 
+    
+    //MAIN MENU BUTTONS
 
     public void StartGameScene()
     {
@@ -28,4 +34,18 @@ public class NewMonoBehaviourScript : MonoBehaviour
     {
         Application.Quit();
     }
+
+
+    // MENU SWAPPING SCREENS //
+
+    public void SettingsMenuScreen()
+    {
+        MainMenu.SetActive(false);
+        SettingsMenu.SetActive(true);
+    }
+
+
+    // RETURN/BACK BUTTON SCREENS //
+
+   
 }
