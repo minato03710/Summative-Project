@@ -1036,6 +1036,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1262950889517479084, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
       insertIndex: -1
       addedObject: {fileID: 894931710}
+    - targetCorrespondingSourceObject: {fileID: 1262950889517479084, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 894931721}
   m_SourcePrefab: {fileID: 100100000, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
 --- !u!1 &274918153 stripped
 GameObject:
@@ -3038,7 +3041,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 867501819}
-  - component: {fileID: 867501820}
   m_Layer: 0
   m_Name: Player Visuals Prototype
   m_TagString: Untagged
@@ -3062,19 +3064,6 @@ Transform:
   - {fileID: 1461167679}
   m_Father: {fileID: 894931699}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &867501820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867501818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fd128024b35bfa4d950e4cc388852cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationManager
-  playerAnimator: {fileID: 1461167680}
 --- !u!1001 &867687274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3252,6 +3241,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09090a9e080d07547a5af8afb8d0ab5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPersistence
+--- !u!114 &894931717 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3519671328237288405, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
+  m_PrefabInstance: {fileID: 232630249}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226818644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3347ad5135f8929468a87f9249703438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+--- !u!114 &894931721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226818644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd128024b35bfa4d950e4cc388852cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationManager
+  playerAnimator: {fileID: 1461167680}
+  playerMovement: {fileID: 894931717}
 --- !u!1 &925003916 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 243c7252f58e99d469c5f542491fe6ca, type: 3}
