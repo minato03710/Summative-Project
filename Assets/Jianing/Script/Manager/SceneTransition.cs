@@ -9,6 +9,7 @@ public class SceneTransition : MonoBehaviour
 
 private bool hasTriggered = false;
 
+
     private void OnTriggerEnter(Collider other)
     {
         if (hasTriggered)
@@ -19,12 +20,27 @@ private bool hasTriggered = false;
 
         hasTriggered = true;
 
-        SavePlayerData(other.gameObject);
 
-        SceneManager.LoadScene(nextSceneName);
+        // Save Player
+        SavePlayerData(
+            other.gameObject
+        );
+
+
+        // Save Companion
+        SaveCompanionData();
+
+
+        // Load Next Scene
+        SceneManager.LoadScene(
+            nextSceneName
+        );
     }
 
-    void SavePlayerData(GameObject player)
+
+    void SavePlayerData(
+        GameObject player
+    )
     {
         ResourceManager resourceManager =
             player.GetComponent<ResourceManager>();
@@ -35,21 +51,39 @@ private bool hasTriggered = false;
         PlayerHealth playerHealth =
             player.GetComponent<PlayerHealth>();
 
+        PlayerMovement playerMovement =
+            player.GetComponent<PlayerMovement>();
+
+        PlayerDash playerDash =
+            player.GetComponent<PlayerDash>();
+
+
         if (GameDataManager.Instance != null)
         {
             GameDataManager.Instance.SavePlayerData(
                 resourceManager,
                 playerAttack,
-                playerHealth
+                playerHealth,
+                playerMovement,
+                playerDash
+            );
+        }
+    }
+
+
+    void SaveCompanionData()
+    {
+        CompanionCombat companionCombat =
+            FindFirstObjectByType<CompanionCombat>();
+
+
+        if (GameDataManager.Instance != null)
+        {
+            GameDataManager.Instance.SaveCompanionData(
+                companionCombat
             );
         }
     }
 
 
 }
-
-
-
-
-
-
