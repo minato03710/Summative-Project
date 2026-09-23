@@ -124,23 +124,31 @@ public class PlayerUpgradeManager : MonoBehaviour
 
     public bool UpgradeAttack()
     {
-        if (resourceManager == null ||
-            playerAttack == null)
+        if (resourceManager == null || playerAttack == null)
             return false;
 
         if (!PayGold(attackUpgradeCost))
             return false;
 
-        playerAttack.attackDamage +=
+        // 升级基础攻击力
+        playerAttack.baseAttackDamage +=
             attackUpgradeAmount;
+
+        // 如果当前没有特殊武器，
+        // 最终攻击力直接等于基础攻击力
+        playerAttack.attackDamage =
+            playerAttack.baseAttackDamage;
 
         Debug.Log(
             "Player Attack upgraded! " +
-            "Current Attack = " +
+            "Base Attack = " +
+            playerAttack.baseAttackDamage +
+            " | Current Attack = " +
             playerAttack.attackDamage
         );
 
         return true;
+
     }
 
 
