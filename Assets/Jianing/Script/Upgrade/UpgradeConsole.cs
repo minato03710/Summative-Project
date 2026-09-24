@@ -6,130 +6,81 @@ public class UpgradeConsole : MonoBehaviour
     [Header("Interaction")]
     public float interactionRange = 3f;
 
-
-[Header("Interaction Text")]
+    [Header("Interaction Text")]
     public GameObject interactionText;
 
     [Header("Upgrade UI")]
     public GameObject upgradeUI;
 
     private Transform player;
-    private bool playerInRange = false;
+    private bool playerInRange;
 
-    void Start()
+    private void Start()
     {
         GameObject playerObject =
             GameObject.FindGameObjectWithTag("Player");
 
         if (playerObject != null)
-        {
             player = playerObject.transform;
-        }
 
         if (upgradeUI != null)
-        {
             upgradeUI.SetActive(false);
-        }
 
         if (interactionText != null)
-        {
             interactionText.SetActive(false);
-        }
     }
 
-    void Update()
+    private void Update()
     {
         if (player == null)
             return;
 
-        float distance =
-            Vector3.Distance(
-                transform.position,
-                player.position
-            );
-
         playerInRange =
-            distance <= interactionRange;
+            Vector3.Distance(transform.position, player.position)
+            <= interactionRange;
 
-        // 玩家进入范围
-        if (playerInRange)
-        {
-            if (interactionText != null &&
-                !upgradeUI.activeSelf)
-            {
-                interactionText.SetActive(true);
-            }
+        bool uiOpen =
+            upgradeUI != null && upgradeUI.activeSelf;
 
-            if (Keyboard.current != null &&
-                Keyboard.current.eKey.wasPressedThisFrame)
-            {
-                ToggleUpgradeUI();
-            }
-        }
-        // 玩家离开范围
-        else
+        if (interactionText != null)
+            interactionText.SetActive(playerInRange && !uiOpen);
+
+        // E 只负责打开，界面打开后再次按 E 不会关闭。
+        if (playerInRange && !uiOpen &&
+            Keyboard.current != null &&
+            Keyboard.current.eKey.wasPressedThisFrame)
         {
-            if (interactionText != null)
-            {
-                interactionText.SetActive(false);
-            }
+            OpenUpgradeUI();
         }
     }
 
-    void ToggleUpgradeUI()
+    public void OpenUpgradeUI()
     {
-        if (upgradeUI == null)
+        if (upgradeUI == null || upgradeUI.activeSelf)
             return;
 
-        bool newState =
-            !upgradeUI.activeSelf;
+        upgradeUI.SetActive(true);
+        Time.timeScale = 0f;
 
-        upgradeUI.SetActive(newState);
-
-        if (newState)
-        {
-            // 打开升级界面
-            Time.timeScale = 0f;
-
-            if (interactionText != null)
-            {
-                interactionText.SetActive(false);
-            }
-
-            Debug.Log("Upgrade UI Opened");
-        }
-        else
-        {
-            // 关闭升级界面
-            Time.timeScale = 1f;
-
-            if (playerInRange &&
-                interactionText != null)
-            {
-                interactionText.SetActive(true);
-            }
-
-            Debug.Log("Upgrade UI Closed");
-        }
+        if (interactionText != null)
+            interactionText.SetActive(false);
     }
 
+    // 关闭按钮需要绑定这个方法。
     public void CloseUpgradeUI()
     {
         if (upgradeUI != null)
-        {
             upgradeUI.SetActive(false);
-        }
 
+        // 恢复游戏时间，让角色可以继续移动。
         Time.timeScale = 1f;
 
-        if (playerInRange &&
-            interactionText != null)
-        {
-            interactionText.SetActive(true);
-        }
+        playerInRange =
+            player != null &&
+            Vector3.Distance(transform.position, player.position)
+            <= interactionRange;
 
-        Debug.Log("Upgrade UI Closed");
+        if (interactionText != null)
+            interactionText.SetActive(playerInRange);
     }
-
-
 }

@@ -3057,6 +3057,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 976036367}
   m_CullTransparentMesh: 1
+--- !u!114 &979975598 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2451048743785759178, guid: 2d79bd2b486a59e4a92bc5e439c0698d, type: 3}
+  m_PrefabInstance: {fileID: 1310694476528894329}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d1fd6d7a12df5a48838e55b6d2a98fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeConsole
 --- !u!1 &994836604
 GameObject:
   m_ObjectHideFlags: 0
@@ -3919,7 +3930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1569202180
 Transform:
   m_ObjectHideFlags: 0
@@ -5843,7 +5854,7 @@ PrefabInstance:
       objectReference: {fileID: 994836604}
     - target: {fileID: 3177889733632799891, guid: 2d79bd2b486a59e4a92bc5e439c0698d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.65
+      value: -10.7
       objectReference: {fileID: 0}
     - target: {fileID: 3177889733632799891, guid: 2d79bd2b486a59e4a92bc5e439c0698d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6160,7 +6171,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 586401076881797058, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 674546338697319338, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
       propertyPath: m_text
@@ -6349,6 +6360,26 @@ PrefabInstance:
     - target: {fileID: 4340872005843439541, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338380273626015949, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338380273626015949, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 979975598}
+    - target: {fileID: 5338380273626015949, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseUpgradeUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338380273626015949, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UpgradeConsole, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338380273626015949, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5977875249733407186, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
       propertyPath: m_AnchoredPosition.y
