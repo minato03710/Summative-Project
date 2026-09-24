@@ -5,50 +5,50 @@ public class PlayerAnimationManager : MonoBehaviour
 
     public Animator playerAnimator;
     private bool playerWalking;
+    private CharacterController characterController;
+    public PlayerMovement playerMovement;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerAnimator = GetComponentInChildren<Animator>();
-        playerAnimator.SetBool("onGround", true);
+        characterController = GetComponent<CharacterController>();
+        playerAnimator = GetComponentInChildren<Animator>(); // References animator from player visuals
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.A))
-        {
-            playerWalking = true;
-        }
-
-        if(Input.GetKey(KeyCode.D))
-        {
-            playerWalking = true;
-        }
-
-        Jumping();
-    }
-
-    void Jumping()
-    {
-        if (playerWalking)
+        if(Input.GetKeyDown(KeyCode.A))
         {
             playerAnimator.SetBool("isWalking", true);
-            playerWalking = false;
         }
+
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            playerAnimator.SetBool("isWalking", true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            playerAnimator.SetBool("isWalking", false);
+        }
+
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            playerAnimator.SetBool("isWalking", false);
+        }
+
+        PlayerJump();
     }
 
-    void OnCollisionEnter(Collision collision)
+    void PlayerJump()
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if(characterController.isGrounded)
         {
             playerAnimator.SetBool("onGround", true);
         }
-    }
 
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
+        else
         {
             playerAnimator.SetBool("onGround", false);
         }

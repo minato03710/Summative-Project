@@ -5,16 +5,13 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("Attack Settings")]
     public float attackDamage = 25f;
+    public float baseAttackDamage = 25f;
 
 
-// 保存没有装备特殊武器时的攻击力
-public float baseAttackDamage = 25f;
-
-    public float attackRange = 2f;
+public float attackRange = 2f;
     public float attackRadius = 1.2f;
-    public float attackCooldown = 0.5f;
 
-    // 保存没有装备特殊武器时的攻速
+    public float attackCooldown = 0.5f;
     public float baseAttackCooldown = 0.5f;
 
     [Header("Layers")]
@@ -30,15 +27,16 @@ public float baseAttackDamage = 25f;
     {
         mainCamera = Camera.main;
 
-        // 第一次启动时，把 Inspector 中的攻击属性作为基础值
         baseAttackDamage = attackDamage;
         baseAttackCooldown = attackCooldown;
     }
 
     void Update()
     {
-        if (cooldownTimer > 0)
+        if (cooldownTimer > 0f)
+        {
             cooldownTimer -= Time.deltaTime;
+        }
 
         if (Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
@@ -49,16 +47,19 @@ public float baseAttackDamage = 25f;
 
     void TryAttack()
     {
-        if (cooldownTimer > 0)
+        if (cooldownTimer > 0f)
             return;
 
-        Vector3 attackDirection;
+        Vector3 direction;
 
-        if (!GetMouseDirection(out attackDirection))
+        if (!GetMouseDirection(out direction))
             return;
 
-        RotateTowardsMouse(attackDirection);
-        Attack(attackDirection);
+        // 玩家转向鼠标
+        RotatePlayer(direction);
+
+        // 攻击
+        Attack(direction);
 
         cooldownTimer = attackCooldown;
     }
@@ -68,7 +69,9 @@ public float baseAttackDamage = 25f;
         direction = Vector3.zero;
 
         if (mainCamera == null)
+        {
             mainCamera = Camera.main;
+        }
 
         if (mainCamera == null)
             return false;
@@ -82,11 +85,7 @@ public float baseAttackDamage = 25f;
         Plane groundPlane =
             new Plane(
                 Vector3.up,
-                new Vector3(
-                    0f,
-                    transform.position.y,
-                    0f
-                )
+                transform.position
             );
 
         float distance;
@@ -111,13 +110,31 @@ public float baseAttackDamage = 25f;
         return true;
     }
 
-    void Attack(Vector3 attackDirection)
+    void RotatePlayer(Vector3 direction)
+    {
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude < 0.01f)
+            return;
+
+        Quaternion targetRotation =
+            Quaternion.LookRotation(direction);
+
+        transform.rotation =
+            Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
+    }
+
+    void Attack(Vector3 direction)
     {
         Debug.Log("Player Attack!");
 
         Vector3 attackCenter =
             transform.position +
-            attackDirection * attackRange;
+            direction * attackRange;
 
         Collider[] hitEnemies =
             Physics.OverlapSphere(
@@ -139,31 +156,16 @@ public float baseAttackDamage = 25f;
 
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(attackDamage);
+                enemyHealth.TakeDamage(
+                    attackDamage
+                );
 
                 Debug.Log("Enemy Hit!");
             }
         }
     }
 
-    void RotateTowardsMouse(Vector3 direction)
-    {
-        direction.y = 0f;
-
-        if (direction.sqrMagnitude < 0.01f)
-            return;
-
-        Quaternion targetRotation =
-            Quaternion.LookRotation(direction);
-
-        transform.rotation =
-            Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
-    }
-
+    // 武器装备时调用
     public void ApplyWeaponStats(
         float damageMultiplier,
         float weaponCooldown
@@ -176,6 +178,7 @@ public float baseAttackDamage = 25f;
             weaponCooldown;
     }
 
+    // 卸下武器时调用
     public void RemoveWeaponStats()
     {
         attackDamage =
@@ -189,7 +192,8 @@ public float baseAttackDamage = 25f;
     {
         Gizmos.color = Color.red;
 
-        Vector3 direction = transform.forward;
+        Vector3 direction =
+            transform.forward;
 
         Vector3 attackCenter =
             transform.position +
