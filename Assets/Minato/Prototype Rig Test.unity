@@ -305,7 +305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6290663951879142189, guid: 232dd7463ab034216a256f049f165af6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5976462588359681397, guid: 232dd7463ab034216a256f049f165af6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -397,7 +397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -353189119503717463, guid: 232dd7463ab034216a256f049f165af6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 268893912960341696, guid: 232dd7463ab034216a256f049f165af6, type: 3}
       propertyPath: m_Color.a
@@ -778,6 +778,112 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &606625166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 606625167}
+  m_Layer: 0
+  m_Name: Rescue Enemy Prototype
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &606625167
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606625166}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 519.01373, y: 336.8785, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1246664126}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1246664125
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 606625167}
+    m_Modifications:
+    - target: {fileID: -8653719598885068355, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_Name
+      value: Rescue enemy concept rig
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.65164083
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.65164083
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.65164083
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 16.17
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.52
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 4843985084834002234, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+--- !u!4 &1246664126 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 366e590f5aae078468f9fab7bd57d748, type: 3}
+  m_PrefabInstance: {fileID: 1246664125}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1352315509
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,6 +1043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationManager
   playerAnimator: {fileID: 401192386}
+  playerMovement: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -944,3 +1051,4 @@ SceneRoots:
   - {fileID: 145541081}
   - {fileID: 335677223}
   - {fileID: 2035983008}
+  - {fileID: 606625167}
