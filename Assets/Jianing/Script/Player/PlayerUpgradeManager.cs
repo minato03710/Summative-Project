@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PlayerUpgradeManager : MonoBehaviour
 {
-// =========================================================
-// Attack Upgrade
-// =========================================================
+    // =========================================================
+    // Attack Upgrade
+    // =========================================================
 
-[Header("Attack Upgrade")]
+    [Header("Attack Upgrade")]
 
     public float attackUpgradeAmount = 1f;
     public int attackUpgradeCost = 10;
@@ -134,10 +134,8 @@ public class PlayerUpgradeManager : MonoBehaviour
         playerAttack.baseAttackDamage +=
             attackUpgradeAmount;
 
-        // 如果当前没有特殊武器，
-        // 最终攻击力直接等于基础攻击力
-        playerAttack.attackDamage =
-            playerAttack.baseAttackDamage;
+        // 根据当前武器重新计算最终攻击力，保留已装备武器的加成。
+        playerAttack.RefreshAttackStats();
 
         Debug.Log(
             "Player Attack upgraded! " +
@@ -310,7 +308,7 @@ public class PlayerUpgradeManager : MonoBehaviour
             playerAttack == null)
             return false;
 
-        if (playerAttack.attackCooldown <=
+        if (playerAttack.baseAttackCooldown <=
             minimumAttackCooldown)
         {
             Debug.Log(
@@ -323,12 +321,14 @@ public class PlayerUpgradeManager : MonoBehaviour
         if (!PayGold(attackCooldownUpgradeCost))
             return false;
 
-        playerAttack.attackCooldown =
+        playerAttack.baseAttackCooldown =
             Mathf.Max(
                 minimumAttackCooldown,
-                playerAttack.attackCooldown -
+                playerAttack.baseAttackCooldown -
                 attackCooldownReduction
             );
+
+        playerAttack.RefreshAttackStats();
 
         Debug.Log(
             "Attack Cooldown upgraded! " +

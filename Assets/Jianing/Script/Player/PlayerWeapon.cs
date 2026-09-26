@@ -1,118 +1,83 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
+[RequireComponent(typeof(PlayerAttack), typeof(ResourceManager))]
 public class PlayerWeapon : MonoBehaviour
 {
     [Header("Stone Glove")]
-    public int stoneGloveCost = 5;
-    public float stoneGloveDamageMultiplier = 1.5f;
-    public float stoneGloveAttackCooldown = 1.2f;
+    [Min(0)] public int stoneGloveCost = 5;
+    [Min(0.01f)] public float stoneGloveDamageMultiplier = 1.5f;
+    [Min(0.01f)] public float stoneGloveAttackCooldown = 1.2f;
 
-
-private PlayerAttack playerAttack;
+    private PlayerAttack playerAttack;
     private ResourceManager resourceManager;
+    private bool hasStoneGlove;
+    private bool stoneGloveEquipped;
 
-    private bool hasStoneGlove = false;
-    private bool stoneGloveEquipped = false;
+    public int StoneCount
+    {
+        get
+        {
+            CacheComponents();
+            return resourceManager != null ? resourceManager.stone : 0;
+        }
+    }
+
+    private void Awake()
+    {
+        CacheComponents();
+    }
 
     private void Start()
     {
-        playerAttack =
-            GetComponent<PlayerAttack>();
+        ApplyEquipment();
+    }
 
-        resourceManager =
-            GetComponent<ResourceManager>();
+    private void CacheComponents()
+    {
+        if (playerAttack == null)
+            playerAttack = GetComponent<PlayerAttack>();
+        if (resourceManager == null)
+            resourceManager = GetComponent<ResourceManager>();
     }
 
     public bool BuyStoneGlove()
     {
+        CacheComponents();
+        if (playerAttack == null || resourceManager == null)
+            return false;
+
+        // Once owned, equipping is free. Never charge for the same weapon twice.
         if (hasStoneGlove)
         {
-            Debug.Log("Stone Glove already purchased!");
-
             EquipStoneGlove();
-
             return true;
         }
 
-        if (resourceManager == null)
+        if (!resourceManager.RemoveResource(
+                ResourcePickup.ResourceType.Stone, Mathf.Max(0, stoneGloveCost)))
         {
-            Debug.LogWarning(
-                "PlayerWeapon: ResourceManager not found!"
-            );
-
             return false;
         }
-
-        if (resourceManager.stone < stoneGloveCost)
-        {
-            Debug.Log("Not enough Stone!");
-            return false;
-        }
-
-        resourceManager.RemoveResource(
-            ResourcePickup.ResourceType.Stone,
-            stoneGloveCost
-        );
 
         hasStoneGlove = true;
-
-        Debug.Log("Stone Glove purchased!");
-
         EquipStoneGlove();
-
         return true;
     }
 
     public void EquipStoneGlove()
     {
         if (!hasStoneGlove)
-        {
-            Debug.Log(
-                "You have not purchased Stone Glove!"
-            );
-
             return;
-        }
-
-        if (playerAttack == null)
-        {
-            playerAttack =
-                GetComponent<PlayerAttack>();
-        }
-
-        if (playerAttack == null)
-            return;
-
-        playerAttack.ApplyWeaponStats(
-            stoneGloveDamageMultiplier,
-            stoneGloveAttackCooldown
-        );
 
         stoneGloveEquipped = true;
-
-        Debug.Log(
-            "Stone Glove Equipped!"
-        );
+        ApplyEquipment();
     }
 
     public void UnequipStoneGlove()
     {
-        if (playerAttack == null)
-        {
-            playerAttack =
-                GetComponent<PlayerAttack>();
-        }
-
-        if (playerAttack == null)
-            return;
-
-        playerAttack.RemoveWeaponStats();
-
         stoneGloveEquipped = false;
-
-        Debug.Log(
-            "Stone Glove Unequipped!"
-        );
+        ApplyEquipment();
     }
 
     public bool HasStoneGlove()
@@ -125,5 +90,28 @@ private PlayerAttack playerAttack;
         return stoneGloveEquipped;
     }
 
+    // Used by the project's existing scene-to-scene data loader.
+    public void RestoreWeaponState(bool owned, bool equipped)
+    {
+        hasStoneGlove = owned;
+        stoneGloveEquipped = owned && equipped;
+        ApplyEquipment();
+    }
 
+    private void ApplyEquipment()
+    {
+        CacheComponents();
+        if (playerAttack == null)
+            return;
+
+        if (stoneGloveEquipped)
+        {
+            playerAttack.ApplyWeaponStats(
+                stoneGloveDamageMultiplier, stoneGloveAttackCooldown);
+        }
+        else
+        {
+            playerAttack.RemoveWeaponStats();
+        }
+    }
 }

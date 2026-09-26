@@ -5,30 +5,45 @@ public class CompanionMovement : MonoBehaviour
     [Header("Movement")]
     public float rotationSpeed = 10f;
 
-
-[Header("Gravity")]
+    [Header("Gravity")]
     public float gravity = -20f;
 
     private CharacterController controller;
+    private CompanionCommandController commands;
 
     private float verticalVelocity;
-
     private Vector3 currentMoveDirection;
 
-    void Start()
+    private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        commands = GetComponent<CompanionCommandController>();
     }
 
-    void Update()
+    private void Update()
     {
+        if (Time.timeScale <= 0f)
+            return;
+
+        // 待命时仍保留重力，避免空中下指令后悬空。
         ApplyGravity();
     }
 
     public void Move(Vector3 direction, float speed)
     {
+        if (Time.timeScale <= 0f ||
+            (commands != null && commands.IsSitting))
+        {
+            currentMoveDirection = Vector3.zero;
+            return;
+        }
+
         if (controller == null)
             return;
+
+        speed *= commands != null
+            ? commands.SpeedMultiplier
+            : 1f;
 
         direction.y = 0f;
 
@@ -60,7 +75,7 @@ public class CompanionMovement : MonoBehaviour
         controller.Move(Vector3.zero);
     }
 
-    void ApplyGravity()
+    private void ApplyGravity()
     {
         if (controller == null)
             return;
@@ -74,32 +89,34 @@ public class CompanionMovement : MonoBehaviour
         }
         else
         {
-            verticalVelocity +=
-                gravity * Time.deltaTime;
+            verticalVelocity += gravity * Time.deltaTime;
         }
 
         controller.Move(
-            Vector3.up *
-            verticalVelocity *
-            Time.deltaTime
+            Vector3.up * verticalVelocity * Time.deltaTime
         );
     }
 
-    void LookAt(Vector3 direction)
+    private void LookAt(Vector3 direction)
     {
         Quaternion targetRotation =
             Quaternion.LookRotation(direction);
 
-        transform.rotation =
-            Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
+        );
     }
 
     public void Jump(float jumpForce)
     {
+        if (Time.timeScale <= 0f ||
+            (commands != null && commands.IsSitting))
+        {
+            return;
+        }
+
         if (controller == null)
             return;
 
@@ -121,6 +138,4 @@ public class CompanionMovement : MonoBehaviour
     {
         return currentMoveDirection;
     }
-
-
 }

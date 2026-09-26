@@ -6,38 +6,43 @@ public class CompanionTeleport : MonoBehaviour
     public float teleportDistance = 12f;
     public float teleportBehindDistance = 2.5f;
 
-
-[Header("Teleport Cooldown")]
+    [Header("Teleport Cooldown")]
     public float teleportCooldown = 1f;
 
     private Transform player;
     private CompanionMovement movement;
+    private CompanionCommandController commands;
 
     private float teleportTimer;
 
-    void Start()
+    private void Start()
     {
-        movement =
-            GetComponent<CompanionMovement>();
+        commands = GetComponent<CompanionCommandController>();
+        movement = GetComponent<CompanionMovement>();
 
         GameObject playerObject =
             GameObject.FindGameObjectWithTag("Player");
 
         if (playerObject != null)
         {
-            player =
-                playerObject.transform;
+            player = playerObject.transform;
         }
         else
         {
             Debug.LogWarning(
-                "CompanionTeleport: 找不到 Player!"
+                "CompanionTeleport: Player not found."
             );
         }
     }
 
-    void Update()
+    private void Update()
     {
+        if (Time.timeScale <= 0f ||
+            (commands != null && commands.IsSitting))
+        {
+            return;
+        }
+
         if (player == null)
             return;
 
@@ -49,13 +54,12 @@ public class CompanionTeleport : MonoBehaviour
         CheckTeleport();
     }
 
-    void CheckTeleport()
+    private void CheckTeleport()
     {
-        float distance =
-            Vector3.Distance(
-                transform.position,
-                player.position
-            );
+        float distance = Vector3.Distance(
+            transform.position,
+            player.position
+        );
 
         if (distance < teleportDistance)
             return;
@@ -66,48 +70,34 @@ public class CompanionTeleport : MonoBehaviour
         TeleportToPlayer();
     }
 
-    void TeleportToPlayer()
+    private void TeleportToPlayer()
     {
-        // 计算玩家身后的位置
         Vector3 teleportPosition =
             player.position -
-            player.forward *
-            teleportBehindDistance;
+            player.forward * teleportBehindDistance;
 
-        // 保持和玩家大致相同高度
-        teleportPosition.y =
-            player.position.y;
+        teleportPosition.y = player.position.y;
 
         CharacterController controller =
             GetComponent<CharacterController>();
 
-        // 临时关闭 CharacterController
         if (controller != null)
         {
             controller.enabled = false;
         }
 
-        transform.position =
-            teleportPosition;
+        transform.position = teleportPosition;
 
         if (controller != null)
         {
             controller.enabled = true;
         }
 
-        // 重置移动状态
         if (movement != null)
         {
             movement.Stop();
         }
 
-        teleportTimer =
-            teleportCooldown;
-
-        Debug.Log(
-            "Companion Teleported to Player!"
-        );
+        teleportTimer = teleportCooldown;
     }
-
-
 }

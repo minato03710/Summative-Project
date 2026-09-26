@@ -4,126 +4,116 @@ using TMPro;
 
 public class ShopUIManager : MonoBehaviour
 {
-    [Header("UI")]
+    [Header("Stone Glove")]
     public TMP_Text stoneGloveText;
     public Button stoneGloveButton;
 
+    [Header("Unarmed / Optional UI")]
+    public Button unarmedButton;
+    public TMP_Text resourceText;
+    public TMP_Text messageText;
 
-[Header("Player")]
+    [Header("Player")]
     public PlayerWeapon playerWeapon;
 
-    void Start()
+    private void OnEnable()
     {
         FindPlayer();
-
-        UpdateUI();
+        SetMessage("");
+        RefreshUI();
     }
 
-    void FindPlayer()
+    private void FindPlayer()
     {
-        GameObject player =
-            GameObject.FindGameObjectWithTag("Player");
-
-        if (player == null)
-        {
-            Debug.LogWarning(
-                "ShopUIManager: Player not found!"
-            );
-
+        if (playerWeapon != null)
             return;
-        }
 
-        playerWeapon =
-            player.GetComponent<PlayerWeapon>();
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+            playerWeapon = playerObject.GetComponent<PlayerWeapon>();
     }
 
+    // Keep the old button binding: the same button buys once, then equips for free.
     public void BuyStoneGlove()
     {
+        FindPlayer();
         if (playerWeapon == null)
         {
-            FindPlayer();
-        }
-
-        if (playerWeapon == null)
+            SetMessage("PlayerWeapon is missing on the Player.");
             return;
-
-        bool success =
-            playerWeapon.BuyStoneGlove();
-
-        if (success)
-        {
-            UpdateUI();
         }
+
+        bool alreadyOwned = playerWeapon.HasStoneGlove();
+        bool success = playerWeapon.BuyStoneGlove();
+        SetMessage(success
+            ? (alreadyOwned ? "Stone Glove equipped." : "Purchased and equipped Stone Glove.")
+            : "Not enough stone, or required Player components are missing.");
+        RefreshUI();
     }
 
     public void EquipStoneGlove()
     {
-        if (playerWeapon == null)
-        {
-            FindPlayer();
-        }
-
-        if (playerWeapon == null)
-            return;
-
-        if (!playerWeapon.HasStoneGlove())
+        FindPlayer();
+        if (playerWeapon == null || !playerWeapon.HasStoneGlove())
             return;
 
         playerWeapon.EquipStoneGlove();
-
-        UpdateUI();
+        SetMessage("Stone Glove equipped.");
+        RefreshUI();
     }
 
-    void UpdateUI()
+    public void EquipUnarmed()
     {
+        FindPlayer();
         if (playerWeapon == null)
             return;
 
+        playerWeapon.UnequipStoneGlove();
+        SetMessage("Unarmed equipped.");
+        RefreshUI();
+    }
+
+    public void RefreshUI()
+    {
+        FindPlayer();
+        bool ready = playerWeapon != null;
+        bool owned = ready && playerWeapon.HasStoneGlove();
+        bool equipped = ready && playerWeapon.IsStoneGloveEquipped();
+
         if (stoneGloveText != null)
         {
-            if (playerWeapon.HasStoneGlove())
-            {
-                if (playerWeapon.IsStoneGloveEquipped())
-                {
-                    stoneGloveText.text =
-                        "Stone Glove\n\nEQUIPPED";
-                }
-                else
-                {
-                    stoneGloveText.text =
-                        "Stone Glove\n\nOWNED";
-                }
-            }
-            else
-            {
-                stoneGloveText.text =
-                    "Stone Glove\n\nCost: 5 Stone";
-            }
+            stoneGloveText.text = !ready ? "PlayerWeapon is missing." :
+                "Stone Glove\nDamage: x" + playerWeapon.stoneGloveDamageMultiplier.ToString("0.##") +
+                "\nAttack interval: " + playerWeapon.stoneGloveAttackCooldown.ToString("0.##") + " s\n" +
+                (equipped ? "EQUIPPED" : owned ? "OWNED" : "Cost: " + playerWeapon.stoneGloveCost + " Stone");
         }
 
         if (stoneGloveButton != null)
         {
-            TMP_Text buttonText =
-                stoneGloveButton.GetComponentInChildren<TMP_Text>();
-
-            if (buttonText != null)
-            {
-                if (!playerWeapon.HasStoneGlove())
-                {
-                    buttonText.text = "BUY";
-                }
-                else if (
-                    playerWeapon.IsStoneGloveEquipped())
-                {
-                    buttonText.text = "EQUIPPED";
-                }
-                else
-                {
-                    buttonText.text = "EQUIP";
-                }
-            }
+            stoneGloveButton.interactable = ready && !equipped;
+            SetButtonText(stoneGloveButton, equipped ? "EQUIPPED" : owned ? "EQUIP" : "BUY");
         }
+
+        if (unarmedButton != null)
+        {
+            unarmedButton.interactable = ready && equipped;
+            SetButtonText(unarmedButton, equipped ? "EQUIP UNARMED" : "UNARMED EQUIPPED");
+        }
+
+        if (resourceText != null)
+            resourceText.text = ready ? "Stone: " + playerWeapon.StoneCount : "Stone: --";
     }
 
+    private void SetMessage(string message)
+    {
+        if (messageText != null)
+            messageText.text = message;
+    }
 
+    private static void SetButtonText(Button button, string label)
+    {
+        TMP_Text text = button.GetComponentInChildren<TMP_Text>(true);
+        if (text != null)
+            text.text = label;
+    }
 }

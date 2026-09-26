@@ -5,11 +5,11 @@ public class GameDataManager : MonoBehaviour
     public static GameDataManager Instance;
 
 
-// =========================
-// Resources
-// =========================
+    // =========================
+    // Resources
+    // =========================
 
-[Header("Resources")]
+    [Header("Resources")]
     public int wood;
     public int stone;
     public int food;
@@ -33,6 +33,8 @@ public class GameDataManager : MonoBehaviour
 
     public float attackCooldown;
     public float attackRange;
+    public bool ownsStoneGlove;
+    public bool stoneGloveEquipped;
 
 
     // =========================
@@ -97,13 +99,17 @@ public class GameDataManager : MonoBehaviour
         if (playerAttack != null)
         {
             attackDamage =
-                playerAttack.attackDamage;
+                playerAttack.baseAttackDamage;
 
             attackCooldown =
-                playerAttack.attackCooldown;
+                playerAttack.baseAttackCooldown;
 
             attackRange =
                 playerAttack.attackRange;
+
+            PlayerWeapon weapon = playerAttack.GetComponent<PlayerWeapon>();
+            ownsStoneGlove = weapon != null && weapon.HasStoneGlove();
+            stoneGloveEquipped = weapon != null && weapon.IsStoneGloveEquipped();
         }
 
 
@@ -207,14 +213,20 @@ public class GameDataManager : MonoBehaviour
 
         if (playerAttack != null)
         {
-            playerAttack.attackDamage =
+            playerAttack.baseAttackDamage =
                 attackDamage;
 
-            playerAttack.attackCooldown =
+            playerAttack.baseAttackCooldown =
                 attackCooldown;
 
             playerAttack.attackRange =
                 attackRange;
+
+            PlayerWeapon weapon = playerAttack.GetComponent<PlayerWeapon>();
+            if (weapon != null)
+                weapon.RestoreWeaponState(ownsStoneGlove, stoneGloveEquipped);
+            else
+                playerAttack.RemoveWeaponStats();
         }
 
 

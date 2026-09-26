@@ -5,206 +5,169 @@ public class CompanionCombat : MonoBehaviour
     [Header("Enemy Detection")]
     public float enemyDetectionRange = 6f;
 
+    [Min(0.05f)]
+    public float targetRefreshInterval = 0.2f;
 
-[Header("Combat")]
+    [Header("Combat")]
     public float attackRange = 1.8f;
     public float attackDamage = 15f;
     public float attackCooldown = 1f;
     public float combatMoveSpeed = 4f;
 
     private CompanionMovement movement;
+    private CompanionCommandController commands;
 
-    private Transform currentEnemy;
+    private EnemyHealth currentEnemy;
 
     private float attackTimer;
+    private float searchTimer;
 
-    void Start()
+    // 基础伤害保持不变，实际攻击时再计算临时加成。
+    public float EffectiveAttackDamage =>
+        attackDamage *
+        (commands != null ? commands.DamageMultiplier : 1f);
+
+    private void Awake()
     {
-        movement =
-            GetComponent<CompanionMovement>();
+        movement = GetComponent<CompanionMovement>();
+        commands = GetComponent<CompanionCommandController>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (attackTimer > 0f)
+        if (Time.timeScale <= 0f)
+            return;
+
+        attackTimer =
+            Mathf.Max(0f, attackTimer - Time.deltaTime);
+
+        searchTimer -= Time.deltaTime;
+
+        if (commands != null && commands.IsSitting)
         {
-            attackTimer -= Time.deltaTime;
+            ClearTarget();
+            return;
         }
 
-        // 没有敌人 → 寻找敌人
-        if (currentEnemy == null)
+        if (searchTimer <= 0f || !IsEnemyValid())
         {
             FindNearestEnemy();
 
-            if (currentEnemy == null)
-            {
-                return;
-            }
+            searchTimer =
+                Mathf.Max(0.05f, targetRefreshInterval);
         }
 
-        // 检查敌人是否还有效
         if (!IsEnemyValid())
-        {
-            currentEnemy = null;
             return;
-        }
 
-        float distance =
-            Vector3.Distance(
-                transform.position,
-                currentEnemy.position
-            );
+        Vector3 direction =
+            currentEnemy.transform.position - transform.position;
 
-        // 敌人距离太远
-        if (distance > enemyDetectionRange)
-        {
-            currentEnemy = null;
-            return;
-        }
+        float distance = direction.magnitude;
 
-        // 追击
+        direction.y = 0f;
+
         if (distance > attackRange)
         {
-            ChaseEnemy();
-        }
-        else
-        {
-            AttackEnemy();
-        }
-    }
-
-    void FindNearestEnemy()
-    {
-        GameObject[] enemies =
-            GameObject.FindGameObjectsWithTag("Enemy");
-
-        float closestDistance =
-            enemyDetectionRange;
-
-        Transform closestEnemy = null;
-
-        foreach (GameObject enemy in enemies)
-        {
-            if (enemy == null)
-                continue;
-
-            EnemyHealth enemyHealth =
-                enemy.GetComponent<EnemyHealth>();
-
-            if (enemyHealth == null)
-                continue;
-
-            if (enemyHealth.IsDead())
-                continue;
-
-            float distance =
-                Vector3.Distance(
-                    transform.position,
-                    enemy.transform.position
-                );
-
-            if (distance < closestDistance)
+            if (movement != null)
             {
-                closestDistance = distance;
-                closestEnemy = enemy.transform;
+                movement.Move(direction, combatMoveSpeed);
             }
+
+            return;
         }
 
-        currentEnemy = closestEnemy;
-    }
-
-    void ChaseEnemy()
-    {
-        if (currentEnemy == null)
-            return;
-
-        Vector3 direction =
-            currentEnemy.position -
-            transform.position;
-
-        direction.y = 0f;
-
-        movement.Move(
-            direction,
-            combatMoveSpeed
-        );
-    }
-
-    void AttackEnemy()
-    {
-        if (currentEnemy == null)
-            return;
-
-        Vector3 direction =
-            currentEnemy.position -
-            transform.position;
-
-        direction.y = 0f;
+        if (movement != null)
+        {
+            movement.Stop();
+        }
 
         if (direction.sqrMagnitude > 0.01f)
         {
             Quaternion targetRotation =
-                Quaternion.LookRotation(
-                    direction
-                );
+                Quaternion.LookRotation(direction);
 
-            transform.rotation =
-                Quaternion.Slerp(
-                    transform.rotation,
-                    targetRotation,
-                    10f * Time.deltaTime
-                );
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                10f * Time.deltaTime
+            );
         }
 
-        if (attackTimer > 0f)
-            return;
-
-        EnemyHealth enemyHealth =
-            currentEnemy.GetComponent<EnemyHealth>();
-
-        if (enemyHealth != null)
+        if (attackTimer <= 0f)
         {
-            enemyHealth.TakeDamage(
-                attackDamage
-            );
+            currentEnemy.TakeDamage(EffectiveAttackDamage);
 
-            Debug.Log(
-                "Companion attacked Enemy!"
-            );
+            attackTimer = Mathf.Max(0.01f, attackCooldown);
         }
-
-        attackTimer =
-            attackCooldown;
     }
 
-    bool IsEnemyValid()
+    private void FindNearestEnemy()
     {
-        if (currentEnemy == null)
-            return false;
+        currentEnemy = null;
 
-        EnemyHealth enemyHealth =
-            currentEnemy.GetComponent<EnemyHealth>();
+        float nearestDistance =
+            Mathf.Max(0f, enemyDetectionRange);
 
-        if (enemyHealth == null)
-            return false;
+        Collider[] hits = Physics.OverlapSphere(
+            transform.position,
+            nearestDistance
+        );
 
-        if (enemyHealth.IsDead())
-            return false;
+        foreach (Collider hit in hits)
+        {
+            EnemyHealth candidate =
+                hit.GetComponentInParent<EnemyHealth>();
 
-        return true;
+            if (candidate == null ||
+                !candidate.isActiveAndEnabled ||
+                candidate.IsDead())
+            {
+                continue;
+            }
+
+            if (!candidate.CompareTag("Enemy"))
+                continue;
+
+            float distance = Vector3.Distance(
+                transform.position,
+                candidate.transform.position
+            );
+
+            if (distance <= nearestDistance)
+            {
+                nearestDistance = distance;
+                currentEnemy = candidate;
+            }
+        }
+    }
+
+    private bool IsEnemyValid()
+    {
+        return currentEnemy != null &&
+               currentEnemy.isActiveAndEnabled &&
+               !currentEnemy.IsDead() &&
+               Vector3.Distance(
+                   transform.position,
+                   currentEnemy.transform.position
+               ) <= enemyDetectionRange;
+    }
+
+    public void ClearTarget()
+    {
+        currentEnemy = null;
+        searchTimer = 0f;
     }
 
     public bool IsInCombat()
     {
-        return currentEnemy != null;
+        return enabled &&
+               (commands == null || !commands.IsSitting) &&
+               IsEnemyValid();
     }
 
     public Transform GetCurrentEnemy()
     {
-        return currentEnemy;
+        return IsInCombat() ? currentEnemy.transform : null;
     }
-
-
 }
-
-
