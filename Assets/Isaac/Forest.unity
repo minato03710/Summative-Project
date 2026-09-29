@@ -1140,11 +1140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5954771341335360642, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -24.8
+      value: -12.19
       objectReference: {fileID: 0}
     - target: {fileID: 5954771341335360642, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 27.47
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 5954771341335360642, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2544,6 +2544,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.052782923, y: 0.05278292, z: 0.043095343}
   m_Center: {x: -0.000000012107242, y: -0.0000000020801485, z: 0.02531833}
+--- !u!1 &696176995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 696176996}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: SpawnPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &696176996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696176995}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -54.43, y: 30.04, z: 4.03865}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &697946899 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a8138eb3f3422841a5019330372afef, type: 3}
@@ -5193,7 +5224,7 @@ GameObject:
   - component: {fileID: 1205919864}
   - component: {fileID: 1205919863}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Level Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5993,7 +6024,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510059020}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
@@ -9175,3 +9206,4 @@ SceneRoots:
   - {fileID: 1724970255}
   - {fileID: 662502129}
   - {fileID: 1038652385}
+  - {fileID: 696176996}
