@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -5,30 +6,84 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(PlayerAttack), typeof(ResourceManager))]
 public class PlayerWeapon : MonoBehaviour
 {
-    [Header("Stone Glove")]
+    [Header("Stone Glove - Existing Settings")]
     [FormerlySerializedAs("stoneGloveCost")]
     [Min(0)] public int stoneGloveScrapCost = 5;
 
-    [Min(0.01f)] public float stoneGloveDamageMultiplier = 1.5f;
-    [Min(0.01f)] public float stoneGloveAttackCooldown = 1.2f;
+    [Min(0)] public float stoneGloveDamageMultiplier = 1.5f;
+    [Min(0.001f)] public float stoneGloveAttackCooldown = 1.2f;
+
+    public WeaponData snippingClaws = new WeaponData
+    {
+        weaponName = "Snipping Claws",
+        scrapCost = 5,
+        batteryCost = 5,
+        damageMultiplier = 0.8f,
+        attackSpeedMultiplier = 3f,
+        rangeMultiplier = 0.8f
+    };
+
+    public WeaponData scorpionTail = new WeaponData
+    {
+        weaponName = "Scorpion Tail",
+        scrapCost = 5,
+        batteryCost = 10,
+        energyCost = 5,
+        damageMultiplier = 1f,
+        rangeMultiplier = 1.5f,
+        poisonDamagePerSecond = 20f,
+        poisonDurationSeconds = 3
+    };
+
+    public WeaponData swordFish = new WeaponData
+    {
+        weaponName = "Sword(Fish)",
+        scrapCost = 15,
+        energyCost = 5,
+        damageMultiplier = 1.5f,
+        attackSpeedMultiplier = 11.5f,
+        rangeMultiplier = 1.5f
+    };
 
     private PlayerAttack playerAttack;
-    private ResourceManager resourceManager;
-    private bool hasStoneGlove;
-    private bool stoneGloveEquipped;
+    private ResourceManager resources;
+
+    private readonly HashSet<WeaponType> ownedWeapons =
+        new HashSet<WeaponType>();
+
+    public WeaponType EquippedWeapon { get; private set; } =
+        WeaponType.Unarmed;
 
     public int ScrapCount
     {
         get
         {
-            CacheComponents();
-            return resourceManager != null ? resourceManager.scrap : 0;
+            Cache();
+            return resources != null ? resources.scrap : 0;
+        }
+    }
+
+    public int BatteryCount
+    {
+        get
+        {
+            Cache();
+            return resources != null ? resources.battery : 0;
+        }
+    }
+
+    public int EnergyCount
+    {
+        get
+        {
+            Cache();
+            return resources != null ? resources.energy : 0;
         }
     }
 
     private void Awake()
     {
-        CacheComponents();
+        Cache();
     }
 
     private void Start()
@@ -36,84 +91,173 @@ public class PlayerWeapon : MonoBehaviour
         ApplyEquipment();
     }
 
-    private void CacheComponents()
+    private void Cache()
     {
         if (playerAttack == null)
             playerAttack = GetComponent<PlayerAttack>();
 
-        if (resourceManager == null)
-            resourceManager = GetComponent<ResourceManager>();
+        if (resources == null)
+            resources = GetComponent<ResourceManager>();
     }
 
-    public bool BuyStoneGlove()
+    public WeaponData GetWeaponData(WeaponType type)
     {
-        CacheComponents();
-
-        if (playerAttack == null || resourceManager == null)
-            return false;
-
-        if (hasStoneGlove)
+        switch (type)
         {
-            EquipStoneGlove();
-            return true;
-        }
+            case WeaponType.StoneGlove:
+                return new WeaponData
+                {
+                    weaponName = "Stone Glove",
+                    scrapCost = stoneGloveScrapCost,
+                    damageMultiplier = stoneGloveDamageMultiplier,
+                    useFixedAttackInterval = true,
+                    attackCooldown = stoneGloveAttackCooldown,
+                    rangeMultiplier = 1f
+                };
 
-        if (!resourceManager.RemoveResource(
-                ResourcePickup.ResourceType.Scrap,
-                stoneGloveScrapCost))
+            case WeaponType.SnippingClaws:
+                return snippingClaws;
+
+            case WeaponType.ScorpionTail:
+                return scorpionTail;
+
+            case WeaponType.SwordFish:
+                return swordFish;
+
+            default:
+                return null;
+        }
+    }
+
+    public bool IsOwned(WeaponType type)
+    {
+        return type == WeaponType.Unarmed ||
+               ownedWeapons.Contains(type);
+    }
+
+    public bool BuyOrEquip(WeaponType type)
+    {
+        Cache();
+
+        if (playerAttack == null || resources == null)
             return false;
 
-        hasStoneGlove = true;
-        EquipStoneGlove();
+        // 已购买的武器直接装备，不再扣款。
+        if (IsOwned(type))
+            return Equip(type);
+
+        WeaponData data = GetWeaponData(type);
+
+        if (data == null ||
+            data.scrapCost < 0 ||
+            data.batteryCost < 0 ||
+            data.energyCost < 0)
+            return false;
+
+        // 先检查全部资源。
+        if (resources.scrap < data.scrapCost ||
+            resources.battery < data.batteryCost ||
+            resources.energy < data.energyCost)
+            return false;
+
+        // 确认全部足够后才扣款。
+        resources.RemoveResource(
+            ResourcePickup.ResourceType.Scrap,
+            data.scrapCost);
+
+        resources.RemoveResource(
+            ResourcePickup.ResourceType.Battery,
+            data.batteryCost);
+
+        resources.RemoveResource(
+            ResourcePickup.ResourceType.Energy,
+            data.energyCost);
+
+        ownedWeapons.Add(type);
+
+        return Equip(type);
+    }
+
+    public bool Equip(WeaponType type)
+    {
+        Cache();
+
+        if (playerAttack == null || !IsOwned(type))
+            return false;
+
+        if (type != WeaponType.Unarmed &&
+            GetWeaponData(type) == null)
+            return false;
+
+        EquippedWeapon = type;
+        ApplyEquipment();
         return true;
-    }
-
-    public void EquipStoneGlove()
-    {
-        if (!hasStoneGlove) return;
-
-        stoneGloveEquipped = true;
-        ApplyEquipment();
-    }
-
-    public void UnequipStoneGlove()
-    {
-        stoneGloveEquipped = false;
-        ApplyEquipment();
-    }
-
-    public bool HasStoneGlove()
-    {
-        return hasStoneGlove;
-    }
-
-    public bool IsStoneGloveEquipped()
-    {
-        return stoneGloveEquipped;
-    }
-
-    public void RestoreWeaponState(bool owned, bool equipped)
-    {
-        hasStoneGlove = owned;
-        stoneGloveEquipped = owned && equipped;
-        ApplyEquipment();
     }
 
     private void ApplyEquipment()
     {
-        CacheComponents();
+        Cache();
 
-        if (playerAttack == null) return;
-
-        if (stoneGloveEquipped)
+        if (playerAttack != null)
         {
             playerAttack.ApplyWeaponStats(
-                stoneGloveDamageMultiplier,
-                stoneGloveAttackCooldown);
+                GetWeaponData(EquippedWeapon));
         }
-        else
+    }
+
+    public List<WeaponType> GetOwnedWeapons()
+    {
+        return new List<WeaponType>(ownedWeapons);
+    }
+
+    public void RestoreWeapons(
+        List<WeaponType> owned,
+        WeaponType equipped)
+    {
+        ownedWeapons.Clear();
+
+        if (owned != null)
         {
-            playerAttack.RemoveWeaponStats();
+            foreach (WeaponType type in owned)
+            {
+                if (type != WeaponType.Unarmed &&
+                    GetWeaponData(type) != null)
+                {
+                    ownedWeapons.Add(type);
+                }
+            }
         }
+
+        EquippedWeapon = IsOwned(equipped)
+            ? equipped
+            : WeaponType.Unarmed;
+
+        ApplyEquipment();
+    }
+
+    // 保留原有石头拳套相关方法。
+    public bool BuyStoneGlove()
+    {
+        return BuyOrEquip(WeaponType.StoneGlove);
+    }
+
+    public void EquipStoneGlove()
+    {
+        Equip(WeaponType.StoneGlove);
+    }
+
+    public void UnequipStoneGlove()
+    {
+        Equip(WeaponType.Unarmed);
+    }
+
+    public bool HasStoneGlove()
+    {
+        return IsOwned(WeaponType.StoneGlove);
+    }
+
+    public bool IsStoneGloveEquipped()
+    {
+        return EquippedWeapon == WeaponType.StoneGlove;
     }
 }
