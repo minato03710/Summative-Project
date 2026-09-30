@@ -1,63 +1,35 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameDataManager : MonoBehaviour
 {
     public static GameDataManager Instance;
 
-
-    // =========================
-    // Resources
-    // =========================
-
     [Header("Resources")]
-    public int wood;
-    public int stone;
+    [FormerlySerializedAs("wood")] public int energy;
+    [FormerlySerializedAs("stone")] public int battery;
     public int food;
-    public int gold;
-
-
-    // =========================
-    // Player Stats
-    // =========================
+    [FormerlySerializedAs("gold")] public int scrap;
 
     [Header("Player Stats")]
-
     public float attackDamage;
     public float maxHealth;
-
     public float moveSpeed;
     public float jumpHeight;
-
     public float dashSpeed;
     public float dashCooldown;
-
     public float attackCooldown;
     public float attackRange;
     public bool ownsStoneGlove;
     public bool stoneGloveEquipped;
 
-
-    // =========================
-    // Companion Stats
-    // =========================
-
     [Header("Companion Stats")]
     public float companionAttackDamage;
 
+    private bool hasPlayerData;
+    private bool hasCompanionData;
 
-    // =========================
-    // Save State
-    // =========================
-
-    private bool hasPlayerData = false;
-    private bool hasCompanionData = false;
-
-
-    // =========================
-    // Singleton
-    // =========================
-
-    void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -66,294 +38,113 @@ public class GameDataManager : MonoBehaviour
         }
 
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
     }
-
-
-    // =========================================================
-    // SAVE PLAYER DATA
-    // =========================================================
 
     public void SavePlayerData(
         ResourceManager resourceManager,
         PlayerAttack playerAttack,
         PlayerHealth playerHealth,
         PlayerMovement playerMovement,
-        PlayerDash playerDash
-    )
+        PlayerDash playerDash)
     {
-        // Resources
-
         if (resourceManager != null)
         {
-            wood = resourceManager.wood;
-            stone = resourceManager.stone;
+            energy = resourceManager.energy;
+            battery = resourceManager.battery;
             food = resourceManager.food;
-            gold = resourceManager.gold;
+            scrap = resourceManager.scrap;
         }
-
-
-        // Player Attack
 
         if (playerAttack != null)
         {
-            attackDamage =
-                playerAttack.baseAttackDamage;
-
-            attackCooldown =
-                playerAttack.baseAttackCooldown;
-
-            attackRange =
-                playerAttack.attackRange;
+            attackDamage = playerAttack.baseAttackDamage;
+            attackCooldown = playerAttack.baseAttackCooldown;
+            attackRange = playerAttack.attackRange;
 
             PlayerWeapon weapon = playerAttack.GetComponent<PlayerWeapon>();
+
             ownsStoneGlove = weapon != null && weapon.HasStoneGlove();
             stoneGloveEquipped = weapon != null && weapon.IsStoneGloveEquipped();
         }
 
-
-        // Player Health
-
         if (playerHealth != null)
-        {
-            maxHealth =
-                playerHealth.maxHealth;
-        }
-
-
-        // Player Movement
+            maxHealth = playerHealth.maxHealth;
 
         if (playerMovement != null)
         {
-            moveSpeed =
-                playerMovement.moveSpeed;
-
-            jumpHeight =
-                playerMovement.jumpHeight;
+            moveSpeed = playerMovement.moveSpeed;
+            jumpHeight = playerMovement.jumpHeight;
         }
-
-
-        // Player Dash
 
         if (playerDash != null)
         {
-            dashSpeed =
-                playerDash.dashSpeed;
-
-            dashCooldown =
-                playerDash.dashCooldown;
+            dashSpeed = playerDash.dashSpeed;
+            dashCooldown = playerDash.dashCooldown;
         }
 
-
         hasPlayerData = true;
-
-
-        Debug.Log(
-            "Player Data Saved | " +
-
-            "Wood: " + wood +
-            " | Stone: " + stone +
-            " | Food: " + food +
-            " | Gold: " + gold +
-
-            " | Attack: " + attackDamage +
-            " | Max Health: " + maxHealth +
-
-            " | Move Speed: " + moveSpeed +
-            " | Jump Height: " + jumpHeight +
-
-            " | Dash Speed: " + dashSpeed +
-            " | Dash Cooldown: " + dashCooldown +
-
-            " | Attack Cooldown: " + attackCooldown +
-            " | Attack Range: " + attackRange
-        );
     }
-
-
-    // =========================================================
-    // LOAD PLAYER DATA
-    // =========================================================
 
     public void LoadPlayerData(
         ResourceManager resourceManager,
         PlayerAttack playerAttack,
         PlayerHealth playerHealth,
         PlayerMovement playerMovement,
-        PlayerDash playerDash
-    )
+        PlayerDash playerDash)
     {
-        // 没有保存过数据
-        // 使用场景自己的初始值
-
-        if (!hasPlayerData)
-        {
-            Debug.Log(
-                "No saved player data. " +
-                "Using scene default values."
-            );
-
-            return;
-        }
-
-
-        // Resources
+        if (!hasPlayerData) return;
 
         if (resourceManager != null)
         {
-            resourceManager.wood = wood;
-            resourceManager.stone = stone;
+            resourceManager.energy = energy;
+            resourceManager.battery = battery;
             resourceManager.food = food;
-            resourceManager.gold = gold;
+            resourceManager.scrap = scrap;
         }
-
-
-        // Player Attack
 
         if (playerAttack != null)
         {
-            playerAttack.baseAttackDamage =
-                attackDamage;
-
-            playerAttack.baseAttackCooldown =
-                attackCooldown;
-
-            playerAttack.attackRange =
-                attackRange;
+            playerAttack.baseAttackDamage = attackDamage;
+            playerAttack.baseAttackCooldown = attackCooldown;
+            playerAttack.attackRange = attackRange;
 
             PlayerWeapon weapon = playerAttack.GetComponent<PlayerWeapon>();
+
             if (weapon != null)
                 weapon.RestoreWeaponState(ownsStoneGlove, stoneGloveEquipped);
             else
                 playerAttack.RemoveWeaponStats();
         }
 
-
-        // Player Health
-
         if (playerHealth != null)
-        {
-            playerHealth.maxHealth =
-                maxHealth;
-        }
-
-
-        // Player Movement
+            playerHealth.maxHealth = maxHealth;
 
         if (playerMovement != null)
         {
-            playerMovement.moveSpeed =
-                moveSpeed;
-
-            playerMovement.jumpHeight =
-                jumpHeight;
+            playerMovement.moveSpeed = moveSpeed;
+            playerMovement.jumpHeight = jumpHeight;
         }
-
-
-        // Player Dash
 
         if (playerDash != null)
         {
-            playerDash.dashSpeed =
-                dashSpeed;
-
-            playerDash.dashCooldown =
-                dashCooldown;
+            playerDash.dashSpeed = dashSpeed;
+            playerDash.dashCooldown = dashCooldown;
         }
-
-
-        Debug.Log(
-            "Player Data Loaded | " +
-
-            "Wood: " + wood +
-            " | Stone: " + stone +
-            " | Food: " + food +
-            " | Gold: " + gold +
-
-            " | Attack: " + attackDamage +
-            " | Max Health: " + maxHealth +
-
-            " | Move Speed: " + moveSpeed +
-            " | Jump Height: " + jumpHeight +
-
-            " | Dash Speed: " + dashSpeed +
-            " | Dash Cooldown: " + dashCooldown +
-
-            " | Attack Cooldown: " + attackCooldown +
-            " | Attack Range: " + attackRange
-        );
     }
 
-
-    // =========================================================
-    // SAVE COMPANION DATA
-    // =========================================================
-
-    public void SaveCompanionData(
-        CompanionCombat companionCombat
-    )
+    public void SaveCompanionData(CompanionCombat companionCombat)
     {
-        if (companionCombat == null)
-        {
-            Debug.LogWarning(
-                "SaveCompanionData: " +
-                "找不到 CompanionCombat!"
-            );
+        if (companionCombat == null) return;
 
-            return;
-        }
-
-        companionAttackDamage =
-            companionCombat.attackDamage;
-
+        companionAttackDamage = companionCombat.attackDamage;
         hasCompanionData = true;
-
-        Debug.Log(
-            "Companion Data Saved | " +
-            "Attack: " +
-            companionAttackDamage
-        );
     }
 
-
-    // =========================================================
-    // LOAD COMPANION DATA
-    // =========================================================
-
-    public void LoadCompanionData(
-        CompanionCombat companionCombat
-    )
+    public void LoadCompanionData(CompanionCombat companionCombat)
     {
-        if (companionCombat == null)
-        {
-            Debug.LogWarning(
-                "LoadCompanionData: " +
-                "找不到 CompanionCombat!"
-            );
+        if (companionCombat == null || !hasCompanionData) return;
 
-            return;
-        }
-
-        if (!hasCompanionData)
-        {
-            Debug.Log(
-                "No saved companion data. " +
-                "Using scene default values."
-            );
-
-            return;
-        }
-
-        companionCombat.attackDamage =
-            companionAttackDamage;
-
-        Debug.Log(
-            "Companion Data Loaded | " +
-            "Attack: " +
-            companionAttackDamage
-        );
+        companionCombat.attackDamage = companionAttackDamage;
     }
-
-
 }

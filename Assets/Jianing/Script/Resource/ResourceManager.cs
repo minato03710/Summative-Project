@@ -1,112 +1,83 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ResourceManager : MonoBehaviour
 {
     [Header("Starting Resources")]
-    public int wood = 0;
-    public int stone = 0;
+    [FormerlySerializedAs("wood")] public int energy = 0;
+    [FormerlySerializedAs("stone")] public int battery = 0;
     public int food = 0;
-    public int gold = 30;
+    [FormerlySerializedAs("gold")] public int scrap = 30;
 
-    public void AddResource(
-        ResourcePickup.ResourceType type,
-        int amount
-    )
+    public void AddResource(ResourcePickup.ResourceType type, int amount)
     {
+        if (amount <= 0) return;
+
         switch (type)
         {
-            case ResourcePickup.ResourceType.Wood:
-                wood += amount;
+            case ResourcePickup.ResourceType.Energy:
+                energy += amount;
                 break;
 
-            case ResourcePickup.ResourceType.Stone:
-                stone += amount;
+            case ResourcePickup.ResourceType.Battery:
+                battery += amount;
                 break;
 
             case ResourcePickup.ResourceType.Food:
                 food += amount;
                 break;
 
-            case ResourcePickup.ResourceType.Gold:
-                gold += amount;
+            case ResourcePickup.ResourceType.Scrap:
+                scrap += amount;
                 break;
         }
-
-        Debug.Log(
-            "Resources | " +
-            "Wood: " + wood +
-            " | Stone: " + stone +
-            " | Food: " + food +
-            " | Gold: " + gold
-        );
     }
 
-    public bool RemoveResource(
-        ResourcePickup.ResourceType type,
-        int amount
-    )
+    public bool RemoveResource(ResourcePickup.ResourceType type, int amount)
     {
+        if (amount < 0 || GetResource(type) < amount) return false;
+
         switch (type)
         {
-            case ResourcePickup.ResourceType.Wood:
-
-                if (wood < amount)
-                    return false;
-
-                wood -= amount;
+            case ResourcePickup.ResourceType.Energy:
+                energy -= amount;
                 return true;
 
-
-            case ResourcePickup.ResourceType.Stone:
-
-                if (stone < amount)
-                    return false;
-
-                stone -= amount;
+            case ResourcePickup.ResourceType.Battery:
+                battery -= amount;
                 return true;
-
 
             case ResourcePickup.ResourceType.Food:
-
-                if (food < amount)
-                    return false;
-
                 food -= amount;
                 return true;
 
-
-            case ResourcePickup.ResourceType.Gold:
-
-                if (gold < amount)
-                    return false;
-
-                gold -= amount;
+            case ResourcePickup.ResourceType.Scrap:
+                scrap -= amount;
                 return true;
-        }
 
-        return false;
+            default:
+                return false;
+        }
     }
 
-    public int GetResource(
-        ResourcePickup.ResourceType type
-    )
+    public int GetResource(ResourcePickup.ResourceType type)
     {
         switch (type)
         {
-            case ResourcePickup.ResourceType.Wood:
-                return wood;
+            case ResourcePickup.ResourceType.Energy:
+                return energy;
 
-            case ResourcePickup.ResourceType.Stone:
-                return stone;
+            case ResourcePickup.ResourceType.Battery:
+                return battery;
 
             case ResourcePickup.ResourceType.Food:
                 return food;
 
-            case ResourcePickup.ResourceType.Gold:
-                return gold;
-        }
+            case ResourcePickup.ResourceType.Scrap:
+                return scrap;
 
-        return 0;
+            default:
+                return 0;
+        }
     }
 }
-

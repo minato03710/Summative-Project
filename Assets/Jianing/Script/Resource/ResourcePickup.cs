@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class ResourcePickup : MonoBehaviour
 {
+    // 保持旧枚举的数值，已有拾取物会对应到新资源。
     public enum ResourceType
     {
-        Wood,
-        Stone,
-        Food,
-        Gold
+        Energy = 0,
+        Battery = 1,
+        Food = 2,
+        Scrap = 3
     }
 
-
-[Header("Resource")]
-    public ResourceType resourceType = ResourceType.Wood;
-    public int amount = 1;
+    [Header("Resource")]
+    public ResourceType resourceType = ResourceType.Energy;
+    [Min(1)] public int amount = 1;
 
     [Header("Auto Pickup")]
     public float pickupRange = 3f;
@@ -21,90 +21,41 @@ public class ResourcePickup : MonoBehaviour
     public float collectDistance = 0.5f;
 
     private Transform player;
-    private bool isAttracted = false;
-    private bool collected = false;
+    private bool isAttracted;
+    private bool collected;
 
-    void Update()
+    private void Update()
     {
-        if (collected)
-            return;
+        if (collected) return;
 
-        // 如果还没有找到玩家
         if (player == null)
         {
-            GameObject playerObject =
-                GameObject.FindGameObjectWithTag("Player");
-
-            if (playerObject != null)
-            {
-                player = playerObject.transform;
-            }
-
+            GameObject target = GameObject.FindGameObjectWithTag("Player");
+            if (target != null) player = target.transform;
             return;
         }
 
-        // 计算玩家距离
-        float distance =
-            Vector3.Distance(
-                transform.position,
-                player.position
-            );
-
-        // 玩家进入吸附范围
-        if (distance <= pickupRange)
-        {
+        if (Vector3.Distance(transform.position, player.position) <= pickupRange)
             isAttracted = true;
-        }
 
-        // 开始飞向玩家
-        if (isAttracted)
-        {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                player.position,
-                attractionSpeed * Time.deltaTime
-            );
+        if (!isAttracted) return;
 
-            // 到达玩家
-            if (Vector3.Distance(
-                transform.position,
-                player.position
-            ) <= collectDistance)
-            {
-                Collect();
-            }
-        }
+        transform.position = Vector3.MoveTowards(
+            transform.position, player.position, attractionSpeed * Time.deltaTime);
+
+        if (Vector3.Distance(transform.position, player.position) <= collectDistance)
+            Collect();
     }
 
-    void Collect()
+    private void Collect()
     {
-        if (collected)
-            return;
+        if (collected || player == null) return;
+
+        ResourceManager resources = player.GetComponent<ResourceManager>();
+        if (resources == null) return;
 
         collected = true;
-
-        ResourceManager resourceManager =
-            player.GetComponent<ResourceManager>();
-
-        if (resourceManager != null)
-        {
-            resourceManager.AddResource(
-                resourceType,
-                amount
-            );
-
-            Debug.Log(
-                "Collected " +
-                resourceType +
-                " x" +
-                amount
-            );
-        }
-
+        resources.AddResource(resourceType, amount);
         Destroy(gameObject);
     }
-
-
 }
-
-

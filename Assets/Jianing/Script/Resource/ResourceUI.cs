@@ -1,52 +1,39 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using TMPro;
 
 public class ResourceUI : MonoBehaviour
 {
     [Header("Resource Text")]
-    public TMP_Text woodText;
-    public TMP_Text stoneText;
+    [FormerlySerializedAs("woodText")] public TMP_Text energyText;
+    [FormerlySerializedAs("stoneText")] public TMP_Text batteryText;
     public TMP_Text foodText;
-    public TMP_Text goldText;
+    [FormerlySerializedAs("goldText")] public TMP_Text scrapText;
 
     private ResourceManager resourceManager;
 
-    void Start()
-    {
-        GameObject player =
-            GameObject.FindGameObjectWithTag("Player");
-
-        if (player != null)
-        {
-            resourceManager =
-                player.GetComponent<ResourceManager>();
-        }
-
-        UpdateUI();
-    }
-
-    void Update()
+    private void Update()
     {
         if (resourceManager == null)
-            return;
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        UpdateUI();
-    }
+            if (player != null)
+                resourceManager = player.GetComponent<ResourceManager>();
+        }
 
-    void UpdateUI()
-    {
-        woodText.text =
-            "Wood: " + resourceManager.wood;
+        if (resourceManager == null) return;
 
-        stoneText.text =
-            "Stone: " + resourceManager.stone;
+        if (energyText != null)
+            energyText.text = "Energy: " + resourceManager.energy;
 
-        foodText.text =
-            "Food: " + resourceManager.food;
+        if (batteryText != null)
+            batteryText.text = "Battery: " + resourceManager.battery;
 
-        goldText.text =
-            "Gold: " + resourceManager.gold;
+        if (foodText != null)
+            foodText.text = "Food: " + resourceManager.food;
+
+        if (scrapText != null)
+            scrapText.text = "Scrap: " + resourceManager.scrap;
     }
 }
-
-

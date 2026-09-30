@@ -1,11 +1,14 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(PlayerAttack), typeof(ResourceManager))]
 public class PlayerWeapon : MonoBehaviour
 {
     [Header("Stone Glove")]
-    [Min(0)] public int stoneGloveCost = 5;
+    [FormerlySerializedAs("stoneGloveCost")]
+    [Min(0)] public int stoneGloveScrapCost = 5;
+
     [Min(0.01f)] public float stoneGloveDamageMultiplier = 1.5f;
     [Min(0.01f)] public float stoneGloveAttackCooldown = 1.2f;
 
@@ -14,12 +17,12 @@ public class PlayerWeapon : MonoBehaviour
     private bool hasStoneGlove;
     private bool stoneGloveEquipped;
 
-    public int StoneCount
+    public int ScrapCount
     {
         get
         {
             CacheComponents();
-            return resourceManager != null ? resourceManager.stone : 0;
+            return resourceManager != null ? resourceManager.scrap : 0;
         }
     }
 
@@ -37,6 +40,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         if (playerAttack == null)
             playerAttack = GetComponent<PlayerAttack>();
+
         if (resourceManager == null)
             resourceManager = GetComponent<ResourceManager>();
     }
@@ -44,10 +48,10 @@ public class PlayerWeapon : MonoBehaviour
     public bool BuyStoneGlove()
     {
         CacheComponents();
+
         if (playerAttack == null || resourceManager == null)
             return false;
 
-        // Once owned, equipping is free. Never charge for the same weapon twice.
         if (hasStoneGlove)
         {
             EquipStoneGlove();
@@ -55,10 +59,9 @@ public class PlayerWeapon : MonoBehaviour
         }
 
         if (!resourceManager.RemoveResource(
-                ResourcePickup.ResourceType.Stone, Mathf.Max(0, stoneGloveCost)))
-        {
+                ResourcePickup.ResourceType.Scrap,
+                stoneGloveScrapCost))
             return false;
-        }
 
         hasStoneGlove = true;
         EquipStoneGlove();
@@ -67,8 +70,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public void EquipStoneGlove()
     {
-        if (!hasStoneGlove)
-            return;
+        if (!hasStoneGlove) return;
 
         stoneGloveEquipped = true;
         ApplyEquipment();
@@ -90,7 +92,6 @@ public class PlayerWeapon : MonoBehaviour
         return stoneGloveEquipped;
     }
 
-    // Used by the project's existing scene-to-scene data loader.
     public void RestoreWeaponState(bool owned, bool equipped)
     {
         hasStoneGlove = owned;
@@ -101,13 +102,14 @@ public class PlayerWeapon : MonoBehaviour
     private void ApplyEquipment()
     {
         CacheComponents();
-        if (playerAttack == null)
-            return;
+
+        if (playerAttack == null) return;
 
         if (stoneGloveEquipped)
         {
             playerAttack.ApplyWeaponStats(
-                stoneGloveDamageMultiplier, stoneGloveAttackCooldown);
+                stoneGloveDamageMultiplier,
+                stoneGloveAttackCooldown);
         }
         else
         {

@@ -25,18 +25,18 @@ public class ShopUIManager : MonoBehaviour
 
     private void FindPlayer()
     {
-        if (playerWeapon != null)
-            return;
+        if (playerWeapon != null) return;
 
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (playerObject != null)
-            playerWeapon = playerObject.GetComponent<PlayerWeapon>();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+            playerWeapon = player.GetComponent<PlayerWeapon>();
     }
 
-    // Keep the old button binding: the same button buys once, then equips for free.
     public void BuyStoneGlove()
     {
         FindPlayer();
+
         if (playerWeapon == null)
         {
             SetMessage("PlayerWeapon is missing on the Player.");
@@ -45,15 +45,20 @@ public class ShopUIManager : MonoBehaviour
 
         bool alreadyOwned = playerWeapon.HasStoneGlove();
         bool success = playerWeapon.BuyStoneGlove();
+
         SetMessage(success
-            ? (alreadyOwned ? "Stone Glove equipped." : "Purchased and equipped Stone Glove.")
-            : "Not enough stone, or required Player components are missing.");
+            ? (alreadyOwned
+                ? "Stone Glove equipped."
+                : "Purchased and equipped Stone Glove.")
+            : "Not enough Scrap, or invalid weapon setup.");
+
         RefreshUI();
     }
 
     public void EquipStoneGlove()
     {
         FindPlayer();
+
         if (playerWeapon == null || !playerWeapon.HasStoneGlove())
             return;
 
@@ -65,8 +70,8 @@ public class ShopUIManager : MonoBehaviour
     public void EquipUnarmed()
     {
         FindPlayer();
-        if (playerWeapon == null)
-            return;
+
+        if (playerWeapon == null) return;
 
         playerWeapon.UnequipStoneGlove();
         SetMessage("Unarmed equipped.");
@@ -76,32 +81,51 @@ public class ShopUIManager : MonoBehaviour
     public void RefreshUI()
     {
         FindPlayer();
+
         bool ready = playerWeapon != null;
         bool owned = ready && playerWeapon.HasStoneGlove();
         bool equipped = ready && playerWeapon.IsStoneGloveEquipped();
 
         if (stoneGloveText != null)
         {
-            stoneGloveText.text = !ready ? "PlayerWeapon is missing." :
-                "Stone Glove\nDamage: x" + playerWeapon.stoneGloveDamageMultiplier.ToString("0.##") +
-                "\nAttack interval: " + playerWeapon.stoneGloveAttackCooldown.ToString("0.##") + " s\n" +
-                (equipped ? "EQUIPPED" : owned ? "OWNED" : "Cost: " + playerWeapon.stoneGloveCost + " Stone");
+            stoneGloveText.text = !ready
+                ? "PlayerWeapon is missing."
+                : "Stone Glove\nDamage: x" +
+                  playerWeapon.stoneGloveDamageMultiplier.ToString("0.##") +
+                  "\nAttack interval: " +
+                  playerWeapon.stoneGloveAttackCooldown.ToString("0.##") +
+                  " s\n" +
+                  (equipped
+                      ? "EQUIPPED"
+                      : owned
+                          ? "OWNED"
+                          : "Cost: " + playerWeapon.stoneGloveScrapCost + " Scrap");
         }
 
         if (stoneGloveButton != null)
         {
             stoneGloveButton.interactable = ready && !equipped;
-            SetButtonText(stoneGloveButton, equipped ? "EQUIPPED" : owned ? "EQUIP" : "BUY");
+
+            SetButtonText(
+                stoneGloveButton,
+                equipped ? "EQUIPPED" : owned ? "EQUIP" : "BUY");
         }
 
         if (unarmedButton != null)
         {
             unarmedButton.interactable = ready && equipped;
-            SetButtonText(unarmedButton, equipped ? "EQUIP UNARMED" : "UNARMED EQUIPPED");
+
+            SetButtonText(
+                unarmedButton,
+                equipped ? "EQUIP UNARMED" : "UNARMED EQUIPPED");
         }
 
         if (resourceText != null)
-            resourceText.text = ready ? "Stone: " + playerWeapon.StoneCount : "Stone: --";
+        {
+            resourceText.text = ready
+                ? "Scrap: " + playerWeapon.ScrapCount
+                : "Scrap: --";
+        }
     }
 
     private void SetMessage(string message)
@@ -113,6 +137,7 @@ public class ShopUIManager : MonoBehaviour
     private static void SetButtonText(Button button, string label)
     {
         TMP_Text text = button.GetComponentInChildren<TMP_Text>(true);
+
         if (text != null)
             text.text = label;
     }

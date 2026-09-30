@@ -193,13 +193,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6229a1c51c865764d82a784cf5ae28e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeUIManager
-  goldText: {fileID: 493345166996566951}
+  resourceText: {fileID: 493345166996566951}
   attackText: {fileID: 4340872005843439541}
   healthText: {fileID: 674546338697319338}
-  upgradeManager: {fileID: 0}
+  moveSpeedText: {fileID: 0}
+  jumpHeightText: {fileID: 0}
+  dashSpeedText: {fileID: 0}
+  dashCooldownText: {fileID: 0}
+  attackCooldownText: {fileID: 0}
+  attackRangeText: {fileID: 0}
+  companionAttackText: {fileID: 0}
+  playerUpgradeManager: {fileID: 0}
   playerAttack: {fileID: 0}
   playerHealth: {fileID: 0}
+  playerMovement: {fileID: 0}
+  playerDash: {fileID: 0}
   resourceManager: {fileID: 0}
+  companionUpgrade: {fileID: 0}
+  companionCombat: {fileID: 0}
 --- !u!1 &837883229870574007
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +223,7 @@ GameObject:
   - component: {fileID: 5653098725735842782}
   - component: {fileID: 5509365325765991269}
   m_Layer: 5
-  m_Name: StoneText
+  m_Name: BatteryText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -265,7 +276,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Battery: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1049,7 +1060,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Food: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1208,7 +1219,7 @@ GameObject:
   - component: {fileID: 1027459321821192127}
   - component: {fileID: 7874908297367160899}
   m_Layer: 5
-  m_Name: WoodText
+  m_Name: EnergyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1261,7 +1272,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Energy: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1385,10 +1396,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8676d49ee471ff04b9b3f4664c1e6626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResourceUI
-  woodText: {fileID: 7874908297367160899}
-  stoneText: {fileID: 5509365325765991269}
+  energyText: {fileID: 7874908297367160899}
+  batteryText: {fileID: 5509365325765991269}
   foodText: {fileID: 7416545863350082703}
-  goldText: {fileID: 8599693947823859061}
+  scrapText: {fileID: 8599693947823859061}
 --- !u!1 &5749947356881509735
 GameObject:
   m_ObjectHideFlags: 0
@@ -1534,7 +1545,7 @@ GameObject:
   - component: {fileID: 6627427972755307622}
   - component: {fileID: 8599693947823859061}
   m_Layer: 5
-  m_Name: GoldText
+  m_Name: ScrapText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1587,7 +1598,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Scrap: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1941,7 +1952,7 @@ GameObject:
   - component: {fileID: 3426447164498095421}
   - component: {fileID: 493345166996566951}
   m_Layer: 5
-  m_Name: GoldText
+  m_Name: ResourceText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1963,7 +1974,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -35.63, y: 28}
+  m_AnchoredPosition: {x: -35.63, y: 34.4}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3426447164498095421
@@ -1994,7 +2005,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GoldText
+  m_text: 'Scrap: 0
+
+    Energy: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

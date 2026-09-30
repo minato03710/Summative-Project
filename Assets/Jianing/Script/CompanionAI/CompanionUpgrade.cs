@@ -2,74 +2,30 @@ using UnityEngine;
 
 public class CompanionUpgrade : MonoBehaviour
 {
-    [Header("Attack Upgrade")]
+    [Header("Attack Upgrade - Energy")]
     public float attackUpgradeAmount = 1f;
-    public int attackUpgradeCost = 10;
+    [Min(0)] public int attackUpgradeCost = 10;
 
+    private CompanionCombat companionCombat;
 
-private CompanionCombat companionCombat;
-
-    void Start()
+    public bool UpgradeAttack(ResourceManager resourceManager)
     {
-        companionCombat =
-            GetComponent<CompanionCombat>();
-    }
-
-    public bool UpgradeAttack(
-        ResourceManager resourceManager
-    )
-    {
-        if (resourceManager == null)
-        {
-            Debug.LogWarning(
-                "找不到 ResourceManager!"
-            );
-
-            return false;
-        }
+        if (resourceManager == null) return false;
 
         if (companionCombat == null)
-        {
-            companionCombat =
-                GetComponent<CompanionCombat>();
-        }
+            companionCombat = GetComponent<CompanionCombat>();
 
-        if (companionCombat == null)
-        {
-            Debug.LogWarning(
-                "找不到 CompanionCombat!"
-            );
+        if (companionCombat == null) return false;
 
+        if (!resourceManager.RemoveResource(
+                ResourcePickup.ResourceType.Energy,
+                attackUpgradeCost))
+        {
+            Debug.Log("Not enough Energy, or invalid cost.");
             return false;
         }
 
-        if (resourceManager.gold <
-            attackUpgradeCost)
-        {
-            Debug.Log(
-                "Not enough Gold!"
-            );
-
-            return false;
-        }
-
-        resourceManager.RemoveResource(
-            ResourcePickup.ResourceType.Gold,
-            attackUpgradeCost
-        );
-
-        companionCombat.attackDamage +=
-            attackUpgradeAmount;
-
-        Debug.Log(
-            "Companion Attack upgraded! " +
-            "Current Attack = " +
-            companionCombat.attackDamage
-        );
-
+        companionCombat.attackDamage += attackUpgradeAmount;
         return true;
     }
-
-
 }
-

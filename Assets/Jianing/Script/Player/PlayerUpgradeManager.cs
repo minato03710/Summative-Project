@@ -2,91 +2,39 @@ using UnityEngine;
 
 public class PlayerUpgradeManager : MonoBehaviour
 {
-    // =========================================================
-    // Attack Upgrade
-    // =========================================================
-
-    [Header("Attack Upgrade")]
-
+    [Header("Attack Upgrade - Scrap")]
     public float attackUpgradeAmount = 1f;
-    public int attackUpgradeCost = 10;
+    [Min(0)] public int attackUpgradeCost = 10;
 
-
-    // =========================================================
-    // Health Upgrade
-    // =========================================================
-
-    [Header("Health Upgrade")]
-
+    [Header("Health Upgrade - Scrap")]
     public float healthUpgradeAmount = 10f;
-    public int healthUpgradeCost = 15;
+    [Min(0)] public int healthUpgradeCost = 15;
 
-
-    // =========================================================
-    // Move Speed Upgrade
-    // =========================================================
-
-    [Header("Move Speed Upgrade")]
-
+    [Header("Move Speed Upgrade - Scrap")]
     public float moveSpeedUpgradeAmount = 0.5f;
-    public int moveSpeedUpgradeCost = 15;
+    [Min(0)] public int moveSpeedUpgradeCost = 15;
 
-
-    // =========================================================
-    // Jump Height Upgrade
-    // =========================================================
-
-    [Header("Jump Height Upgrade")]
-
+    [Header("Jump Height Upgrade - Scrap")]
     public float jumpHeightUpgradeAmount = 0.5f;
-    public int jumpHeightUpgradeCost = 15;
+    [Min(0)] public int jumpHeightUpgradeCost = 15;
 
-
-    // =========================================================
-    // Dash Speed Upgrade
-    // =========================================================
-
-    [Header("Dash Speed Upgrade")]
-
+    [Header("Dash Speed Upgrade - Scrap")]
     public float dashSpeedUpgradeAmount = 1f;
-    public int dashSpeedUpgradeCost = 15;
+    [Min(0)] public int dashSpeedUpgradeCost = 15;
 
-
-    // =========================================================
-    // Dash Cooldown Upgrade
-    // =========================================================
-
-    [Header("Dash Cooldown Upgrade")]
-
+    [Header("Dash Cooldown Upgrade - Scrap")]
     public float dashCooldownReduction = 0.1f;
     public float minimumDashCooldown = 0.2f;
-    public int dashCooldownUpgradeCost = 20;
+    [Min(0)] public int dashCooldownUpgradeCost = 20;
 
-
-    // =========================================================
-    // Attack Cooldown Upgrade
-    // =========================================================
-
-    [Header("Attack Cooldown Upgrade")]
-
+    [Header("Attack Cooldown Upgrade - Scrap")]
     public float attackCooldownReduction = 0.05f;
     public float minimumAttackCooldown = 0.1f;
-    public int attackCooldownUpgradeCost = 20;
+    [Min(0)] public int attackCooldownUpgradeCost = 20;
 
-
-    // =========================================================
-    // Attack Range Upgrade
-    // =========================================================
-
-    [Header("Attack Range Upgrade")]
-
+    [Header("Attack Range Upgrade - Scrap")]
     public float attackRangeUpgradeAmount = 0.2f;
-    public int attackRangeUpgradeCost = 15;
-
-
-    // =========================================================
-    // Components
-    // =========================================================
+    [Min(0)] public int attackRangeUpgradeCost = 15;
 
     private PlayerAttack playerAttack;
     private PlayerHealth playerHealth;
@@ -94,300 +42,113 @@ public class PlayerUpgradeManager : MonoBehaviour
     private PlayerDash playerDash;
     private ResourceManager resourceManager;
 
-
-    // =========================================================
-    // Start
-    // =========================================================
-
-    void Start()
+    private void Awake()
     {
-        playerAttack =
-            GetComponent<PlayerAttack>();
-
-        playerHealth =
-            GetComponent<PlayerHealth>();
-
-        playerMovement =
-            GetComponent<PlayerMovement>();
-
-        playerDash =
-            GetComponent<PlayerDash>();
-
-        resourceManager =
-            GetComponent<ResourceManager>();
+        playerAttack = GetComponent<PlayerAttack>();
+        playerHealth = GetComponent<PlayerHealth>();
+        playerMovement = GetComponent<PlayerMovement>();
+        playerDash = GetComponent<PlayerDash>();
+        resourceManager = GetComponent<ResourceManager>();
     }
-
-
-    // =========================================================
-    // Attack
-    // =========================================================
 
     public bool UpgradeAttack()
     {
-        if (resourceManager == null || playerAttack == null)
+        if (playerAttack == null || !PayScrap(attackUpgradeCost))
             return false;
 
-        if (!PayGold(attackUpgradeCost))
-            return false;
-
-        // 升级基础攻击力
-        playerAttack.baseAttackDamage +=
-            attackUpgradeAmount;
-
-        // 根据当前武器重新计算最终攻击力，保留已装备武器的加成。
+        playerAttack.baseAttackDamage += attackUpgradeAmount;
         playerAttack.RefreshAttackStats();
-
-        Debug.Log(
-            "Player Attack upgraded! " +
-            "Base Attack = " +
-            playerAttack.baseAttackDamage +
-            " | Current Attack = " +
-            playerAttack.attackDamage
-        );
-
         return true;
-
     }
-
-
-    // =========================================================
-    // Health
-    // =========================================================
 
     public bool UpgradeHealth()
     {
-        if (resourceManager == null ||
-            playerHealth == null)
+        if (playerHealth == null || !PayScrap(healthUpgradeCost))
             return false;
 
-        if (!PayGold(healthUpgradeCost))
-            return false;
-
-        playerHealth.maxHealth +=
-            healthUpgradeAmount;
-
-        playerHealth.Heal(
-            healthUpgradeAmount
-        );
-
-        Debug.Log(
-            "Player Health upgraded! " +
-            "Max Health = " +
-            playerHealth.maxHealth
-        );
-
+        playerHealth.maxHealth += healthUpgradeAmount;
+        playerHealth.Heal(healthUpgradeAmount);
         return true;
     }
-
-
-    // =========================================================
-    // Move Speed
-    // =========================================================
 
     public bool UpgradeMoveSpeed()
     {
-        if (resourceManager == null ||
-            playerMovement == null)
+        if (playerMovement == null || !PayScrap(moveSpeedUpgradeCost))
             return false;
 
-        if (!PayGold(moveSpeedUpgradeCost))
-            return false;
-
-        playerMovement.moveSpeed +=
-            moveSpeedUpgradeAmount;
-
-        Debug.Log(
-            "Move Speed upgraded! " +
-            "Current Speed = " +
-            playerMovement.moveSpeed
-        );
-
+        playerMovement.moveSpeed += moveSpeedUpgradeAmount;
         return true;
     }
-
-
-    // =========================================================
-    // Jump Height
-    // =========================================================
 
     public bool UpgradeJumpHeight()
     {
-        if (resourceManager == null ||
-            playerMovement == null)
+        if (playerMovement == null || !PayScrap(jumpHeightUpgradeCost))
             return false;
 
-        if (!PayGold(jumpHeightUpgradeCost))
-            return false;
-
-        playerMovement.jumpHeight +=
-            jumpHeightUpgradeAmount;
-
-        Debug.Log(
-            "Jump Height upgraded! " +
-            "Current Jump Height = " +
-            playerMovement.jumpHeight
-        );
-
+        playerMovement.jumpHeight += jumpHeightUpgradeAmount;
         return true;
     }
-
-
-    // =========================================================
-    // Dash Speed
-    // =========================================================
 
     public bool UpgradeDashSpeed()
     {
-        if (resourceManager == null ||
-            playerDash == null)
+        if (playerDash == null || !PayScrap(dashSpeedUpgradeCost))
             return false;
 
-        if (!PayGold(dashSpeedUpgradeCost))
-            return false;
-
-        playerDash.dashSpeed +=
-            dashSpeedUpgradeAmount;
-
-        Debug.Log(
-            "Dash Speed upgraded! " +
-            "Current Dash Speed = " +
-            playerDash.dashSpeed
-        );
-
+        playerDash.dashSpeed += dashSpeedUpgradeAmount;
         return true;
     }
-
-
-    // =========================================================
-    // Dash Cooldown
-    // =========================================================
 
     public bool UpgradeDashCooldown()
     {
-        if (resourceManager == null ||
-            playerDash == null)
+        if (playerDash == null || playerDash.dashCooldown <= minimumDashCooldown)
             return false;
 
-        if (playerDash.dashCooldown <=
-            minimumDashCooldown)
-        {
-            Debug.Log(
-                "Dash Cooldown already at minimum!"
-            );
-
-            return false;
-        }
-
-        if (!PayGold(dashCooldownUpgradeCost))
+        if (!PayScrap(dashCooldownUpgradeCost))
             return false;
 
-        playerDash.dashCooldown =
-            Mathf.Max(
-                minimumDashCooldown,
-                playerDash.dashCooldown -
-                dashCooldownReduction
-            );
-
-        Debug.Log(
-            "Dash Cooldown upgraded! " +
-            "Current Cooldown = " +
-            playerDash.dashCooldown
-        );
+        playerDash.dashCooldown = Mathf.Max(
+            minimumDashCooldown,
+            playerDash.dashCooldown - dashCooldownReduction);
 
         return true;
     }
-
-
-    // =========================================================
-    // Attack Cooldown
-    // =========================================================
 
     public bool UpgradeAttackCooldown()
     {
-        if (resourceManager == null ||
-            playerAttack == null)
+        if (playerAttack == null ||
+            playerAttack.baseAttackCooldown <= minimumAttackCooldown)
             return false;
 
-        if (playerAttack.baseAttackCooldown <=
-            minimumAttackCooldown)
-        {
-            Debug.Log(
-                "Attack Cooldown already at minimum!"
-            );
-
-            return false;
-        }
-
-        if (!PayGold(attackCooldownUpgradeCost))
+        if (!PayScrap(attackCooldownUpgradeCost))
             return false;
 
-        playerAttack.baseAttackCooldown =
-            Mathf.Max(
-                minimumAttackCooldown,
-                playerAttack.baseAttackCooldown -
-                attackCooldownReduction
-            );
+        playerAttack.baseAttackCooldown = Mathf.Max(
+            minimumAttackCooldown,
+            playerAttack.baseAttackCooldown - attackCooldownReduction);
 
         playerAttack.RefreshAttackStats();
-
-        Debug.Log(
-            "Attack Cooldown upgraded! " +
-            "Current Cooldown = " +
-            playerAttack.attackCooldown
-        );
-
         return true;
     }
-
-
-    // =========================================================
-    // Attack Range
-    // =========================================================
 
     public bool UpgradeAttackRange()
     {
-        if (resourceManager == null ||
-            playerAttack == null)
+        if (playerAttack == null || !PayScrap(attackRangeUpgradeCost))
             return false;
 
-        if (!PayGold(attackRangeUpgradeCost))
-            return false;
-
-        playerAttack.attackRange +=
-            attackRangeUpgradeAmount;
-
-        Debug.Log(
-            "Attack Range upgraded! " +
-            "Current Range = " +
-            playerAttack.attackRange
-        );
-
+        playerAttack.attackRange += attackRangeUpgradeAmount;
         return true;
     }
 
-
-    // =========================================================
-    // Pay Gold
-    // =========================================================
-
-    bool PayGold(int cost)
+    private bool PayScrap(int cost)
     {
-        if (resourceManager.gold < cost)
-        {
-            Debug.Log(
-                "Not enough Gold!"
-            );
+        if (resourceManager == null) return false;
 
-            return false;
-        }
+        bool paid = resourceManager.RemoveResource(
+            ResourcePickup.ResourceType.Scrap, cost);
 
-        resourceManager.RemoveResource(
-            ResourcePickup.ResourceType.Gold,
-            cost
-        );
+        if (!paid)
+            Debug.Log("Not enough Scrap, or invalid cost.");
 
-        return true;
+        return paid;
     }
-
-
 }
