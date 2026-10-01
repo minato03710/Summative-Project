@@ -32,10 +32,6 @@ public class PlayerUpgradeManager : MonoBehaviour
     public float minimumAttackCooldown = 0.1f;
     [Min(0)] public int attackCooldownUpgradeCost = 20;
 
-    [Header("Attack Range Upgrade - Scrap")]
-    public float attackRangeUpgradeAmount = 0.2f;
-    [Min(0)] public int attackRangeUpgradeCost = 15;
-
     private PlayerAttack playerAttack;
     private PlayerHealth playerHealth;
     private PlayerMovement playerMovement;
@@ -100,7 +96,8 @@ public class PlayerUpgradeManager : MonoBehaviour
 
     public bool UpgradeDashCooldown()
     {
-        if (playerDash == null || playerDash.dashCooldown <= minimumDashCooldown)
+        if (playerDash == null ||
+            playerDash.dashCooldown <= minimumDashCooldown)
             return false;
 
         if (!PayScrap(dashCooldownUpgradeCost))
@@ -130,13 +127,10 @@ public class PlayerUpgradeManager : MonoBehaviour
         return true;
     }
 
+    // 兼容旧调用：不扣资源，也不改变攻击范围。
     public bool UpgradeAttackRange()
     {
-        if (playerAttack == null || !PayScrap(attackRangeUpgradeCost))
-            return false;
-
-        playerAttack.attackRange += attackRangeUpgradeAmount;
-        return true;
+        return false;
     }
 
     private bool PayScrap(int cost)

@@ -5,7 +5,8 @@ using TMPro;
 public class UpgradeUIManager : MonoBehaviour
 {
     [Header("UI Text")]
-    [FormerlySerializedAs("goldText")] public TMP_Text resourceText;
+    [FormerlySerializedAs("goldText")]
+    public TMP_Text resourceText;
 
     public TMP_Text attackText;
     public TMP_Text healthText;
@@ -37,7 +38,8 @@ public class UpgradeUIManager : MonoBehaviour
 
     private void FindComponents()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject player =
+            GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)
         {
@@ -128,12 +130,9 @@ public class UpgradeUIManager : MonoBehaviour
         UpdateUI();
     }
 
+    // 兼容旧按钮绑定，不执行任何升级。
     public void UpgradeAttackRange()
     {
-        if (playerUpgradeManager != null)
-            playerUpgradeManager.UpgradeAttackRange();
-
-        UpdateUI();
     }
 
     public void UpgradeCompanionAttack()
@@ -158,25 +157,30 @@ public class UpgradeUIManager : MonoBehaviour
             if (playerAttack != null)
             {
                 SetStat(
-                    attackText, "Attack",
+                    attackText,
+                    "Attack",
                     playerAttack.attackDamage,
                     playerUpgradeManager.attackUpgradeCost);
 
                 SetStat(
-                    attackCooldownText, "Attack Cooldown",
+                    attackCooldownText,
+                    "Attack Cooldown",
                     playerAttack.attackCooldown,
                     playerUpgradeManager.attackCooldownUpgradeCost);
 
-                SetStat(
-                    attackRangeText, "Attack Range",
-                    playerAttack.attackRange,
-                    playerUpgradeManager.attackRangeUpgradeCost);
+                if (attackRangeText != null)
+                {
+                    attackRangeText.text =
+                        "Range: " + playerAttack.attackRange.ToString("0.##") +
+                        "\nControlled by weapon";
+                }
             }
 
             if (playerHealth != null)
             {
                 SetStat(
-                    healthText, "Health",
+                    healthText,
+                    "Health",
                     playerHealth.maxHealth,
                     playerUpgradeManager.healthUpgradeCost);
             }
@@ -184,12 +188,14 @@ public class UpgradeUIManager : MonoBehaviour
             if (playerMovement != null)
             {
                 SetStat(
-                    moveSpeedText, "Move Speed",
+                    moveSpeedText,
+                    "Move Speed",
                     playerMovement.moveSpeed,
                     playerUpgradeManager.moveSpeedUpgradeCost);
 
                 SetStat(
-                    jumpHeightText, "Jump Height",
+                    jumpHeightText,
+                    "Jump Height",
                     playerMovement.jumpHeight,
                     playerUpgradeManager.jumpHeightUpgradeCost);
             }
@@ -197,12 +203,14 @@ public class UpgradeUIManager : MonoBehaviour
             if (playerDash != null)
             {
                 SetStat(
-                    dashSpeedText, "Dash Speed",
+                    dashSpeedText,
+                    "Dash Speed",
                     playerDash.dashSpeed,
                     playerUpgradeManager.dashSpeedUpgradeCost);
 
                 SetStat(
-                    dashCooldownText, "Dash Cooldown",
+                    dashCooldownText,
+                    "Dash Cooldown",
                     playerDash.dashCooldown,
                     playerUpgradeManager.dashCooldownUpgradeCost);
             }
@@ -211,7 +219,8 @@ public class UpgradeUIManager : MonoBehaviour
         if (companionCombat != null && companionUpgrade != null)
         {
             SetStat(
-                companionAttackText, "Companion Attack",
+                companionAttackText,
+                "Companion Attack",
                 companionCombat.attackDamage,
                 companionUpgrade.attackUpgradeCost,
                 "Energy");
@@ -234,7 +243,6 @@ public class UpgradeUIManager : MonoBehaviour
 
     public void CloseUI()
     {
-        // 兼容旧按钮绑定，让强化台恢复游戏时间。
         foreach (UpgradeConsole console in
                  FindObjectsByType<UpgradeConsole>(FindObjectsSortMode.None))
         {

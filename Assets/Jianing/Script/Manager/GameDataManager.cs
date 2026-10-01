@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,9 +20,15 @@ public class GameDataManager : MonoBehaviour
     public float dashSpeed;
     public float dashCooldown;
     public float attackCooldown;
+
+    // 这里保存基础范围，不包含武器倍率。
     public float attackRange;
-    public bool ownsStoneGlove;
-    public bool stoneGloveEquipped;
+    public float attackRadius = 1.2f;
+
+    public List<WeaponType> ownedWeapons =
+        new List<WeaponType>();
+
+    public WeaponType equippedWeapon = WeaponType.Unarmed;
 
     [Header("Companion Stats")]
     public float companionAttackDamage;
@@ -58,14 +65,23 @@ public class GameDataManager : MonoBehaviour
 
         if (playerAttack != null)
         {
+            playerAttack.InitializeStats();
+
             attackDamage = playerAttack.baseAttackDamage;
             attackCooldown = playerAttack.baseAttackCooldown;
-            attackRange = playerAttack.attackRange;
+            attackRange = playerAttack.baseAttackRange;
+            attackRadius = playerAttack.baseAttackRadius;
 
-            PlayerWeapon weapon = playerAttack.GetComponent<PlayerWeapon>();
+            PlayerWeapon weapon =
+                playerAttack.GetComponent<PlayerWeapon>();
 
-            ownsStoneGlove = weapon != null && weapon.HasStoneGlove();
-            stoneGloveEquipped = weapon != null && weapon.IsStoneGloveEquipped();
+            ownedWeapons = weapon != null
+                ? weapon.GetOwnedWeapons()
+                : new List<WeaponType>();
+
+            equippedWeapon = weapon != null
+                ? weapon.EquippedWeapon
+                : WeaponType.Unarmed;
         }
 
         if (playerHealth != null)
@@ -105,14 +121,18 @@ public class GameDataManager : MonoBehaviour
 
         if (playerAttack != null)
         {
+            playerAttack.InitializeStats();
+
             playerAttack.baseAttackDamage = attackDamage;
             playerAttack.baseAttackCooldown = attackCooldown;
-            playerAttack.attackRange = attackRange;
+            playerAttack.baseAttackRange = attackRange;
+            playerAttack.baseAttackRadius = attackRadius;
 
-            PlayerWeapon weapon = playerAttack.GetComponent<PlayerWeapon>();
+            PlayerWeapon weapon =
+                playerAttack.GetComponent<PlayerWeapon>();
 
             if (weapon != null)
-                weapon.RestoreWeaponState(ownsStoneGlove, stoneGloveEquipped);
+                weapon.RestoreWeapons(ownedWeapons, equippedWeapon);
             else
                 playerAttack.RemoveWeaponStats();
         }

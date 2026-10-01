@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
@@ -9,18 +10,22 @@ public class PlayerAttack : MonoBehaviour
     public float attackDamage = 25f;
     public float baseAttackDamage = 25f;
 
-    public float attackRange = 2f;
-    public float attackRadius = 1.2f;
-
     public float attackCooldown = 0.5f;
     public float baseAttackCooldown = 0.5f;
 
-    [Header("Charged Attack")]
-    [Min(0.01f)]
-    public float chargeDuration = 2f;
+    [Header("Unarmed Range")]
+    [FormerlySerializedAs("attackRange")]
+    [Min(0)] public float baseAttackRange = 2f;
 
-    [Min(1f)]
-    public float chargedDamageMultiplier = 3f;
+    [FormerlySerializedAs("attackRadius")]
+    [Min(0.01f)] public float baseAttackRadius = 1.2f;
+
+    public float attackRange { get; private set; }
+    public float attackRadius { get; private set; }
+
+    [Header("Charged Attack")]
+    [Min(0.01f)] public float chargeDuration = 2f;
+    [Min(1)] public float chargedDamageMultiplier = 3f;
 
     [Header("Layers")]
     public LayerMask enemyLayer;
@@ -30,58 +35,48 @@ public class PlayerAttack : MonoBehaviour
 
     private Camera mainCamera;
     private PlayerHealth playerHealth;
+    private WeaponData weapon;
 
     private float cooldownTimer;
-
     private bool isCharging;
     private double chargeStartedAt;
-
     private bool statsInitialized;
-
-    private float weaponDamageMultiplier = 1f;
-    private float weaponAttackCooldown = -1f;
 
     private readonly HashSet<EnemyHealth> damagedEnemies =
         new HashSet<EnemyHealth>();
 
     public bool IsCharging => isCharging;
 
-    public float ChargeProgress
-    {
-        get
-        {
-            if (!isCharging)
-                return 0f;
-
-            float elapsed =
-                (float)(Time.timeAsDouble - chargeStartedAt);
-
-            return Mathf.Clamp01(
-                elapsed / Mathf.Max(0.01f, chargeDuration)
-            );
-        }
-    }
+    public float ChargeProgress => !isCharging
+        ? 0f
+        : Mathf.Clamp01(
+            (float)(Time.timeAsDouble - chargeStartedAt) /
+            Mathf.Max(0.01f, chargeDuration));
 
     public bool IsFullyCharged =>
         isCharging && ChargeProgress >= 1f;
 
     private void Awake()
     {
-        EnsureStatsInitialized();
-
+        InitializeStats();
+        RefreshAttackStats();
         playerHealth = GetComponent<PlayerHealth>();
     }
 
-    private void Start()
+    public void InitializeStats()
     {
-        mainCamera = Camera.main;
+        if (statsInitialized) return;
+
+        // 保留项目原有的初始攻击力和攻击间隔。
+        baseAttackDamage = attackDamage;
+        baseAttackCooldown = attackCooldown;
+        statsInitialized = true;
     }
 
     private void Update()
     {
         Mouse mouse = Mouse.current;
 
-        // 暂停、鼠标不可用或玩家死亡时取消蓄力。
         if (Time.timeScale <= 0f ||
             mouse == null ||
             (playerHealth != null && playerHealth.IsDead()))
@@ -90,10 +85,9 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        cooldownTimer =
-            Mathf.Max(0f, cooldownTimer - Time.deltaTime);
+        cooldownTimer = Mathf.Max(
+            0f, cooldownTimer - Time.deltaTime);
 
-        // 左键按下：开始蓄力，暂时不造成伤害。
         if (mouse.leftButton.wasPressedThisFrame &&
             cooldownTimer <= 0f &&
             !PointerOverUI())
@@ -102,21 +96,17 @@ public class PlayerAttack : MonoBehaviour
             chargeStartedAt = Time.timeAsDouble;
         }
 
-        if (!isCharging)
-            return;
+        if (!isCharging) return;
 
-        // 鼠标进入可交互 UI 时取消，避免点击界面触发攻击。
         if (PointerOverUI())
         {
             CancelCharge();
             return;
         }
 
-        // 左键松开：根据蓄力时间决定普通攻击或蓄力攻击。
         if (mouse.leftButton.wasReleasedThisFrame)
         {
             bool charged = IsFullyCharged;
-
             CancelCharge();
             ReleaseAttack(charged);
         }
@@ -134,29 +124,22 @@ public class PlayerAttack : MonoBehaviour
 
     private void ReleaseAttack(bool charged)
     {
-        if (cooldownTimer > 0f)
+        if (cooldownTimer > 0f ||
+            !GetMouseDirection(out Vector3 direction))
             return;
 
-        if (!GetMouseDirection(out Vector3 direction))
-            return;
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            Quaternion.LookRotation(direction),
+            rotationSpeed * Time.deltaTime);
 
-        RotatePlayer(direction);
-
-        float damage = attackDamage;
-
-        if (charged)
-        {
-            damage *= Mathf.Max(1f, chargedDamageMultiplier);
-        }
-
-        Vector3 attackCenter =
-            transform.position + direction * attackRange;
+        float damage = attackDamage *
+            (charged ? Mathf.Max(1f, chargedDamageMultiplier) : 1f);
 
         Collider[] hits = Physics.OverlapSphere(
-            attackCenter,
+            transform.position + direction * attackRange,
             attackRadius,
-            enemyLayer
-        );
+            enemyLayer);
 
         damagedEnemies.Clear();
 
@@ -165,21 +148,34 @@ public class PlayerAttack : MonoBehaviour
             EnemyHealth enemy =
                 hit.GetComponentInParent<EnemyHealth>();
 
-            // 同一敌人有多个碰撞体时，也只扣一次血。
-            if (enemy != null &&
-                !enemy.IsDead() &&
-                damagedEnemies.Add(enemy))
+            if (enemy == null ||
+                enemy.IsDead() ||
+                !damagedEnemies.Add(enemy))
+                continue;
+
+            enemy.TakeDamage(damage);
+
+            if (!enemy.IsDead() &&
+                weapon != null &&
+                weapon.poisonDamagePerSecond > 0f &&
+                weapon.poisonDurationSeconds > 0)
             {
-                enemy.TakeDamage(damage);
+                EnemyPoison poison =
+                    enemy.GetComponent<EnemyPoison>();
+
+                if (poison == null)
+                {
+                    poison = enemy.gameObject
+                        .AddComponent<EnemyPoison>();
+                }
+
+                poison.Apply(
+                    weapon.poisonDamagePerSecond,
+                    weapon.poisonDurationSeconds);
             }
         }
 
-        cooldownTimer = Mathf.Max(0f, attackCooldown);
-
-        Debug.Log(
-            (charged ? "Charged attack: " : "Normal attack: ") +
-            damage
-        );
+        cooldownTimer = Mathf.Max(0.001f, attackCooldown);
     }
 
     private bool GetMouseDirection(out Vector3 direction)
@@ -187,30 +183,21 @@ public class PlayerAttack : MonoBehaviour
         direction = Vector3.zero;
 
         if (mainCamera == null)
-        {
             mainCamera = Camera.main;
-        }
 
         if (mainCamera == null || Mouse.current == null)
             return false;
 
-        Vector2 mousePosition =
-            Mouse.current.position.ReadValue();
+        Ray ray = mainCamera.ScreenPointToRay(
+            Mouse.current.position.ReadValue());
 
-        Ray ray =
-            mainCamera.ScreenPointToRay(mousePosition);
+        Plane plane = new Plane(
+            Vector3.up, transform.position);
 
-        Plane groundPlane = new Plane(
-            Vector3.up,
-            transform.position
-        );
-
-        if (!groundPlane.Raycast(ray, out float distance))
+        if (!plane.Raycast(ray, out float distance))
             return false;
 
-        direction =
-            ray.GetPoint(distance) - transform.position;
-
+        direction = ray.GetPoint(distance) - transform.position;
         direction.y = 0f;
 
         if (direction.sqrMagnitude < 0.01f)
@@ -220,77 +207,64 @@ public class PlayerAttack : MonoBehaviour
         return true;
     }
 
-    private void RotatePlayer(Vector3 direction)
+    public void ApplyWeaponStats(WeaponData data)
     {
-        if (direction.sqrMagnitude < 0.01f)
-            return;
-
-        Quaternion targetRotation =
-            Quaternion.LookRotation(direction);
-
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            rotationSpeed * Time.deltaTime
-        );
-    }
-
-    public void CancelCharge()
-    {
-        isCharging = false;
-        chargeStartedAt = 0d;
-    }
-
-    private void EnsureStatsInitialized()
-    {
-        if (statsInitialized)
-            return;
-
-        baseAttackDamage = attackDamage;
-        baseAttackCooldown = attackCooldown;
-
-        statsInitialized = true;
-    }
-
-    public void ApplyWeaponStats(
-        float damageMultiplier,
-        float weaponCooldown
-    )
-    {
-        EnsureStatsInitialized();
+        InitializeStats();
         CancelCharge();
 
-        weaponDamageMultiplier =
-            Mathf.Max(0.01f, damageMultiplier);
-
-        weaponAttackCooldown =
-            Mathf.Max(0.01f, weaponCooldown);
-
+        weapon = data;
         RefreshAttackStats();
     }
 
     public void RemoveWeaponStats()
     {
-        EnsureStatsInitialized();
-        CancelCharge();
-
-        weaponDamageMultiplier = 1f;
-        weaponAttackCooldown = -1f;
-
-        RefreshAttackStats();
+        ApplyWeaponStats(null);
     }
 
     public void RefreshAttackStats()
     {
-        EnsureStatsInitialized();
+        InitializeStats();
 
-        attackDamage =
-            baseAttackDamage * weaponDamageMultiplier;
+        attackDamage = baseAttackDamage *
+            (weapon == null
+                ? 1f
+                : Mathf.Max(0f, weapon.damageMultiplier));
 
-        attackCooldown =
-            weaponAttackCooldown > 0f
-                ? weaponAttackCooldown
-                : baseAttackCooldown;
+        attackCooldown = weapon == null
+            ? Mathf.Max(0.001f, baseAttackCooldown)
+            : weapon.GetAttackInterval(baseAttackCooldown);
+
+        if (weapon != null && weapon.useCustomRange)
+        {
+            attackRange = Mathf.Max(
+                0f, weapon.customAttackRange);
+
+            attackRadius = Mathf.Max(
+                0.01f, weapon.customAttackRadius);
+        }
+        else
+        {
+            float multiplier = weapon == null
+                ? 1f
+                : Mathf.Max(0.01f, weapon.rangeMultiplier);
+
+            attackRange = Mathf.Max(
+                0f,
+                baseAttackRange * multiplier +
+                (weapon == null
+                    ? 0f
+                    : Mathf.Max(0f, weapon.extraRange)));
+
+            attackRadius = Mathf.Max(
+                0.01f,
+                baseAttackRadius * multiplier);
+        }
+    }
+
+    public void CancelCharge()
+    {
+        isCharging = false;
+        chargeStartedAt = 0;
     }
 
     private void OnDisable()
@@ -300,30 +274,28 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnApplicationFocus(bool focused)
     {
-        if (!focused)
-        {
-            CancelCharge();
-        }
+        if (!focused) CancelCharge();
     }
 
     private void OnApplicationPause(bool paused)
     {
-        if (paused)
-        {
-            CancelCharge();
-        }
+        if (paused) CancelCharge();
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
 
-        Vector3 attackCenter =
-            transform.position + transform.forward * attackRange;
+        float range = Application.isPlaying
+            ? attackRange
+            : baseAttackRange;
+
+        float radius = Application.isPlaying
+            ? attackRadius
+            : baseAttackRadius;
 
         Gizmos.DrawWireSphere(
-            attackCenter,
-            attackRadius
-        );
+            transform.position + transform.forward * range,
+            radius);
     }
 }
