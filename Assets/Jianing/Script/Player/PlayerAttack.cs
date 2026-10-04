@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class PlayerAttack : MonoBehaviour
 {
     [Header("Attack Settings")]
     public float attackDamage = 25f;
     public float baseAttackDamage = 25f;
-
     public float attackCooldown = 0.5f;
     public float baseAttackCooldown = 0.5f;
 
@@ -23,28 +23,52 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange { get; private set; }
     public float attackRadius { get; private set; }
 
-    [Header("Charged Attack")]
+    [Header("Charged Melee Attack")]
     [Min(0.01f)] public float chargeDuration = 2f;
     [Min(1)] public float chargedDamageMultiplier = 3f;
 
     [Header("Layers")]
     public LayerMask enemyLayer;
+    public LayerMask projectileObstacleLayers;
 
     [Header("Mouse Attack")]
     public float rotationSpeed = 15f;
+
+    [Header("Player Projectile")]
+    public PlayerBullet defaultBulletPrefab;
+    public Transform firePoint;
+    public float defaultFireHeight = 1f;
+
+    [Header("Optional Ammo UI")]
+    public TMP_Text ammoText;
+
+    private class Magazine
+    {
+        public int remaining;
+        public double nextShot;
+        public double reloadEnd = -1d;
+    }
+
+    private readonly Dictionary<WeaponData, Magazine> magazines =
+        new Dictionary<WeaponData, Magazine>();
+
+    private readonly HashSet<EnemyHealth> damagedEnemies =
+        new HashSet<EnemyHealth>();
 
     private Camera mainCamera;
     private PlayerHealth playerHealth;
     private WeaponData weapon;
 
     private float cooldownTimer;
+
     private bool isCharging;
-    private double chargeStartedAt;
     private bool statsInitialized;
+    private bool requireRelease;
+    private bool warnedMissingBullet;
 
-    private readonly HashSet<EnemyHealth> damagedEnemies =
-        new HashSet<EnemyHealth>();
+    private double chargeStartedAt;
 
+    public bool IsRanged => weapon != null && weapon.isRanged;
     public bool IsCharging => isCharging;
 
     public float ChargeProgress => !isCharging
@@ -67,7 +91,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if (statsInitialized) return;
 
-        // 保留项目原有的初始攻击力和攻击间隔。
         baseAttackDamage = attackDamage;
         baseAttackCooldown = attackCooldown;
         statsInitialized = true;
@@ -81,28 +104,43 @@ public class PlayerAttack : MonoBehaviour
             mouse == null ||
             (playerHealth != null && playerHealth.IsDead()))
         {
-            CancelCharge();
+            BlockInput();
             return;
         }
 
         cooldownTimer = Mathf.Max(
             0f, cooldownTimer - Time.deltaTime);
 
+        if (PointerOverUI())
+        {
+            BlockInput();
+            return;
+        }
+
+        if (!mouse.leftButton.isPressed)
+            requireRelease = false;
+
+        // 远程武器：按住连续发射。
+        if (IsRanged)
+        {
+            CancelCharge();
+
+            if (mouse.leftButton.isPressed && !requireRelease)
+                TryFire();
+
+            return;
+        }
+
+        // 近战武器：保留按下蓄力、松开发动攻击。
         if (mouse.leftButton.wasPressedThisFrame &&
             cooldownTimer <= 0f &&
-            !PointerOverUI())
+            !requireRelease)
         {
             isCharging = true;
             chargeStartedAt = Time.timeAsDouble;
         }
 
         if (!isCharging) return;
-
-        if (PointerOverUI())
-        {
-            CancelCharge();
-            return;
-        }
 
         if (mouse.leftButton.wasReleasedThisFrame)
         {
@@ -122,9 +160,109 @@ public class PlayerAttack : MonoBehaviour
                EventSystem.current.IsPointerOverGameObject();
     }
 
+    private Magazine GetMagazine()
+    {
+        if (!magazines.TryGetValue(weapon, out Magazine magazine))
+        {
+            magazine = new Magazine
+            {
+                remaining = Mathf.Max(1, weapon.magazineSize)
+            };
+
+            magazines.Add(weapon, magazine);
+        }
+
+        if (magazine.reloadEnd >= 0d &&
+            Time.timeAsDouble >= magazine.reloadEnd)
+        {
+            magazine.remaining = Mathf.Max(1, weapon.magazineSize);
+            magazine.reloadEnd = -1d;
+        }
+
+        return magazine;
+    }
+
+    private void TryFire()
+    {
+        Magazine magazine = GetMagazine();
+        double now = Time.timeAsDouble;
+
+        if (magazine.reloadEnd >= 0d ||
+            now < magazine.nextShot)
+            return;
+
+        PlayerBullet prefab = weapon.bulletPrefab != null
+            ? weapon.bulletPrefab
+            : defaultBulletPrefab;
+
+        if (prefab == null)
+        {
+            if (!warnedMissingBullet)
+            {
+                Debug.LogWarning(
+                    "Assign a PlayerBullet prefab on PlayerAttack.",
+                    this);
+            }
+
+            warnedMissingBullet = true;
+            return;
+        }
+
+        if (!GetMouseDirection(out Vector3 direction))
+            return;
+
+        transform.rotation = Quaternion.LookRotation(direction);
+
+        Vector3 origin = firePoint != null
+            ? firePoint.position
+            : transform.position + Vector3.up * defaultFireHeight;
+
+        PlayerBullet bullet = Instantiate(
+            prefab,
+            origin,
+            Quaternion.LookRotation(direction));
+
+        bullet.Initialize(
+            direction,
+            transform,
+            weapon,
+            enemyLayer,
+            projectileObstacleLayers);
+
+        magazine.remaining--;
+
+        magazine.nextShot =
+            now + Mathf.Max(0.01f, weapon.shotInterval);
+
+        // 最后一发射出后，开始等待。
+        if (magazine.remaining <= 0)
+        {
+            magazine.reloadEnd =
+                now + Mathf.Max(0.01f, weapon.reloadDuration);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (ammoText == null) return;
+
+        ammoText.gameObject.SetActive(IsRanged);
+
+        if (!IsRanged) return;
+
+        Magazine magazine = GetMagazine();
+
+        ammoText.text = magazine.reloadEnd >= 0d
+            ? $"{weapon.weaponName}\n" +
+              $"Reload: {magazine.reloadEnd - Time.timeAsDouble:0.0}s"
+            : $"{weapon.weaponName}\n" +
+              $"{magazine.remaining} / {Mathf.Max(1, weapon.magazineSize)}";
+    }
+
     private void ReleaseAttack(bool charged)
     {
-        if (cooldownTimer > 0f ||
+        if (IsRanged ||
+            cooldownTimer > 0f ||
             !GetMouseDirection(out Vector3 direction))
             return;
 
@@ -210,9 +348,11 @@ public class PlayerAttack : MonoBehaviour
     public void ApplyWeaponStats(WeaponData data)
     {
         InitializeStats();
-        CancelCharge();
+        BlockInput();
 
         weapon = data;
+        warnedMissingBullet = false;
+
         RefreshAttackStats();
     }
 
@@ -225,10 +365,12 @@ public class PlayerAttack : MonoBehaviour
     {
         InitializeStats();
 
-        attackDamage = baseAttackDamage *
-            (weapon == null
-                ? 1f
-                : Mathf.Max(0f, weapon.damageMultiplier));
+        attackDamage = IsRanged
+            ? Mathf.Max(0f, weapon.bulletDamage)
+            : baseAttackDamage *
+              (weapon == null
+                  ? 1f
+                  : Mathf.Max(0f, weapon.damageMultiplier));
 
         attackCooldown = weapon == null
             ? Mathf.Max(0.001f, baseAttackCooldown)
@@ -236,11 +378,8 @@ public class PlayerAttack : MonoBehaviour
 
         if (weapon != null && weapon.useCustomRange)
         {
-            attackRange = Mathf.Max(
-                0f, weapon.customAttackRange);
-
-            attackRadius = Mathf.Max(
-                0.01f, weapon.customAttackRadius);
+            attackRange = Mathf.Max(0f, weapon.customAttackRange);
+            attackRadius = Mathf.Max(0.01f, weapon.customAttackRadius);
         }
         else
         {
@@ -267,35 +406,37 @@ public class PlayerAttack : MonoBehaviour
         chargeStartedAt = 0;
     }
 
-    private void OnDisable()
+    private void BlockInput()
     {
         CancelCharge();
+        requireRelease = true;
+    }
+
+    private void OnDisable()
+    {
+        BlockInput();
     }
 
     private void OnApplicationFocus(bool focused)
     {
-        if (!focused) CancelCharge();
+        if (!focused) BlockInput();
     }
 
     private void OnApplicationPause(bool paused)
     {
-        if (paused) CancelCharge();
+        if (paused) BlockInput();
     }
 
     private void OnDrawGizmosSelected()
     {
+        if (Application.isPlaying && IsRanged)
+            return;
+
         Gizmos.color = Color.red;
 
-        float range = Application.isPlaying
-            ? attackRange
-            : baseAttackRange;
-
-        float radius = Application.isPlaying
-            ? attackRadius
-            : baseAttackRadius;
-
         Gizmos.DrawWireSphere(
-            transform.position + transform.forward * range,
-            radius);
+            transform.position + transform.forward *
+            (Application.isPlaying ? attackRange : baseAttackRange),
+            Application.isPlaying ? attackRadius : baseAttackRadius);
     }
 }

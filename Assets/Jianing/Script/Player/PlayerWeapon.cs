@@ -45,6 +45,47 @@ public class PlayerWeapon : MonoBehaviour
         rangeMultiplier = 1.5f
     };
 
+    [Header("Ranged Weapons")]
+    public WeaponData standardGun = new WeaponData
+    {
+        weaponName = "Standard Gun",
+        scrapCost = 20,
+        isRanged = true,
+        bulletDamage = 20f,
+        magazineSize = 5,
+        shotInterval = 0.25f,
+        reloadDuration = 3f,
+        bulletSpeed = 20f
+    };
+
+    public WeaponData energyMachineGun = new WeaponData
+    {
+        weaponName = "Energy Machine Gun",
+        scrapCost = 20,
+        energyCost = 20,
+        isRanged = true,
+        bulletDamage = 20f,
+        magazineSize = 15,
+        shotInterval = 0.1f,
+        reloadDuration = 6f,
+        bulletSpeed = 35f
+    };
+
+    public WeaponData batteryAcidProjectiles = new WeaponData
+    {
+        weaponName = "Battery Acid Projectiles",
+        scrapCost = 30,
+        batteryCost = 30,
+        isRanged = true,
+        bulletDamage = 20f,
+        magazineSize = 4,
+        shotInterval = 0.25f,
+        reloadDuration = 2f,
+        bulletSpeed = 35f,
+        poisonDamagePerSecond = 20f,
+        poisonDurationSeconds = 3
+    };
+
     private PlayerAttack playerAttack;
     private ResourceManager resources;
 
@@ -124,6 +165,15 @@ public class PlayerWeapon : MonoBehaviour
             case WeaponType.SwordFish:
                 return swordFish;
 
+            case WeaponType.StandardGun:
+                return standardGun;
+
+            case WeaponType.EnergyMachineGun:
+                return energyMachineGun;
+
+            case WeaponType.BatteryAcidProjectiles:
+                return batteryAcidProjectiles;
+
             default:
                 return null;
         }
@@ -142,7 +192,6 @@ public class PlayerWeapon : MonoBehaviour
         if (playerAttack == null || resources == null)
             return false;
 
-        // 已购买的武器直接装备，不再扣款。
         if (IsOwned(type))
             return Equip(type);
 
@@ -154,13 +203,12 @@ public class PlayerWeapon : MonoBehaviour
             data.energyCost < 0)
             return false;
 
-        // 先检查全部资源。
+        // 所有材料都足够后才扣款。
         if (resources.scrap < data.scrapCost ||
             resources.battery < data.batteryCost ||
             resources.energy < data.energyCost)
             return false;
 
-        // 确认全部足够后才扣款。
         resources.RemoveResource(
             ResourcePickup.ResourceType.Scrap,
             data.scrapCost);
@@ -174,7 +222,6 @@ public class PlayerWeapon : MonoBehaviour
             data.energyCost);
 
         ownedWeapons.Add(type);
-
         return Equip(type);
     }
 
@@ -235,7 +282,6 @@ public class PlayerWeapon : MonoBehaviour
         ApplyEquipment();
     }
 
-    // 保留原有石头拳套相关方法。
     public bool BuyStoneGlove()
     {
         return BuyOrEquip(WeaponType.StoneGlove);

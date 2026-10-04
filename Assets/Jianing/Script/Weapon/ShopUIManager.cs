@@ -20,6 +20,15 @@ public class ShopUIManager : MonoBehaviour
     public TMP_Text swordFishText;
     public Button swordFishButton;
 
+    [Header("Ranged Weapons")]
+    public TMP_Text standardGunText;
+    public TMP_Text energyMachineGunText;
+    public TMP_Text batteryAcidText;
+
+    public Button standardGunButton;
+    public Button energyMachineGunButton;
+    public Button batteryAcidButton;
+
     [Header("Other UI")]
     public Button unarmedButton;
     public TMP_Text resourceText;
@@ -63,6 +72,21 @@ public class ShopUIManager : MonoBehaviour
     public void BuySwordFish()
     {
         Buy(WeaponType.SwordFish);
+    }
+
+    public void BuyStandardGun()
+    {
+        Buy(WeaponType.StandardGun);
+    }
+
+    public void BuyEnergyMachineGun()
+    {
+        Buy(WeaponType.EnergyMachineGun);
+    }
+
+    public void BuyBatteryAcid()
+    {
+        Buy(WeaponType.BatteryAcidProjectiles);
     }
 
     public void EquipStoneGlove()
@@ -133,6 +157,21 @@ public class ShopUIManager : MonoBehaviour
             WeaponType.SwordFish,
             swordFishText,
             swordFishButton);
+
+        RefreshSlot(
+            WeaponType.StandardGun,
+            standardGunText,
+            standardGunButton);
+
+        RefreshSlot(
+            WeaponType.EnergyMachineGun,
+            energyMachineGunText,
+            energyMachineGunButton);
+
+        RefreshSlot(
+            WeaponType.BatteryAcidProjectiles,
+            batteryAcidText,
+            batteryAcidButton);
 
         bool unarmed =
             playerWeapon != null &&
@@ -207,10 +246,17 @@ public class ShopUIManager : MonoBehaviour
             $"{data.batteryCost} Battery / " +
             $"{data.energyCost} Energy";
 
+        string stats = data.isRanged
+            ? $"Damage: {data.bulletDamage:0.##} / bullet\n" +
+              $"Magazine: {data.magazineSize}\n" +
+              $"Shot interval: {data.shotInterval:0.##}s\n" +
+              $"Reload: {data.reloadDuration:0.##}s\n" +
+              $"Bullet speed: {data.bulletSpeed:0.##}"
+            : $"Damage: x{data.damageMultiplier:0.##}\n" +
+              $"{speed}\n{range}";
+
         text.text =
-            $"{data.weaponName}\n" +
-            $"Damage: x{data.damageMultiplier:0.##}\n" +
-            $"{speed}\n{range}\n" +
+            $"{data.weaponName}\n{stats}\n" +
             (equipped
                 ? "EQUIPPED"
                 : owned
