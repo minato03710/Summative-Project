@@ -44,7 +44,7 @@ public class LavaHazard : MonoBehaviour
     private void ApplyDamage(GameObject player)
     {
         Debug.Log($"[LavaHazard] Dealt {damageAmount} damage to Player.");
-        // If using a health system, trigger damage here (e.g., player.GetComponent<PlayerHealth>()?.TakeDamage(damageAmount);)
+       
     }
 
     private void RespawnPlayer(GameObject player)

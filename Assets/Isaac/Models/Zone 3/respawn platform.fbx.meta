@@ -3,7 +3,17 @@ guid: 2e2f3a9ec2ff75f44ad6292a3bb2da61
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Respawn bottom
+    second: {fileID: 2100000, guid: 354a2d8bd55179f498cd4736d9ba7138, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Respawn top
+    second: {fileID: 2100000, guid: b133d916a81abf343b32b1412307a15d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

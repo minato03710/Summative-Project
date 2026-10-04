@@ -4,7 +4,7 @@ public class PlayerSpriteBillboard : MonoBehaviour
 {
     private Camera mainCamera;
 
-void Start()
+    void Start()
     {
         mainCamera = Camera.main;
     }
@@ -12,7 +12,10 @@ void Start()
     void LateUpdate()
     {
         if (mainCamera == null)
-            return;
+        {
+            mainCamera = Camera.main;
+        }
+            
 
         transform.forward =
             mainCamera.transform.forward;
