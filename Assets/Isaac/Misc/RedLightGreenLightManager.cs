@@ -17,16 +17,16 @@ public class RedLightGreenLightManager : MonoBehaviour
 
     [Header("Visual Indicators")]
     [SerializeField] private Renderer lightRenderer;
-    [SerializeField] private Light targetPointLight; // Optional: Drag a Point Light here to cast light on the environment
+    [SerializeField] private Light targetPointLight;
     [ColorUsage(true, true)] [SerializeField] private Color greenColor = Color.green;
     [ColorUsage(true, true)] [SerializeField] private Color warningColor = Color.yellow;
     [ColorUsage(true, true)] [SerializeField] private Color redColor = Color.red;
 
     [Header("Pulse Effects")]
     [SerializeField] private bool enablePulse = true;
-    [SerializeField] private float pulseSpeed = 5.0f;        // Speed of pulse oscillation
-    [SerializeField] private float minIntensity = 0.5f;      // Minimum brightness multiplier
-    [SerializeField] private float maxIntensity = 3.5f;      // Maximum brightness multiplier
+    [SerializeField] private float pulseSpeed = 5.0f;
+    [SerializeField] private float minIntensity = 0.5f;
+    [SerializeField] private float maxIntensity = 3.5f;
 
     private Material lightMaterial;
     private Color activeBaseColor;
@@ -46,7 +46,7 @@ public class RedLightGreenLightManager : MonoBehaviour
         if (lightRenderer != null)
         {
             lightMaterial = lightRenderer.material;
-            lightMaterial.EnableKeyword("_EMISSION"); // Ensures material emission feature is active
+            lightMaterial.EnableKeyword("_EMISSION");
         }
 
         activeBaseColor = greenColor;
@@ -62,18 +62,15 @@ public class RedLightGreenLightManager : MonoBehaviour
     {
         while (true)
         {
-            // --- GREEN LIGHT ---
             SetState(LightState.Green);
             yield return new WaitForSeconds(Random.Range(minGreenDuration, maxGreenDuration));
 
-            // --- WARNING / YELLOW LIGHT ---
             if (warningDuration > 0)
             {
                 SetState(LightState.Warning);
                 yield return new WaitForSeconds(warningDuration);
             }
 
-            // --- RED LIGHT ---
             SetState(LightState.Red);
             yield return new WaitForSeconds(Random.Range(minRedDuration, maxRedDuration));
         }
@@ -87,15 +84,8 @@ public class RedLightGreenLightManager : MonoBehaviour
         else if (newState == LightState.Warning) activeBaseColor = warningColor;
         else if (newState == LightState.Red) activeBaseColor = redColor;
 
-        if (lightMaterial != null)
-        {
-            lightMaterial.color = activeBaseColor;
-        }
-
-        if (targetPointLight != null)
-        {
-            targetPointLight.color = activeBaseColor;
-        }
+        if (lightMaterial != null) lightMaterial.color = activeBaseColor;
+        if (targetPointLight != null) targetPointLight.color = activeBaseColor;
 
         Debug.Log($"[TrafficBot] Light changed to: {CurrentState}");
     }
@@ -106,19 +96,16 @@ public class RedLightGreenLightManager : MonoBehaviour
 
         if (enablePulse)
         {
-            // Oscillates between 0 and 1 over time
             float sineWave = (Mathf.Sin(Time.time * pulseSpeed) + 1.0f) / 2.0f; 
             intensityFactor = Mathf.Lerp(minIntensity, maxIntensity, sineWave);
         }
 
-        // Apply pulsing emission to the material surface
         if (lightMaterial != null)
         {
             Color finalEmissionColor = activeBaseColor * intensityFactor;
             lightMaterial.SetColor("_EmissionColor", finalEmissionColor);
         }
 
-        // Apply pulsing intensity to the Point Light (if assigned)
         if (targetPointLight != null)
         {
             targetPointLight.intensity = intensityFactor;

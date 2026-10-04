@@ -2,73 +2,80 @@ using UnityEngine;
 
 public class RedLightDetector : MonoBehaviour
 {
-    [Header("Detection Parameters")]
+    [Header("Detection Settings")]
+    [SerializeField] private string playerTag = "Player";
+    [SerializeField] private string respawnTag = "RespawnPoint";
+    [SerializeField] private string fallbackSpawnTag = "SpawnPoint";
     [SerializeField] private float movementThreshold = 0.1f;
-    [SerializeField] private string zoneTag = "RedLightZone";
 
-    private CharacterController characterController;
-    private bool isInZone = false;
-
-    private void Start()
+    private void OnTriggerStay(Collider other)
     {
-        characterController = GetComponent<CharacterController>();
-        isInZone = false;
-    }
-
-    private void Update()
-    {
-        // 1. Only check if player is inside the designated zone
-        if (!isInZone) return;
-
-        // 2. Only check if traffic light is RED
-        if (RedLightGreenLightManager.Instance == null) return;
-        if (RedLightGreenLightManager.Instance.CurrentState != RedLightGreenLightManager.LightState.Red) return;
-
-        // 3. Check for movement input (WASD / Stick)
-        bool hasInput = Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.01f || 
-                        Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.01f;
-
-        // 4. Check physical velocity on CharacterController
-        bool isMoving = characterController != null && 
-                        characterController.velocity.sqrMagnitude > (movementThreshold * movementThreshold);
-
-        if (hasInput || isMoving)
+        if (other.CompareTag(playerTag))
         {
-            OnCaughtMoving();
+            if (RedLightGreenLightManager.Instance != null && 
+                RedLightGreenLightManager.Instance.CurrentState == RedLightGreenLightManager.LightState.Red)
+            {
+                bool isMoving = false;
+
+                CharacterController cc = other.GetComponent<CharacterController>();
+                if (cc != null)
+                {
+                    isMoving = cc.velocity.sqrMagnitude > (movementThreshold * movementThreshold);
+                }
+                else
+                {
+                    Rigidbody rb = other.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        isMoving = rb.linearVelocity.sqrMagnitude > (movementThreshold * movementThreshold);
+                    }
+                }
+
+                if (isMoving)
+                {
+                    Debug.Log("[RedLightDetector] Player caught moving during Red Light!");
+                    RespawnPlayer(other.gameObject);
+                }
+            }
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void RespawnPlayer(GameObject player)
     {
-        if (other.CompareTag(zoneTag))
+        GameObject[] respawnPoints = GameObject.FindGameObjectsWithTag(respawnTag);
+        GameObject targetPoint = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 playerPos = player.transform.position;
+
+        foreach (GameObject point in respawnPoints)
         {
-            isInZone = true;
-            Debug.Log("[RedLightDetector] Entered Red Light Zone.");
+            float distanceSqr = (point.transform.position - playerPos).sqrMagnitude;
+            if (distanceSqr < closestDistanceSqr)
+            {
+                closestDistanceSqr = distanceSqr;
+                targetPoint = point;
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(zoneTag))
+        if (targetPoint == null)
         {
-            isInZone = false;
-            Debug.Log("[RedLightDetector] Exited Red Light Zone.");
+            targetPoint = GameObject.FindWithTag(fallbackSpawnTag);
         }
-    }
 
-    private void OnCaughtMoving()
-    {
-        Debug.LogWarning("[RedLightDetector] CAUGHT MOVING ON RED!");
-
-        // Reset zone status immediately before teleporting to prevent physics glitch
-        isInZone = false;
-
-        GameObject spawnPoint = GameObject.FindWithTag("SpawnPoint");
-        if (spawnPoint != null)
+        if (targetPoint == null)
         {
-            if (characterController != null) characterController.enabled = false;
-            transform.position = spawnPoint.transform.position;
-            if (characterController != null) characterController.enabled = true;
+            Debug.LogError($"[RedLightDetector] Neither '{respawnTag}' nor '{fallbackSpawnTag}' was found in scene!");
+            return;
         }
+
+        CharacterController playerCC = player.GetComponent<CharacterController>();
+        if (playerCC != null) playerCC.enabled = false;
+
+        player.transform.position = targetPoint.transform.position;
+        player.transform.rotation = Quaternion.identity;
+
+        if (playerCC != null) playerCC.enabled = true;
+
+        Debug.Log($"[RedLightDetector] Player respawned at nearest point: {targetPoint.name}");
     }
 }
