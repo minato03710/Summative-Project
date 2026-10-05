@@ -119,6 +119,68 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &66280415
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1942347455}
+    m_Modifications:
+    - target: {fileID: -8653719598885068355, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_Name
+      value: Ranged Robot Full Rig
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -22.69
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -101.24197
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 4843985084834002234, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+--- !u!4 &66280416 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+  m_PrefabInstance: {fileID: 66280415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &145541078
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,6 +681,68 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 401192386}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 232dd7463ab034216a256f049f165af6, type: 3}
+--- !u!1001 &194380793
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2051635249}
+    m_Modifications:
+    - target: {fileID: -8653719598885068355, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_Name
+      value: Heavy Robot Full Rig
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.3207245
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -101.24197
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 4843985084834002234, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+--- !u!4 &194380794 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 7d4fdb541c562436c94c3b2bbdf9fe2d, type: 3}
+  m_PrefabInstance: {fileID: 194380793}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &335677221
 GameObject:
   m_ObjectHideFlags: 0
@@ -1958,6 +2082,38 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 2b83b8f364231b547befe4ee04b80026, type: 3}
   m_PrefabInstance: {fileID: 1639733034}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1942347454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942347455}
+  m_Layer: 0
+  m_Name: Ranged Robot Rig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1942347455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942347454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 133.14651, y: 0, z: 194.9607}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 66280416}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2035983007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1989,6 +2145,38 @@ Transform:
   m_Children:
   - {fileID: 401192385}
   - {fileID: 1352315510}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2051635248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2051635249}
+  m_Layer: 0
+  m_Name: Heavy Robot Rig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2051635249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051635248}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 133.14651, y: 0, z: 194.9607}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 194380794}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2099007877
@@ -2034,3 +2222,5 @@ SceneRoots:
   - {fileID: 2099007879}
   - {fileID: 576056916}
   - {fileID: 954796309}
+  - {fileID: 2051635249}
+  - {fileID: 1942347455}
