@@ -578,7 +578,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2103396244}
   m_SourcePrefab: {fileID: 100100000, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
 --- !u!1 &52655583
 GameObject:
@@ -1004,6 +1007,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.21926662, y: 0.23020668, z: 0.01349281}
   m_Center: {x: 0.06715085, y: 0.00005813599, z: -0.0052242237}
+--- !u!1 &95206192 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+  m_PrefabInstance: {fileID: 2021745657}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &96436697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1230,7 +1238,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1004725231}
   m_SourcePrefab: {fileID: 100100000, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
 --- !u!4 &119631235 stripped
 Transform:
@@ -6955,6 +6966,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
   m_PrefabInstance: {fileID: 2021745657}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &709421074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95206192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d438e7835e45b49b6150c6bb3ed915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableObject
+  fracturedPrefab: {fileID: 3913074795557153434, guid: bce65c4235cc13743a5ef3d9c85c982a, type: 3}
+  explosionForce: 500
+  explosionRadius: 2
+  pieceLifetime: 4
+  useImpactDirection: 0
 --- !u!1 &711014938 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0ff68f6c4dc503e4280c5461e3b66dd9, type: 3}
@@ -7072,7 +7100,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1001 &728181286
 PrefabInstance:
@@ -9102,7 +9130,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1157138204}
   m_SourcePrefab: {fileID: 100100000, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
 --- !u!4 &944017061 stripped
 Transform:
@@ -9528,6 +9559,50 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1543568891}
   m_SourcePrefab: {fileID: 100100000, guid: 49ba4b53c7a645c439dc1a0968ba6987, type: 3}
+--- !u!1 &1004725228 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+  m_PrefabInstance: {fileID: 119631234}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1004725231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004725228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d438e7835e45b49b6150c6bb3ed915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableObject
+  fracturedPrefab: {fileID: 3913074795557153434, guid: bce65c4235cc13743a5ef3d9c85c982a, type: 3}
+  explosionForce: 300
+  explosionRadius: 2
+  pieceLifetime: 8
+  useImpactDirection: 0
+--- !u!1 &1014548502 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+  m_PrefabInstance: {fileID: 1787786762}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1014548505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014548502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d438e7835e45b49b6150c6bb3ed915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableObject
+  fracturedPrefab: {fileID: 3913074795557153434, guid: bce65c4235cc13743a5ef3d9c85c982a, type: 3}
+  explosionForce: 300
+  explosionRadius: 2
+  pieceLifetime: 8
+  useImpactDirection: 0
 --- !u!1001 &1023481363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10981,7 +11056,29 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
+  useImpactDirection: 0
+--- !u!1 &1157138201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+  m_PrefabInstance: {fileID: 944017060}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1157138204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157138201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d438e7835e45b49b6150c6bb3ed915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableObject
+  fracturedPrefab: {fileID: 3913074795557153434, guid: bce65c4235cc13743a5ef3d9c85c982a, type: 3}
+  explosionForce: 300
+  explosionRadius: 2
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1001 &1157375025
 PrefabInstance:
@@ -11071,7 +11168,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1 &1162401580 stripped
 GameObject:
@@ -11688,7 +11785,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2033587180}
   m_SourcePrefab: {fileID: 100100000, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
 --- !u!1001 &1258684441
 PrefabInstance:
@@ -12528,7 +12628,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1 &1378663132 stripped
 GameObject:
@@ -12550,7 +12650,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1001 &1389211826
 PrefabInstance:
@@ -14087,7 +14187,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1001 &1543158601
 PrefabInstance:
@@ -14233,6 +14333,11 @@ BoxCollider:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49ba4b53c7a645c439dc1a0968ba6987, type: 3}
   m_PrefabInstance: {fileID: 1000049896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1550680466 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+  m_PrefabInstance: {fileID: 45161817}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1556964008
 PrefabInstance:
@@ -15941,7 +16046,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1014548505}
   m_SourcePrefab: {fileID: 100100000, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
 --- !u!1001 &1788789815
 PrefabInstance:
@@ -16399,7 +16507,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!4 &1825598178 stripped
 Transform:
@@ -16421,7 +16529,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1 &1829023549 stripped
 GameObject:
@@ -17271,6 +17379,11 @@ BoxCollider:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 49ba4b53c7a645c439dc1a0968ba6987, type: 3}
   m_PrefabInstance: {fileID: 1229520043}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1895588003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+  m_PrefabInstance: {fileID: 1254004870}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1898076763 stripped
 Transform:
@@ -18123,7 +18236,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 300
   explosionRadius: 2
-  pieceLifetime: 3
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1 &1949406768
 GameObject:
@@ -18752,7 +18865,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 709421074}
   m_SourcePrefab: {fileID: 100100000, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
 --- !u!1001 &2029730545
 PrefabInstance:
@@ -18927,6 +19043,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
   m_PrefabInstance: {fileID: 1254004870}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2033587180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895588003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d438e7835e45b49b6150c6bb3ed915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableObject
+  fracturedPrefab: {fileID: 3913074795557153434, guid: bce65c4235cc13743a5ef3d9c85c982a, type: 3}
+  explosionForce: 300
+  explosionRadius: 2
+  pieceLifetime: 8
+  useImpactDirection: 0
 --- !u!1001 &2043379005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19336,7 +19469,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1001 &2098465122
 PrefabInstance:
@@ -19438,6 +19571,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
   m_PrefabInstance: {fileID: 45161817}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2103396244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550680466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d438e7835e45b49b6150c6bb3ed915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableObject
+  fracturedPrefab: {fileID: 3913074795557153434, guid: bce65c4235cc13743a5ef3d9c85c982a, type: 3}
+  explosionForce: 300
+  explosionRadius: 2
+  pieceLifetime: 8
+  useImpactDirection: 0
 --- !u!1 &2122892138 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 49ba4b53c7a645c439dc1a0968ba6987, type: 3}
@@ -19494,7 +19644,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 8086696546839966761, guid: e3e52956dfb90b146bc3630dbe07f902, type: 3}
   explosionForce: 500
   explosionRadius: 2
-  pieceLifetime: 4
+  pieceLifetime: 8
   useImpactDirection: 0
 --- !u!1001 &2136419308
 PrefabInstance:
