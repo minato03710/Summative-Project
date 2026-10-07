@@ -25,16 +25,16 @@ Material:
     m_TexEnvs:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: dff737ac73a9e28448ef55cae9ac07db, type: 3}
-        m_Scale: {x: 2, y: 2}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 4, y: 3}
+        m_Offset: {x: 2, y: 0}
     m_Ints: []
     m_Floats:
     - _SpeedX: 0.3
-    - _SpeedY: 0.4
+    - _SpeedY: 0.45
     - _Transparency: 1
     - _WaveScale: 10
     m_Colors:
     - _DeepColor: {r: 0, g: 0.14999998, b: 0.34999996, a: 0.9}
-    - _ShallowColor: {r: 0, g: 0.7, b: 0.8, a: 0.7}
+    - _ShallowColor: {r: 0.038581353, g: 0.42802605, b: 0.4811321, a: 0.7}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
