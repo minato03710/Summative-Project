@@ -1,92 +1,124 @@
 using System;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class EnemyHealth : MonoBehaviour
 {
     [Header("Health")]
-    [Min(1f)] public float maxHealth = 100f;
+    [Min(1f)]
+    public float maxHealth = 100f;
 
-    [Header("Second Life - enabled automatically by Boss AI")]
-    public bool useSecondLife;
-    [Min(0f)] public float reviveProtectionSeconds = 1f;
+    [Header("Boss Second Life")]
+    public bool useSecondLife = false;
 
+    [Min(0f)]
+    public float reviveProtectionSeconds = 1f;
+
+    // Boss 进入第二条命时触发。
     public event Action SecondLifeStarted;
+
+    // 最终死亡时触发，第二条命复活时不会触发。
+    public event Action Died;
 
     public bool IsSecondLife { get; private set; }
 
     public bool IsReviving =>
-        Time.timeAsDouble < protectedUntil;
+        !isDead && Time.timeAsDouble < protectedUntil;
 
     private float currentHealth;
     private bool initialized;
     private bool isDead;
+
     private double protectedUntil;
 
     private void Awake()
     {
-        Initialize();
+        InitializeHealth();
     }
 
-    private void Initialize()
+    private void InitializeHealth()
     {
-        if (initialized) return;
+        if (initialized)
+            return;
 
-        currentHealth = Mathf.Max(1f, maxHealth);
         initialized = true;
+
+        maxHealth = Mathf.Max(1f, maxHealth);
+        currentHealth = maxHealth;
     }
 
     public void TakeDamage(float damage)
     {
-        Initialize();
+        InitializeHealth();
 
         if (isDead || IsReviving || damage <= 0f)
             return;
 
-        currentHealth = Mathf.Max(
-            0f, currentHealth - damage);
+        currentHealth = Mathf.Max(0f, currentHealth - damage);
 
         if (currentHealth > 0f)
             return;
 
         if (useSecondLife && !IsSecondLife)
         {
-            IsSecondLife = true;
-            currentHealth = Mathf.Max(1f, maxHealth);
+            BeginSecondLife();
+        }
+        else
+        {
+            Die();
+        }
+    }
 
-            protectedUntil =
-                Time.timeAsDouble +
-                Mathf.Max(0f, reviveProtectionSeconds);
+    private void BeginSecondLife()
+    {
+        IsSecondLife = true;
+        currentHealth = Mathf.Max(1f, maxHealth);
 
-            // 进入第二条命时清除已有中毒。
-            EnemyPoison poison = GetComponent<EnemyPoison>();
+        protectedUntil =
+            Time.timeAsDouble +
+            Mathf.Max(0f, reviveProtectionSeconds);
 
-            if (poison != null)
-                poison.enabled = false;
+        // 清除上一条命的中毒状态。
+        EnemyPoison poison = GetComponent<EnemyPoison>();
 
-            SecondLifeStarted?.Invoke();
-            return;
+        if (poison != null)
+        {
+            poison.enabled = false;
         }
 
-        isDead = true;
+        SecondLifeStarted?.Invoke();
+    }
 
-        EnemyDropSystem drops =
+    private void Die()
+    {
+        if (isDead)
+            return;
+
+        isDead = true;
+        currentHealth = 0f;
+
+        Died?.Invoke();
+
+        EnemyDropSystem dropSystem =
             GetComponent<EnemyDropSystem>();
 
-        if (drops != null)
-            drops.DropResources();
+        if (dropSystem != null)
+        {
+            dropSystem.DropResources();
+        }
 
         Destroy(gameObject);
     }
 
     public float GetCurrentHealth()
     {
-        Initialize();
+        InitializeHealth();
         return currentHealth;
     }
 
     public float GetMaxHealth()
     {
-        return maxHealth;
+        return Mathf.Max(1f, maxHealth);
     }
 
     public bool IsDead()

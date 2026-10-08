@@ -4705,6 +4705,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: powercell 1 1
       objectReference: {fileID: 0}
+    - target: {fileID: 937638507702940925, guid: 1a20447542273824d9813e61db857731, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 937638507702940925, guid: 1a20447542273824d9813e61db857731, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 5977880764367613420, guid: 1a20447542273824d9813e61db857731, type: 3}
       propertyPath: maxHealth
       value: 25
