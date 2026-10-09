@@ -1475,7 +1475,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0, y: 0, z: 142.888}
+        value: {x: 0, y: 0, z: 155.289}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -7051,7 +7051,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 142.888
+        value: 155.289
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -7363,7 +7363,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: BaseCoreBone
+    path: BaseCoreBone/UpperCapeBone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -7375,7 +7375,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: BaseCoreBone
+    path: BaseCoreBone/UpperCapeBone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -7387,7 +7387,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: BaseCoreBone
+    path: BaseCoreBone/UpperCapeBone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -8083,7 +8083,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: BaseCoreBone/UpperCapeBone
+    path: BaseCoreBone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -8095,7 +8095,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: BaseCoreBone/UpperCapeBone
+    path: BaseCoreBone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -8107,7 +8107,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: BaseCoreBone/UpperCapeBone
+    path: BaseCoreBone
     classID: 4
     script: {fileID: 0}
     flags: 0
