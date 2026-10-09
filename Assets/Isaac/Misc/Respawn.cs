@@ -94,4 +94,6 @@ public class LavaHazard : MonoBehaviour
 
         Debug.Log($"[LavaHazard] Player respawned at nearest point: {targetPoint.name}");
     }
+
+
 }
