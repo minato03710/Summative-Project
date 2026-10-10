@@ -1192,6 +1192,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 231031752}
+  - component: {fileID: 231031753}
   m_Layer: 0
   m_Name: Companion Rig Animated
   m_TagString: Untagged
@@ -1215,6 +1216,19 @@ Transform:
   - {fileID: 1902594792}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &231031753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231031751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a896564b672c1b448465cfeb2a94b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompanionAnimationManager
+  companionAnimator: {fileID: 0}
 --- !u!1 &239230785 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
@@ -1451,6 +1465,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1707620246}
     m_Modifications:
+    - target: {fileID: -8686428417998925714, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8653719598885068355, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
       propertyPath: m_Name
       value: Final Boss Rig Updated
@@ -4264,8 +4282,10 @@ MonoBehaviour:
   dashDistance: 20
   dashHitRadius: 0.9
   bossPlayMoving: 0
-  bossPlayAttacking: 0
-  bossPlayDashing: 0
+  bossPlayAttack: 0
+  bossPlayDash: 0
+  bossPlaySummon: 0
+  bossPlayFly: 0
 --- !u!114 &1707620244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5106,6 +5126,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2051635249}
+  - component: {fileID: 2051635250}
   m_Layer: 0
   m_Name: Heavy Robot Rig Animated
   m_TagString: Untagged
@@ -5129,6 +5150,18 @@ Transform:
   - {fileID: 194380794}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2051635250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051635248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89d943438b35742e290daba74178579c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &2099007877
 GameObject:
   m_ObjectHideFlags: 0
