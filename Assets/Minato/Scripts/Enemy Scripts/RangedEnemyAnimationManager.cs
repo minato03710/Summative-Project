@@ -19,7 +19,7 @@ public class RangedEnemyAnimationManager : MonoBehaviour
     {
         // if (rangedEnemyScript.)
         {
-            rangedEnemyAnimator.SetBool("isAttacking", true);
+            rangedEnemyAnimator.SetBool("rangedIsAttacking", true);
         }
     }
 }

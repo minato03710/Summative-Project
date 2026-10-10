@@ -56,6 +56,14 @@ public class BossBruteAI : BossBaseAI
 
     private readonly HashSet<PlayerHealth> dashHits =
         new HashSet<PlayerHealth>();
+    
+    // Animation Manager Bools
+
+    public bool bossPlayMoving;
+    public bool bossPlayAttack;
+    public bool bossPlayDash;
+    public bool bossPlaySummon;
+    public bool bossPlayFly;
 
     protected override void TickAI()
     {
@@ -78,6 +86,8 @@ public class BossBruteAI : BossBaseAI
             case State.Chase:
                 if (now >= nextAttack && controller.isGrounded)
                 {
+                    bossPlayMoving = true;
+
                     chosenAttack = Random.Range(0, 3);
                     direction = ToPlayer().normalized;
 
@@ -86,7 +96,7 @@ public class BossBruteAI : BossBaseAI
 
                     Face(direction);
 
-                    // ÔÚ×¼±¸¶¯×÷¿ªÊ¼Ê±Ëø¶¨Íæ¼ÒÎ»ÖÃ¡£
+                    // ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã¡ï¿½
                     jumpEnd = player.position;
 
                     nextAttack =
@@ -171,7 +181,7 @@ public class BossBruteAI : BossBaseAI
     {
         if (chosenAttack == 0)
         {
-            // ÆÕÍ¨¹¥»÷£ºÇ°·½ÉÈÐÎ¡£
+            // ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Î¡ï¿½
             DamageArea(
                 transform.position + Vector3.up,
                 normalRange,
@@ -183,7 +193,7 @@ public class BossBruteAI : BossBaseAI
         }
         else if (chosenAttack == 1)
         {
-            // ÌøÔ¾£º³¯×¼±¸Ê±Ëø¶¨µÄÎ»ÖÃÒÆ¶¯Ò»Ð¡¶Î¾àÀë¡£
+            // ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½Æ¶ï¿½Ò»Ð¡ï¿½Î¾ï¿½ï¿½ë¡£
             jumpStart = transform.position;
 
             Vector3 delta = jumpEnd - jumpStart;
@@ -223,6 +233,8 @@ public class BossBruteAI : BossBaseAI
 
     private void Dash()
     {
+        bossPlayDash = true;
+
         float wanted = Mathf.Min(
             Mathf.Max(0.1f, dashSpeed) * Time.deltaTime,
             Mathf.Max(0f, dashDistance - dashTravelled));
@@ -244,7 +256,7 @@ public class BossBruteAI : BossBaseAI
 
         dashTravelled += travelled.magnitude;
 
-        // Ã¿´Î³å´Ì¶ÔÍ¬Ò»¸öÍæ¼ÒÖ»Ôì³ÉÒ»´ÎÉËº¦¡£
+        // Ã¿ï¿½Î³ï¿½Ì¶ï¿½Í¬Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½
         DamagePath(
             before + Vector3.up,
             after + Vector3.up,
