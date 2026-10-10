@@ -16,27 +16,27 @@ public class BossAnimationManager : MonoBehaviour
     {
         // if () Moving
         {
-
+            bossAnimator.SetBool("bossIsMoving", true);
         }
 
         // if () Attacking
         {
-
+            bossAnimator.SetBool("bossIsAttacking", true);
         }
 
         // if () In air
         {
-
+            bossAnimator.SetBool("bossInAir", true);
         }
 
         // if () Dashing
         {
-
+            bossAnimator.SetBool("bossIsDashing", true);
         }
 
         // if () Summoning
         {
-
+            bossAnimator.SetBool("bossIsSummoning", true);
         }
 
     }
