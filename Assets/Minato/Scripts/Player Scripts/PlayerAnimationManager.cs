@@ -63,6 +63,8 @@ public class PlayerAnimationManager : MonoBehaviour
         PlayerJump();
 
         PlayerDashCheck();
+
+        PlayerAttackCheck();
     }
 
     void PlayerJump()
@@ -90,6 +92,21 @@ public class PlayerAnimationManager : MonoBehaviour
         {
             Debug.Log("Player dashed");
             playerAnimator.SetBool("meleeIsDashing", false);
+        }
+    }
+
+    void PlayerAttackCheck()
+    {
+        if (playerAttack.playerPlayAttack == true)
+        {
+            Debug.Log("Player dashed");
+            playerAnimator.SetBool("meleeIsAttacking", true);
+        }
+
+        if (playerAttack.playerPlayAttack == false)
+        {
+            Debug.Log("Player dashed");
+            playerAnimator.SetBool("meleeIsAttacking", false);
         }
     }
 

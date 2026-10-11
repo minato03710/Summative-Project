@@ -42,6 +42,10 @@ public class PlayerAttack : MonoBehaviour
     [Header("Optional Ammo UI")]
     public TMP_Text ammoText;
 
+    // Animation bools
+
+    public bool playerPlayAttack;
+
     private class Magazine
     {
         public int remaining;
@@ -135,6 +139,7 @@ public class PlayerAttack : MonoBehaviour
         if (mouse.leftButton.wasPressedThisFrame &&
             cooldownTimer <= 0f &&
             !requireRelease)
+            playerPlayAttack = true;
         {
             isCharging = true;
             chargeStartedAt = Time.timeAsDouble;
@@ -147,6 +152,7 @@ public class PlayerAttack : MonoBehaviour
             bool charged = IsFullyCharged;
             CancelCharge();
             ReleaseAttack(charged);
+            playerPlayAttack = false;
         }
         else if (!mouse.leftButton.isPressed)
         {
