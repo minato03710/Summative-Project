@@ -8,6 +8,9 @@ public class PowerCellManager : MonoBehaviour
     [Header("Door / Barrier Reference")]
     [SerializeField] private DoorController targetDoor;
 
+    public GameObject TextActive;
+    public GameObject TextInactive;
+
     [Header("Events (Optional Visual UI)")]
     public UnityEvent<int, int> onCellCountChanged; // Current destroyed, Total required
 
@@ -42,6 +45,8 @@ public class PowerCellManager : MonoBehaviour
             if (targetDoor != null)
             {
                 targetDoor.OpenDoor();
+                TextActive.SetActive(false);
+                TextInactive.SetActive(true);
             }
         }
     }
