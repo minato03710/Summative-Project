@@ -25,12 +25,12 @@ public class CompanionAnimationManager : MonoBehaviour
 
     void JumpCheck()
     {
-        if (companionMovement.companionPlayJump == false)
+        if (companionMovement.companionPlayJump == true)
         {
             companionAnimator.SetBool("companionIsJumping", true);
         }
 
-        if (companionMovement.companionPlayJump == true)
+        if (companionMovement.companionPlayJump == false)
         {
             companionAnimator.SetBool("companionIsJumping", false);
         }

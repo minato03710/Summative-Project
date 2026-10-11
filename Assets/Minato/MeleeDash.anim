@@ -115,7 +115,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0, y: 0, z: 93.563}
+        value: {x: 0, y: 0, z: 104.192}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -179,7 +179,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0, y: 0, z: 125.825}
+        value: {x: 0, y: 0, z: 99.406}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -195,7 +195,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0, y: 0, z: -269.893}
+        value: {x: 0, y: 0, z: 131.227}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1311,7 +1311,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 93.563
+        value: 104.192
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1563,7 +1563,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 125.825
+        value: 99.406
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1626,7 +1626,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -269.893
+        value: 131.227
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -2784,7 +2784,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: R 3 Upper bone/R 2 Lower bone_1
+    path: R 1 Upper bone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2796,7 +2796,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: R 3 Upper bone/R 2 Lower bone_1
+    path: R 1 Upper bone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2808,7 +2808,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: R 3 Upper bone/R 2 Lower bone_1
+    path: R 1 Upper bone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2820,7 +2820,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: R 3 Upper bone
+    path: R Pincer bone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2832,7 +2832,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: R 3 Upper bone
+    path: R Pincer bone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -2844,7 +2844,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: R 3 Upper bone
+    path: R Pincer bone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3000,7 +3000,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: R 1 Upper bone
+    path: R 3 Upper bone/R 2 Lower bone_1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3012,7 +3012,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: R 1 Upper bone
+    path: R 3 Upper bone/R 2 Lower bone_1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3024,7 +3024,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: R 1 Upper bone
+    path: R 3 Upper bone/R 2 Lower bone_1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3216,7 +3216,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: R Pincer bone
+    path: R 3 Upper bone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3228,7 +3228,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: R Pincer bone
+    path: R 3 Upper bone
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -3240,7 +3240,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: R Pincer bone
+    path: R 3 Upper bone
     classID: 4
     script: {fileID: 0}
     flags: 0
