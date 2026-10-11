@@ -14898,6 +14898,78 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1aa30a14302b2340b29687361c30f24, type: 3}
+--- !u!1 &152564214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 152564217}
+  - component: {fileID: 152564216}
+  - component: {fileID: 152564215}
+  m_Layer: 0
+  m_Name: 'Boundary '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &152564215
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152564214}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.9201912, y: 3.4932892, z: 1.350626}
+  m_Center: {x: 0.460097, y: -1.2466434, z: -0.1753144}
+--- !u!114 &152564216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152564214}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e28722106fb0ec469d4f339281edace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LavaHazard
+  instantKill: 1
+  damageAmount: 1
+  playerTag: Player
+  respawnTag: RespawnPoint
+  fallbackSpawnTag: SpawnPoint
+  burnInterval: 1
+--- !u!4 &152564217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152564214}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -93.24, y: -24.34, z: -6.01}
+  m_LocalScale: {x: 22.938005, y: 9.037629, z: 12.818}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &160245320 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8973209324574067448, guid: e5ab78b2a589b2a47a187c9d93ed4075, type: 3}
@@ -327738,6 +327810,78 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5ab78b2a589b2a47a187c9d93ed4075, type: 3}
+--- !u!1 &435565596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 435565599}
+  - component: {fileID: 435565598}
+  - component: {fileID: 435565597}
+  m_Layer: 0
+  m_Name: Boundary  (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &435565597
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435565596}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.156971, y: 2.38864, z: 1}
+  m_Center: {x: -0.57848245, y: -0.69431835, z: 0}
+--- !u!114 &435565598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435565596}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e28722106fb0ec469d4f339281edace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LavaHazard
+  instantKill: 1
+  damageAmount: 1
+  playerTag: Player
+  respawnTag: RespawnPoint
+  fallbackSpawnTag: SpawnPoint
+  burnInterval: 1
+--- !u!4 &435565599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435565596}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.91, y: 5.67, z: -6.81}
+  m_LocalScale: {x: 31.883139, y: 16.337593, z: 12.818}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &436105131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -338706,6 +338850,78 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c173bf167677374e88af1f6a6e8b0d9, type: 3}
+--- !u!1 &493416040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 493416043}
+  - component: {fileID: 493416042}
+  - component: {fileID: 493416041}
+  m_Layer: 0
+  m_Name: Boundary  (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &493416041
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493416040}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.156971, y: 2.38864, z: 1}
+  m_Center: {x: -0.57848245, y: -0.69431835, z: 0}
+--- !u!114 &493416042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493416040}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e28722106fb0ec469d4f339281edace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LavaHazard
+  instantKill: 1
+  damageAmount: 1
+  playerTag: Player
+  respawnTag: RespawnPoint
+  fallbackSpawnTag: SpawnPoint
+  burnInterval: 1
+--- !u!4 &493416043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493416040}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -43.1, y: -5.2, z: 30.76}
+  m_LocalScale: {x: 31.883139, y: 16.337593, z: 12.818}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &496150563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1069711,3 +1069927,6 @@ SceneRoots:
   - {fileID: 881319797}
   - {fileID: 949994}
   - {fileID: 594134135}
+  - {fileID: 152564217}
+  - {fileID: 435565599}
+  - {fileID: 493416043}
