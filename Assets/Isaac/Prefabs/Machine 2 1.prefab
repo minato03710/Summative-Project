@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5618978385709246093
+--- !u!1001 &1138680737887756599
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 5313885ee9d28f24c87ecbf96b510ea4, type: 2}
     - target: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
       propertyPath: m_Name
-      value: Machine 2
+      value: Machine 2 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
       propertyPath: m_Layer
@@ -74,29 +74,29 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5593378267094965841}
+      addedObject: {fileID: 847796481436262411}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3520192764417673143}
+      addedObject: {fileID: 8018905980561092627}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1221699026183613395}
+      addedObject: {fileID: 5664896739489936818}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 9170212711227374143}
+      addedObject: {fileID: 4500321986152283445}
   m_SourcePrefab: {fileID: 100100000, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
---- !u!1 &4700621957173943260 stripped
+--- !u!1 &219552444540787814 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b2e9af4d428d6f74bb923532c093190e, type: 3}
-  m_PrefabInstance: {fileID: 5618978385709246093}
+  m_PrefabInstance: {fileID: 1138680737887756599}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5593378267094965841
+--- !u!114 &847796481436262411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4700621957173943260}
+  m_GameObject: {fileID: 219552444540787814}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57e425c316ceaac4598078a39472d8ba, type: 3}
@@ -105,42 +105,42 @@ MonoBehaviour:
   maxHealth: 100
   useSecondLife: 0
   reviveProtectionSeconds: 1
---- !u!114 &3520192764417673143
+--- !u!114 &8018905980561092627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4700621957173943260}
+  m_GameObject: {fileID: 219552444540787814}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2cf69b813d7f0e419a874cdf2e4ce6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerCell
-  fracturedPrefab: {fileID: 0}
+  fracturedPrefab: {fileID: 3913074795557153434, guid: bce65c4235cc13743a5ef3d9c85c982a, type: 3}
   explosionForce: 300
   explosionRadius: 3
   fragmentsLifetime: 4
---- !u!114 &1221699026183613395
+--- !u!114 &5664896739489936818
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4700621957173943260}
+  m_GameObject: {fileID: 219552444540787814}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c043bd362eda29a468a78ca613d85db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDropSystem
   dropItems: []
---- !u!65 &9170212711227374143
+--- !u!65 &4500321986152283445
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4700621957173943260}
+  m_GameObject: {fileID: 219552444540787814}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
