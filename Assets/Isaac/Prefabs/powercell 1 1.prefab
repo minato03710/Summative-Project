@@ -60,6 +60,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 80d63d3ca64414b4cba39ef903f95896, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 354a2d8bd55179f498cd4736d9ba7138, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e6802d87eb6b7fd4b83c8ceee60b51de, type: 2}
     - target: {fileID: 919132149155446097, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
       propertyPath: m_Name
       value: powercell 1 1
@@ -74,6 +86,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5977880764367613420}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7906674858277190958}
   m_SourcePrefab: {fileID: 100100000, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
 --- !u!1 &937638507702940925 stripped
 GameObject:
@@ -113,7 +128,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2cf69b813d7f0e419a874cdf2e4ce6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  maxHealth: 25
-  attackTag: PlayerAttack
   fracturedPrefab: {fileID: 2766855199016852372, guid: a79a32aec57eaf849943c02e42e1ea36, type: 3}
   explosionForce: 300
+  explosionRadius: 3
+  fragmentsLifetime: 4
+--- !u!114 &7906674858277190958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937638507702940925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e425c316ceaac4598078a39472d8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 100
+  useSecondLife: 0
+  reviveProtectionSeconds: 1
