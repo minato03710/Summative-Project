@@ -90,7 +90,7 @@ public class EnemySpawner : MonoBehaviour
         if (Time.timeScale <= 0f)
             return;
 
-        // 定期统计整个场景中的存活敌人。
+        // Regularly count the number of surviving enemies in the entire scene.
         countCheckTimer -= Time.deltaTime;
 
         if (countCheckTimer <= 0f)
@@ -107,8 +107,8 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        // 数量不足时开始冷却。
-        // 冷却期间继续有敌人死亡，不会重新计时。
+        // Cooling begins when the quantity is insufficient.
+        // Enemies continue to die during the cooldown, and the timer does not reset.
         if (!coolingDown)
         {
             BeginCooldown(respawnCooldown);
@@ -122,7 +122,7 @@ public class EnemySpawner : MonoBehaviour
         if (cooldownRemaining > 0f)
             return;
 
-        // 生成前再次统计，防止其他来源已经把敌人数补满。
+        // Recount before generating to prevent other sources from having already filled the enemy count.
         RefreshEnemyCount();
 
         if (currentEnemyCount >= Mathf.Max(0, targetEnemyCount))
@@ -141,8 +141,6 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            // 成功生成一只后，再等待完整的冷却时间。
-            // 位置被挡住时，每秒重试一次寻找空位。
             BeginCooldown(
                 spawned ? respawnCooldown : BlockedRetryDelay
             );
@@ -224,7 +222,6 @@ public class EnemySpawner : MonoBehaviour
             rotation
         );
 
-        // 接入现有的普通敌人 AI。
         EnemyAI normalAI = enemy.GetComponent<EnemyAI>();
 
         if (normalAI != null)
@@ -232,7 +229,6 @@ public class EnemySpawner : MonoBehaviour
             normalAI.player = player.transform;
         }
 
-        // 也兼容之前制作的 Boss AI。
         BossBaseAI bossAI = enemy.GetComponent<BossBaseAI>();
 
         if (bossAI != null)
@@ -262,7 +258,6 @@ public class EnemySpawner : MonoBehaviour
         if (controller == null)
             return false;
 
-        // 根据敌人实际大小检查生成位置。
         Vector3 scale = prefab.transform.localScale;
 
         float radius = Mathf.Max(
@@ -285,7 +280,6 @@ public class EnemySpawner : MonoBehaviour
         int count = usePoints ? spawnPoints.Length : 1;
         int first = Random.Range(0, count);
 
-        // 从随机生成点开始，依次寻找可用的位置。
         for (int i = 0; i < count; i++)
         {
             Transform point = usePoints
@@ -309,7 +303,6 @@ public class EnemySpawner : MonoBehaviour
                 continue;
             }
 
-            // 跳过过于倾斜的地面。
             if (hit.normal.y < 0.9f)
                 continue;
 
@@ -333,7 +326,6 @@ public class EnemySpawner : MonoBehaviour
             Vector3 top =
                 feet + Vector3.up * (height - radius);
 
-            // 避免生成在墙壁、玩家或其他敌人的身体里面。
             if (Physics.CheckCapsule(
                     bottom,
                     top,
@@ -350,7 +342,6 @@ public class EnemySpawner : MonoBehaviour
                 0f
             );
 
-            // 兼容根坐标在脚底或身体中心的敌人。
             Vector3 centerOffset =
                 rotation *
                 Vector3.Scale(controller.center, scale);
