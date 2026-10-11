@@ -17,6 +17,12 @@ public class DialogueScript : MonoBehaviour
     [SerializeField] private DialogueLines dialogueLines; // Dialogue lines stored here
     private int lineCount = 0; // Sets current line
 
+    [SerializeField] GameObject lightAOff;
+    [SerializeField] GameObject lightBOff;
+    [SerializeField] GameObject lightCOff;
+    [SerializeField] GameObject lightDOff;
+    [SerializeField] GameObject bioluminescenceOff;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,7 +31,15 @@ public class DialogueScript : MonoBehaviour
 
         if (gameObject.tag == "RobotDialogue")
         {
-            
+            bioluminescenceOff.SetActive(false);
+        }
+
+        if (gameObject.tag == "CreatureDialogue")
+        {
+            lightAOff.SetActive(false);
+            lightBOff.SetActive(false);
+            lightCOff.SetActive(false);
+            lightDOff.SetActive(false);
         }
 
         // Canvas setup
