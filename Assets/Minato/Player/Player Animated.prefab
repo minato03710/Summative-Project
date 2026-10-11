@@ -178,6 +178,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
   currentHealth: 0
+  DamageVFX: {fileID: 0}
+  HealingVFX: {fileID: 0}
+  respawnTag: RespawnPoint
+  fallbackSpawnTag: SpawnPoint
 --- !u!114 &4448009260659465717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +213,8 @@ MonoBehaviour:
   firePoint: {fileID: 3549546799716156736}
   defaultFireHeight: 1
   ammoText: {fileID: 0}
+  playerPlayAttack: 0
+  MeleeAttackVFX: {fileID: 0}
 --- !u!114 &738260708262054260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,7 +598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: aac7d7cb20dd2744c912a4149151b52d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.46
+      value: 8.36
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: aac7d7cb20dd2744c912a4149151b52d, type: 3}
       propertyPath: m_LocalPosition.z
