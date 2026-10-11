@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerAnimationManager : MonoBehaviour
 {
@@ -97,15 +98,16 @@ public class PlayerAnimationManager : MonoBehaviour
 
     void PlayerAttackCheck()
     {
+        Debug.Log("Player attack check");
         if (playerAttack.playerPlayAttack == true)
         {
-            Debug.Log("Player dashed");
+            Debug.Log("Play attack is true");
             playerAnimator.SetBool("meleeIsAttacking", true);
         }
 
         if (playerAttack.playerPlayAttack == false)
         {
-            Debug.Log("Player dashed");
+            Debug.Log("Play attack is false");
             playerAnimator.SetBool("meleeIsAttacking", false);
         }
     }

@@ -6835,6 +6835,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4709078803235780156, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
   m_PrefabInstance: {fileID: 8410362828399485310}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5954771342240018004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4448009260659465717, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
+  m_PrefabInstance: {fileID: 8410362828399485310}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8741fb3e8a7f8438f90169b1f7503b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+--- !u!114 &5954771342240018006 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2244086750330494774, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
+  m_PrefabInstance: {fileID: 8410362828399485310}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d4c9c2ebf76434dac0e4461553fb46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
 --- !u!1001 &6832984688870022288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6948,6 +6970,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8884089212427309696, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
+      propertyPath: playerDash
+      value: 
+      objectReference: {fileID: 5954771342240018006}
+    - target: {fileID: 8884089212427309696, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
+      propertyPath: playerAttack
+      value: 
+      objectReference: {fileID: 5954771342240018004}
+    - target: {fileID: 8884089212427309696, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
+      propertyPath: playerAnimator
+      value: 
+      objectReference: {fileID: 1070476940}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

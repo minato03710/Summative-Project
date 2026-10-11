@@ -20,7 +20,6 @@ GameObject:
   - component: {fileID: 739559582611028941}
   - component: {fileID: 6856726904501506931}
   - component: {fileID: 1870001799481253402}
-  - component: {fileID: 8884089212427309696}
   - component: {fileID: 2183985294528841168}
   - component: {fileID: 8463948751026190519}
   - component: {fileID: 7545575574498927298}
@@ -283,22 +282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09090a9e080d07547a5af8afb8d0ab5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPersistence
---- !u!114 &8884089212427309696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 549824338107739010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fd128024b35bfa4d950e4cc388852cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationManager
-  playerAnimator: {fileID: 0}
-  playerMovement: {fileID: 6537079031378196223}
-  playerDash: {fileID: 0}
-  playerAttack: {fileID: 0}
 --- !u!114 &2183985294528841168
 MonoBehaviour:
   m_ObjectHideFlags: 0
