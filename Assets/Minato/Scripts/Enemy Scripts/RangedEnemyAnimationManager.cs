@@ -20,23 +20,17 @@ public class RangedEnemyAnimationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (rangedEnemyScript)
+        if (rangedScript.rangedPlayAttack == true)
         {
-            RangedAttack();
+            Debug.Log("Ranged attacking");
+            rangedAnimator.SetBool("rangedIsAttacking", true);
+        }
+
+        if (rangedScript.rangedPlayAttack == false)
+        {
+            Debug.Log("Ranged not attacking");
+            rangedAnimator.SetBool("rangedIsAttacking", false);
         }
     }
-
-    void RangedAttack()
-    {
-        StartCoroutine(RangedAnimationTime());
-    }
-
-    IEnumerator RangedAnimationTime()
-        {
-            // rangedAnimator.SetBool
-            yield return new WaitForSeconds(3f);
-            // rangedAnimator.SetBool
-            yield return null;
-        }
 
 }

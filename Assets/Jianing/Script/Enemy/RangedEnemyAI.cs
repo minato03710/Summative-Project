@@ -18,6 +18,10 @@ public class RangedEnemyAI : EnemyAI
         base.Start();
     }
 
+    // Animation Manager Bools
+
+    public bool rangedPlayAttack;
+
     void Update()
     {
         if (player == null)
@@ -62,6 +66,9 @@ public class RangedEnemyAI : EnemyAI
 
     void MoveTowardsPlayer()
     {
+
+        rangedPlayAttack = false;
+
         Vector3 direction =
             player.position -
             transform.position;
@@ -118,11 +125,14 @@ public class RangedEnemyAI : EnemyAI
 
     void FireBullet()
     {
+
+        rangedPlayAttack = true;
+
         if (bulletPrefab == null)
         {
             Debug.LogWarning(
                 gameObject.name +
-                " Ã»ÓÐÉèÖÃ Bullet Prefab!"
+                " Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Bullet Prefab!"
             );
 
             return;
@@ -132,7 +142,7 @@ public class RangedEnemyAI : EnemyAI
         {
             Debug.LogWarning(
                 gameObject.name +
-                " Ã»ÓÐÉèÖÃ Attack Point!"
+                " Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Attack Point!"
             );
 
             return;
@@ -170,10 +180,14 @@ public class RangedEnemyAI : EnemyAI
             enemyBullet.damage =
                 attackDamage;
         }
+
     }
 
     void LookAtPlayer(Vector3 direction)
     {
+
+        rangedPlayAttack = false;
+
         direction.y = 0f;
 
         if (direction.sqrMagnitude <= 0.01f)

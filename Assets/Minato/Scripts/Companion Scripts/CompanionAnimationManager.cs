@@ -8,6 +8,7 @@ public class CompanionAnimationManager : MonoBehaviour
 
     public Animator companionAnimator;
     private CharacterController companionCharacterController;
+    public CompanionMovement companionMovement;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
