@@ -16,6 +16,10 @@ public class PlayerDash : MonoBehaviour
 
     private bool isDashing;
 
+    // Animation Bool
+
+    public bool playPlayerDash;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -32,10 +36,12 @@ public class PlayerDash : MonoBehaviour
         // Start Dash
         if (!isDashing)
         {
+            playPlayerDash = false;
             if (Keyboard.current != null &&
                 Keyboard.current.leftShiftKey.wasPressedThisFrame)
             {
                 TryDash();
+                playPlayerDash = true;
             }
         }
 
