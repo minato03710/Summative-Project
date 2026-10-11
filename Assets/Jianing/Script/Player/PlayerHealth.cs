@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 [DisallowMultipleComponent]
 public class PlayerHealth : MonoBehaviour
@@ -6,6 +7,11 @@ public class PlayerHealth : MonoBehaviour
     [Header("Health")]
     [Min(1f)] public float maxHealth = 100f;
     public float currentHealth;
+
+    //VFX STUFF
+    public VisualEffect DamageVFX;
+    public VisualEffect HealingVFX;
+
 
     [Header("Respawn")]
     [SerializeField] private string respawnTag = "RespawnPoint";
@@ -51,6 +57,9 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+
+        DamageVFX.Play(); //Damage Effect
+
         InitializeHealth();
 
         if (isDead || damage <= 0f)
@@ -70,6 +79,8 @@ public class PlayerHealth : MonoBehaviour
     public void Heal(float amount)
     {
         InitializeHealth();
+
+        HealingVFX.Play();
 
         if (isDead || amount <= 0f)
             return;

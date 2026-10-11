@@ -4,6 +4,7 @@ using UnityEngine.Serialization;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.VFX;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -45,6 +46,8 @@ public class PlayerAttack : MonoBehaviour
     // Animation bools
 
     public bool playerPlayAttack;
+
+    public VisualEffect MeleeAttackVFX;
 
     private class Magazine
     {
@@ -267,6 +270,8 @@ public class PlayerAttack : MonoBehaviour
 
     private void ReleaseAttack(bool charged)
     {
+        MeleeAttackVFX.Play();
+
         if (IsRanged ||
             cooldownTimer > 0f ||
             !GetMouseDirection(out Vector3 direction))
