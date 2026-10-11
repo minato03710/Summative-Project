@@ -3,7 +3,22 @@ guid: d41b61b240d27af40b59b745375bee94
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Side Floor
+    second: {fileID: 2100000, guid: e3225c3e73c04754aa68a2f704e15d2c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grass.002
+    second: {fileID: 2100000, guid: 59d56097ff39e2f428ae68fd9d9bd991, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vine.006
+    second: {fileID: 2100000, guid: e1e09300a58ccaf4fa365a913f44a8ae, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
