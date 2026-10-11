@@ -14,6 +14,11 @@ public class CompanionMovement : MonoBehaviour
     private float verticalVelocity;
     private Vector3 currentMoveDirection;
 
+    // Animation Manager Bools
+
+    public bool companionPlayJump;
+    public bool companionPlayMoving;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -25,7 +30,7 @@ public class CompanionMovement : MonoBehaviour
         if (Time.timeScale <= 0f)
             return;
 
-        // ´ýÃüÊ±ÈÔ±£ÁôÖØÁ¦£¬±ÜÃâ¿ÕÖÐÏÂÖ¸ÁîºóÐü¿Õ¡£
+        // ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¡ï¿½
         ApplyGravity();
     }
 
@@ -82,6 +87,7 @@ public class CompanionMovement : MonoBehaviour
 
         if (controller.isGrounded)
         {
+            companionPlayJump = false;
             if (verticalVelocity < 0f)
             {
                 verticalVelocity = -2f;

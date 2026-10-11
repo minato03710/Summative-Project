@@ -20,30 +20,20 @@ public class CompanionAnimationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CompanionGroundCheck();
+        JumpCheck();
     }
 
-    void CompanionMoveCheck()
+    void JumpCheck()
     {
+        if (companionMovement.companionPlayJump == false)
+        {
+            companionAnimator.SetBool("companionIsJumping", true);
+        }
 
-    }
-
-    void CompanionGroundCheck()
-    {
-        if (companionCharacterController.isGrounded)
-            {
-                companionAnimator.SetBool("companionIsJumping", false);
-            }
-
-            else
-            {
-                companionAnimator.SetBool("companionIsJumping", true);
-            }
-    }
-
-    void CompanionActionCheck()
-    {
-
+        if (companionMovement.companionPlayJump == true)
+        {
+            companionAnimator.SetBool("companionIsJumping", false);
+        }
     }
 
 }

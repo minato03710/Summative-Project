@@ -24,7 +24,7 @@ public class CompanionJump : MonoBehaviour
         if (movement == null)
         {
             Debug.LogError(
-                "CompanionJump ÕÒ²»µ½ CompanionMovement!"
+                "CompanionJump ï¿½Ò²ï¿½ï¿½ï¿½ CompanionMovement!"
             );
         }
     }
@@ -44,7 +44,7 @@ public class CompanionJump : MonoBehaviour
         if (movement == null)
             return;
 
-        // ¼ì²éÊÇ·ñÔÚµØÃæ
+        // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Úµï¿½ï¿½ï¿½
         if (!movement.IsGrounded())
         {
             return;
@@ -80,7 +80,7 @@ public class CompanionJump : MonoBehaviour
             return;
 
         Debug.Log(
-            "Companion ¼ì²âµ½ÕÏ°­Îï£º" +
+            "Companion ï¿½ï¿½âµ½ï¿½Ï°ï¿½ï¿½ï£º" +
             hit.collider.gameObject.name
         );
 
@@ -89,7 +89,7 @@ public class CompanionJump : MonoBehaviour
             movement.IsGrounded()
         );
 
-        // ¼ì²éÕÏ°­ÎïÉÏ·½
+        // ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ï¿½Ï·ï¿½
         Vector3 upperOrigin =
             transform.position +
             Vector3.up * 1.8f;
@@ -105,14 +105,14 @@ public class CompanionJump : MonoBehaviour
         if (blockedAbove)
         {
             Debug.Log(
-                "ÉÏ·½±»µ²×¡£¬²»ÄÜÌø!"
+                "ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½×¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!"
             );
 
             return;
         }
 
         Debug.Log(
-            "Companion ×¼±¸ÌøÔ¾!"
+            "Companion ×¼ï¿½ï¿½ï¿½ï¿½Ô¾!"
         );
 
         movement.Jump(jumpForce);
