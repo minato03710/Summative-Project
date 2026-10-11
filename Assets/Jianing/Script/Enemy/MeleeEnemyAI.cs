@@ -7,8 +7,12 @@ public class MeleeEnemyAI : EnemyAI
     public float attackDamage = 10f;
     public float attackCooldown = 1.2f;
 
+    // Animation Bools
 
-private float attackTimer;
+    public bool meleePlayAttack;
+
+
+    private float attackTimer;
 
     protected override void Start()
     {
@@ -59,6 +63,9 @@ private float attackTimer;
 
     void MoveTowardsPlayer()
     {
+
+        meleePlayAttack = false;
+
         Vector3 direction =
             player.position -
             transform.position;
@@ -108,6 +115,9 @@ private float attackTimer;
 
     void Attack()
     {
+
+        meleePlayAttack = true;
+
         if (attackTimer > 0f)
             return;
 
@@ -123,6 +133,7 @@ private float attackTimer;
             Debug.Log(
                 "Melee Enemy attacked Player!"
             );
+
         }
 
         attackTimer =
