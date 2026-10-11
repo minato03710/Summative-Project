@@ -8,6 +8,7 @@ public class DeerCreatureQuest : MonoBehaviour
     [SerializeField] GameObject searchTrigger;
     public Animator deerAnimator;
     public FindFlower findFlower;
+    public GameObject caveBarrier;
 
     void Awake()
     {
@@ -17,7 +18,7 @@ public class DeerCreatureQuest : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        caveBarrier = GameObject.Find("Cave Barrier");
     }
 
     // Update is called once per frame
@@ -32,6 +33,7 @@ public class DeerCreatureQuest : MonoBehaviour
         {
             searchTrigger.SetActive(false);
             FoundFlowersCutscene();
+            Destroy(caveBarrier);
         }
     }
 
