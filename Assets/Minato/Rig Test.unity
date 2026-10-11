@@ -1424,10 +1424,9 @@ GameObject:
   - component: {fileID: 569127944}
   - component: {fileID: 569127943}
   - component: {fileID: 569127942}
-  - component: {fileID: 569127945}
   m_Layer: 0
   m_Name: Flower 2
-  m_TagString: Untagged
+  m_TagString: Flower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1525,19 +1524,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 569127940}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &569127945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569127940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170485d0823fa47ecb1e01d94633720f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DeerFlower
-  newFlower: 0
 --- !u!1 &576056915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,10 +1600,9 @@ GameObject:
   - component: {fileID: 691843277}
   - component: {fileID: 691843276}
   - component: {fileID: 691843275}
-  - component: {fileID: 691843278}
   m_Layer: 0
   m_Name: Flower 3
-  m_TagString: Untagged
+  m_TagString: Flower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1715,19 +1700,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691843273}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &691843278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 691843273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170485d0823fa47ecb1e01d94633720f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DeerFlower
-  newFlower: 0
 --- !u!1001 &807703263
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2933,8 +2905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeerCreatureQuest
   searchTrigger: {fileID: 1193746784}
   deerAnimator: {fileID: 2031711626}
-  flowerCount: 0
-  deerFlower: {fileID: 1633721499}
+  findFlower: {fileID: 1511791321}
 --- !u!65 &1202947894
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3025,7 +2996,8 @@ Transform:
   m_LocalPosition: {x: -8.63, y: 1.27, z: -27.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1962405037}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1216654395
@@ -4510,6 +4482,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1262950889517479084, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1511791307}
+    - targetCorrespondingSourceObject: {fileID: 1262950889517479084, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1511791321}
   m_SourcePrefab: {fileID: 100100000, guid: 6e7e49e54fa87f5458eccd28b1a562ff, type: 3}
 --- !u!1 &1511791305 stripped
 GameObject:
@@ -4680,6 +4655,20 @@ MonoBehaviour:
     bulletLifetime: 4
     poisonDamagePerSecond: 20
     poisonDurationSeconds: 3
+--- !u!114 &1511791321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511791305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15863f460889437a9c9b346444f7fef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  playerFlowerCount: 0
+  flowersCollected: 0
 --- !u!1 &1529471369
 GameObject:
   m_ObjectHideFlags: 0
@@ -4750,10 +4739,9 @@ GameObject:
   - component: {fileID: 1633721502}
   - component: {fileID: 1633721501}
   - component: {fileID: 1633721500}
-  - component: {fileID: 1633721499}
   m_Layer: 0
   m_Name: Flower 1
-  m_TagString: Untagged
+  m_TagString: Flower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4773,19 +4761,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 26159636}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1633721499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633721497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170485d0823fa47ecb1e01d94633720f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  newFlower: 0
 --- !u!65 &1633721500
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5711,13 +5686,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962405036}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -205.5, y: 39.9, z: -2.81}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -196.87, y: 38.63, z: 24.800001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2031711624}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1202947897}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2031711623
 PrefabInstance:
@@ -5938,27 +5913,37 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 780556209432170279, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
       propertyPath: dialogueLines.lines.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 780556209432170279, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
       propertyPath: 'dialogueLines.lines.Array.data[0]'
-      value: My legs... that cave sure looks scary...
+      value: Eek! It's so dark in there, I can't feel my legs...
       objectReference: {fileID: 0}
     - target: {fileID: 780556209432170279, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
       propertyPath: 'dialogueLines.lines.Array.data[1]'
-      value: Do you need to get to the other side too?
+      value: I was supposed to illuminate the flowers inside but I ran out of energy.
       objectReference: {fileID: 0}
     - target: {fileID: 780556209432170279, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
       propertyPath: 'dialogueLines.lines.Array.data[2]'
-      value: Have you seen a green flower around here?
+      value: Now I'm stuck here! Out of all places, did it have to be here?
       objectReference: {fileID: 0}
     - target: {fileID: 780556209432170279, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
       propertyPath: 'dialogueLines.lines.Array.data[3]'
-      value: 
+      value: I should have visited the three energy flowers before coming to such
+        a dangerous place...
       objectReference: {fileID: 0}
     - target: {fileID: 780556209432170279, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
       propertyPath: 'dialogueLines.lines.Array.data[4]'
-      value: koi chan
+      value: I should have collected the energy flowers I saw on the way here...
+      objectReference: {fileID: 0}
+    - target: {fileID: 780556209432170279, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
+      propertyPath: 'dialogueLines.lines.Array.data[5]'
+      value: I think I saw three perfect energy flowers nearby, can you please help
+        me find them?
+      objectReference: {fileID: 0}
+    - target: {fileID: 780556209432170279, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
+      propertyPath: 'dialogueLines.lines.Array.data[6]'
+      value: I think I saw three energy flowers around here...
       objectReference: {fileID: 0}
     - target: {fileID: 1088285221985897398, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
       propertyPath: m_Camera
@@ -6141,7 +6126,6 @@ SceneRoots:
   - {fileID: 1942347455}
   - {fileID: 2051635249}
   - {fileID: 231031752}
-  - {fileID: 1962405037}
   - {fileID: 2099007879}
   - {fileID: 954796309}
   - {fileID: 1398608724}
