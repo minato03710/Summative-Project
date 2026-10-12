@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.VFX;
@@ -61,7 +61,6 @@ public class PlayerAttack : MonoBehaviour
     private readonly HashSet<EnemyHealth> damagedEnemies =
         new HashSet<EnemyHealth>();
 
-    private Camera mainCamera;
     private PlayerHealth playerHealth;
     private WeaponData weapon;
 
@@ -81,7 +80,8 @@ public class PlayerAttack : MonoBehaviour
         ? 0f
         : Mathf.Clamp01(
             (float)(Time.timeAsDouble - chargeStartedAt) /
-            Mathf.Max(0.01f, chargeDuration));
+            Mathf.Max(0.01f, chargeDuration)
+        );
 
     public bool IsFullyCharged =>
         isCharging && ChargeProgress >= 1f;
@@ -92,7 +92,13 @@ public class PlayerAttack : MonoBehaviour
         RefreshAttackStats();
 
         playerHealth = GetComponent<PlayerHealth>();
+
         SimpleVFX.Prepare(MeleeAttackVFX);
+    }
+
+    public void AttackInput(InputAction.CallbackContext context)
+    {
+        GetComponent<PlayerInputReader>().ReadAttack(context);
     }
 
     public void InitializeStats()
@@ -102,15 +108,16 @@ public class PlayerAttack : MonoBehaviour
 
         baseAttackDamage = attackDamage;
         baseAttackCooldown = attackCooldown;
+
         statsInitialized = true;
     }
 
     private void Update()
     {
-        Mouse mouse = Mouse.current;
+        PlayerInputReader input = PlayerInputReader.Instance;
 
-        if (Time.timeScale <= 0f ||
-            mouse == null ||
+        if (input == null ||
+            !input.GameplayAllowed ||
             (playerHealth != null && playerHealth.IsDead()))
         {
             BlockInput();
@@ -122,28 +129,28 @@ public class PlayerAttack : MonoBehaviour
             cooldownTimer - Time.deltaTime
         );
 
-        if (PointerOverUI())
+        if (!input.UsingGamepad && PointerOverUI())
         {
             BlockInput();
             return;
         }
 
-        if (!mouse.leftButton.isPressed)
+        if (!input.AttackHeld)
             requireRelease = false;
 
-        // 远程武器：按住左键连续射击。
+        // 远程武器：按住攻击键连续射击。
         if (IsRanged)
         {
             CancelCharge();
 
-            if (mouse.leftButton.isPressed && !requireRelease)
+            if (input.AttackHeld && !requireRelease)
                 TryFire();
 
             return;
         }
 
-        // 近战武器：按下开始蓄力，松开发动攻击。
-        if (mouse.leftButton.wasPressedThisFrame &&
+        // 近战：按下开始蓄力，松开发动攻击。
+        if (input.AttackPressed &&
             cooldownTimer <= 0f &&
             !requireRelease)
         {
@@ -155,7 +162,7 @@ public class PlayerAttack : MonoBehaviour
         if (!isCharging)
             return;
 
-        if (mouse.leftButton.wasReleasedThisFrame)
+        if (input.AttackReleased)
         {
             bool charged = IsFullyCharged;
 
@@ -164,7 +171,7 @@ public class PlayerAttack : MonoBehaviour
 
             playerPlayAttack = false;
         }
-        else if (!mouse.leftButton.isPressed)
+        else if (!input.AttackHeld)
         {
             CancelCharge();
         }
@@ -205,7 +212,9 @@ public class PlayerAttack : MonoBehaviour
 
         if (magazine.reloadEnd >= 0d ||
             now < magazine.nextShot)
+        {
             return;
+        }
 
         PlayerBullet prefab = weapon.bulletPrefab != null
             ? weapon.bulletPrefab
@@ -284,7 +293,9 @@ public class PlayerAttack : MonoBehaviour
         if (IsRanged ||
             cooldownTimer > 0f ||
             !GetMouseDirection(out Vector3 direction))
+        {
             return;
+        }
 
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
@@ -313,7 +324,9 @@ public class PlayerAttack : MonoBehaviour
             if (enemy == null ||
                 enemy.IsDead() ||
                 !damagedEnemies.Add(enemy))
+            {
                 continue;
+            }
 
             enemy.TakeDamage(damage);
 
@@ -345,32 +358,10 @@ public class PlayerAttack : MonoBehaviour
     {
         direction = Vector3.zero;
 
-        if (mainCamera == null)
-            mainCamera = Camera.main;
+        PlayerInputReader input = PlayerInputReader.Instance;
 
-        if (mainCamera == null || Mouse.current == null)
-            return false;
-
-        Ray ray = mainCamera.ScreenPointToRay(
-            Mouse.current.position.ReadValue()
-        );
-
-        Plane plane = new Plane(
-            Vector3.up,
-            transform.position
-        );
-
-        if (!plane.Raycast(ray, out float distance))
-            return false;
-
-        direction = ray.GetPoint(distance) - transform.position;
-        direction.y = 0f;
-
-        if (direction.sqrMagnitude < 0.01f)
-            return false;
-
-        direction.Normalize();
-        return true;
+        return input != null &&
+               input.TryGetAim(transform, out direction);
     }
 
     public void ApplyWeaponStats(WeaponData data)

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class UpgradeConsole : MonoBehaviour
 {
@@ -14,6 +13,9 @@ public class UpgradeConsole : MonoBehaviour
 
     private Transform player;
     private bool playerInRange;
+
+    private bool ownsPause;
+    private float previousTimeScale = 1f;
 
     private void Start()
     {
@@ -32,32 +34,57 @@ public class UpgradeConsole : MonoBehaviour
 
     private void Update()
     {
+        if (ownsPause &&
+            (upgradeUI == null || !upgradeUI.activeInHierarchy))
+        {
+            CloseUpgradeUI();
+        }
+
         if (player == null)
             return;
 
         playerInRange =
             Vector3.Distance(transform.position, player.position)
-            <= interactionRange;
+                <= interactionRange;
 
         bool uiOpen =
             upgradeUI != null && upgradeUI.activeSelf;
 
-        if (interactionText != null)
-            interactionText.SetActive(playerInRange && !uiOpen);
+        PlayerInputReader input = PlayerInputReader.Instance;
 
-        // E 只负责打开，界面打开后再次按 E 不会关闭。
-        if (playerInRange && !uiOpen &&
-            Keyboard.current != null &&
-            Keyboard.current.eKey.wasPressedThisFrame)
-        {
+        bool canInteract =
+            input != null &&
+            input.GameplayAllowed &&
+            playerInRange &&
+            !uiOpen;
+
+        if (interactionText != null)
+            interactionText.SetActive(canInteract);
+
+        if (canInteract && input.InteractPressed)
             OpenUpgradeUI();
-        }
     }
 
     public void OpenUpgradeUI()
     {
-        if (upgradeUI == null || upgradeUI.activeSelf)
+        if (upgradeUI == null ||
+            upgradeUI.activeSelf ||
+            Time.timeScale <= 0f)
+        {
             return;
+        }
+
+        previousTimeScale = Time.timeScale;
+        ownsPause = true;
+
+        GamepadMenu menu =
+            upgradeUI.GetComponent<GamepadMenu>();
+
+        if (menu == null)
+            menu = upgradeUI.AddComponent<GamepadMenu>();
+
+        menu.onCancel.RemoveListener(CloseUpgradeUI);
+        menu.onCancel.AddListener(CloseUpgradeUI);
 
         upgradeUI.SetActive(true);
         Time.timeScale = 0f;
@@ -66,21 +93,41 @@ public class UpgradeConsole : MonoBehaviour
             interactionText.SetActive(false);
     }
 
-    // 关闭按钮需要绑定这个方法。
     public void CloseUpgradeUI()
     {
         if (upgradeUI != null)
             upgradeUI.SetActive(false);
 
-        // 恢复游戏时间，让角色可以继续移动。
-        Time.timeScale = 1f;
+        if (ownsPause)
+        {
+            ownsPause = false;
+            Time.timeScale = previousTimeScale;
+
+            if (PlayerInputReader.Instance != null)
+                PlayerInputReader.Instance.SuppressGameplay();
+        }
 
         playerInRange =
             player != null &&
             Vector3.Distance(transform.position, player.position)
-            <= interactionRange;
+                <= interactionRange;
 
         if (interactionText != null)
-            interactionText.SetActive(playerInRange);
+        {
+            interactionText.SetActive(
+                isActiveAndEnabled &&
+                playerInRange &&
+                Time.timeScale > 0f
+            );
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (ownsPause)
+            CloseUpgradeUI();
+
+        if (interactionText != null)
+            interactionText.SetActive(false);
     }
 }

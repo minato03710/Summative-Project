@@ -9,7 +9,6 @@ public class PlayerDash : MonoBehaviour
     public float dashCooldown = 1f;
 
     private CharacterController controller;
-    PlayerMovement playerMovement;
 
     private Vector3 dashDirection;
     private float dashTimer;
@@ -17,82 +16,63 @@ public class PlayerDash : MonoBehaviour
 
     private bool isDashing;
 
-    // Animation Bool
-
     public bool playPlayerDash;
+
+    public void DashPressed(InputAction.CallbackContext context)
+    {
+        GetComponent<PlayerInputReader>().ReadDash(context);
+    }
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        playerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
-        // CD
-        if (cooldownTimer > 0)
-        {
-            cooldownTimer -= Time.deltaTime;
-        }
+        PlayerInputReader input = PlayerInputReader.Instance;
 
-        // Start Dash
-        //if (!isDashing)
-        //{
-        //    playPlayerDash = false;
-        //    if (Keyboard.current != null &&
-        //        Keyboard.current.leftShiftKey.wasPressedThisFrame)
-        //    {
-        //        TryDash();
-        //        playPlayerDash = true;
-        //    }
-        //}
-
-        // Dash move
-        if (isDashing)
+        if (input == null ||
+            !input.GameplayAllowed ||
+            !controller.enabled)
         {
-            Dash();
-        }
-        else
-        {
-            playPlayerDash = false;
-        }
-    }
-
-    public void DashPressed(InputAction.CallbackContext context)
-    {
-        if(isDashing == true)
-        {
+            StopDash();
             return;
         }
 
-        if(context.performed == true)
+        if (cooldownTimer > 0)
+            cooldownTimer -= Time.deltaTime;
+
+        if (!isDashing)
         {
-            TryDash();
-            playPlayerDash = true;
+            playPlayerDash = false;
+
+            if (input.DashPressed)
+                TryDash();
         }
+
+        if (isDashing)
+            Dash();
     }
 
     void TryDash()
     {
-        //  Cooldown Dash
         if (cooldownTimer > 0)
             return;
 
-        Vector2 input = playerMovement.GetMovementInput;
+        Vector2 input = PlayerInputReader.Instance.Move;
 
-        // No movement direction, cannot dash
         if (input.sqrMagnitude < 0.01f)
             return;
 
         input = Vector2.ClampMagnitude(input, 1f);
 
-        dashDirection = new Vector3(
-            input.x,
-            0,
-            input.y
-        ).normalized;
+        dashDirection =
+            new Vector3(input.x, 0, input.y).normalized;
 
         isDashing = true;
+        playPlayerDash = true;
+
         dashTimer = dashDuration;
         cooldownTimer = dashCooldown;
     }
@@ -106,15 +86,23 @@ public class PlayerDash : MonoBehaviour
         dashTimer -= Time.deltaTime;
 
         if (dashTimer <= 0)
-        {
-            isDashing = false;
-        }
+            StopDash();
     }
 
     public bool IsDashing()
     {
         return isDashing;
     }
+
+    private void StopDash()
+    {
+        isDashing = false;
+        playPlayerDash = false;
+        dashTimer = 0f;
+    }
+
+    private void OnDisable()
+    {
+        StopDash();
+    }
 }
-
-

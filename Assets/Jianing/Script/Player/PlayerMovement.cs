@@ -7,8 +7,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
-    Vector2 input;
-    public Vector2 GetMovementInput => input;
 
     [Header("Jump")]
     public float jumpHeight = 2f;
@@ -23,6 +21,23 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     private PlayerDash playerDash;
 
+    public bool IsMoving { get; private set; }
+
+    public Vector2 GetMovementInput =>
+        PlayerInputReader.Instance != null
+            ? PlayerInputReader.Instance.Move
+            : Vector2.zero;
+
+    public void GetInput(InputAction.CallbackContext context)
+    {
+        GetComponent<PlayerInputReader>().ReadMove(context);
+    }
+
+    public void JumpPressed(InputAction.CallbackContext context)
+    {
+        GetComponent<PlayerInputReader>().ReadJump(context);
+    }
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -33,57 +48,35 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Time.timeScale <= 0f)
-            return;
+        PlayerInputReader input = PlayerInputReader.Instance;
 
-        //KeyboardInputs();
+        if (input == null ||
+            !input.GameplayAllowed ||
+            !controller.enabled)
+        {
+            IsMoving = false;
+            SimpleVFX.Loop(FootstepsVFX, false);
+            return;
+        }
+
         Move();
         ApplyGravity();
         Jump();
-    }
-
-    public void GetInput(InputAction.CallbackContext ctx)
-    {
-        input = ctx.ReadValue<Vector2>();
-    }
-
-    void KeyboardInputs()
-    {
-        Vector2 keyBoardinput = Vector2.zero;
-
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.wKey.isPressed)
-                keyBoardinput.y += 1;
-
-            if (Keyboard.current.sKey.isPressed)
-                keyBoardinput.y -= 1;
-
-            if (Keyboard.current.aKey.isPressed)
-                keyBoardinput.x -= 1;
-
-            if (Keyboard.current.dKey.isPressed)
-                keyBoardinput.x += 1;
-        }
-
-        //GetInput(keyBoardinput);
     }
 
     void Move()
     {
         if (playerDash != null && playerDash.IsDashing())
         {
+            IsMoving = false;
             SimpleVFX.Loop(FootstepsVFX, false);
             return;
         }
 
-        input = Vector2.ClampMagnitude(input, 1f);
+        Vector2 input = PlayerInputReader.Instance.Move;
 
-        Vector3 moveDirection = new Vector3(
-            input.x,
-            0f,
-            input.y
-        );
+        Vector3 moveDirection =
+            new Vector3(input.x, 0f, input.y);
 
         Vector3 beforeMove = transform.position;
 
@@ -93,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 displacement = transform.position - beforeMove;
         displacement.y = 0f;
+
+        IsMoving = displacement.sqrMagnitude > 0.000001f;
 
         SimpleVFX.Loop(
             FootstepsVFX,
@@ -120,20 +115,15 @@ public class PlayerMovement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
 
-        controller.Move(
-            velocity * Time.deltaTime
-        );
+        controller.Move(velocity * Time.deltaTime);
     }
 
     void Jump()
     {
-        if (Keyboard.current == null)
-            return;
-
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (PlayerInputReader.Instance.JumpPressed)
         {
             Debug.Log(
-                "Space Pressed | Grounded = " +
+                "Jump Pressed | Grounded = " +
                 controller.isGrounded
             );
 
@@ -152,6 +142,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
+        IsMoving = false;
         SimpleVFX.Prepare(FootstepsVFX);
+
+        if (PlayerInputReader.Instance != null)
+            PlayerInputReader.Instance.SuppressGameplay();
     }
 }

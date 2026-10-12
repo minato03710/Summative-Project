@@ -1,110 +1,59 @@
 using UnityEngine;
-using System.Collections;
 
 public class PlayerAnimationManager : MonoBehaviour
 {
-
     public Animator playerAnimator;
-    private bool playerWalking;
-    private CharacterController characterController;
     public PlayerMovement playerMovement;
     public PlayerDash playerDash;
     public PlayerAttack playerAttack;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private CharacterController characterController;
+
+    private void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        playerAnimator = GetComponentInChildren<Animator>(); // References animator from player visuals
+
+        if (playerAnimator == null)
+            playerAnimator = GetComponentInChildren<Animator>();
+
+        if (playerMovement == null)
+            playerMovement = GetComponent<PlayerMovement>();
+
+        if (playerDash == null)
+            playerDash = GetComponent<PlayerDash>();
+
+        if (playerAttack == null)
+            playerAttack = GetComponent<PlayerAttack>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            playerAnimator.SetBool("meleeIsMoving", true);
-        }
+        if (playerAnimator == null)
+            return;
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            playerAnimator.SetBool("meleeIsMoving", true);
-        }
+        playerAnimator.SetBool(
+            "meleeIsMoving",
+            playerMovement != null &&
+            playerMovement.enabled &&
+            playerMovement.IsMoving
+        );
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            playerAnimator.SetBool("meleeIsMoving", true);
-        }
+        playerAnimator.SetBool(
+            "meleeOnGround",
+            characterController != null &&
+            characterController.isGrounded
+        );
 
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            playerAnimator.SetBool("meleeIsMoving", true);
-        }
+        playerAnimator.SetBool(
+            "meleeIsDashing",
+            playerDash != null &&
+            playerDash.IsDashing()
+        );
 
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            playerAnimator.SetBool("meleeIsMoving", false);
-        }
-
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            playerAnimator.SetBool("meleeIsMoving", false);
-        }
-
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            playerAnimator.SetBool("meleeIsMoving", false);
-        }
-
-        if (Input.GetKeyUp(KeyCode.D))
-        {
-            playerAnimator.SetBool("meleeIsMoving", false);
-        }
-
-        PlayerJump();
-
-        PlayerDashCheck();
-
-        PlayerAttackCheck();
+        playerAnimator.SetBool(
+            "meleeIsAttacking",
+            playerAttack != null &&
+            playerAttack.playerPlayAttack
+        );
     }
-
-    void PlayerJump()
-    {
-        if (characterController.isGrounded)
-        {
-            playerAnimator.SetBool("meleeOnGround", true);
-        }
-
-        else
-        {
-            playerAnimator.SetBool("meleeOnGround", false);
-        }
-    }
-
-    void PlayerDashCheck()
-    {
-        if (playerDash.playPlayerDash == true)
-        {
-            playerAnimator.SetBool("meleeIsDashing", true);
-        }
-
-        if (playerDash.playPlayerDash == false)
-        {
-            playerAnimator.SetBool("meleeIsDashing", false);
-        }
-    }
-
-    void PlayerAttackCheck()
-    {
-        if (playerAttack.playerPlayAttack == true)
-        {
-            playerAnimator.SetBool("meleeIsAttacking", true);
-        }
-
-        if (playerAttack.playerPlayAttack == false)
-        {
-            playerAnimator.SetBool("meleeIsAttacking", false);
-        }
-    }
-
 }

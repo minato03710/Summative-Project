@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
 
@@ -39,19 +37,16 @@ public class CompanionWheelMenu : MonoBehaviour
             label = "HEAL",
             command = CommandType.Heal
         },
-
         new WheelOption
         {
             label = "BOOST",
             command = CommandType.Boost
         },
-
         new WheelOption
         {
             label = "STAY",
             command = CommandType.Sit
         },
-
         new WheelOption
         {
             label = "FOLLOW + ATTACK",
@@ -81,7 +76,6 @@ public class CompanionWheelMenu : MonoBehaviour
     public Behaviour[] additionalPausedScripts;
 
     private GameObject wheelCanvas;
-
     private TMP_Text titleText;
     private TMP_Text messageText;
 
@@ -109,12 +103,13 @@ public class CompanionWheelMenu : MonoBehaviour
 
     private void Update()
     {
-        Keyboard keyboard = Keyboard.current;
+        PlayerInputReader input = PlayerInputReader.Instance;
 
         if (isOpen)
         {
-            if (keyboard == null ||
-                !keyboard.qKey.isPressed ||
+            if (input == null ||
+                !input.WheelHeld ||
+                input.CancelPressed ||
                 companion == null ||
                 !companion.isActiveAndEnabled)
             {
@@ -123,11 +118,13 @@ public class CompanionWheelMenu : MonoBehaviour
             }
 
             RefreshButtons();
+            UpdateGamepadSelection(input);
             return;
         }
 
-        if (keyboard != null &&
-            keyboard.qKey.wasPressedThisFrame)
+        if (input != null &&
+            input.GameplayAllowed &&
+            input.WheelPressed)
         {
             OpenWheel();
         }
@@ -135,9 +132,12 @@ public class CompanionWheelMenu : MonoBehaviour
 
     public void OpenWheel()
     {
-        // 不覆盖其他界面已经持有的暂停状态。
-        if (isOpen || Time.timeScale <= 0f)
+        if (isOpen ||
+            Time.timeScale <= 0f ||
+            GamepadMenu.AnyOpen)
+        {
             return;
+        }
 
         if (companion == null)
         {
@@ -145,8 +145,7 @@ public class CompanionWheelMenu : MonoBehaviour
                 FindFirstObjectByType<CompanionCommandController>();
         }
 
-        if (companion == null ||
-            !companion.isActiveAndEnabled)
+        if (companion == null || !companion.isActiveAndEnabled)
         {
             Debug.LogWarning(
                 "Assign an active CompanionCommandController.",
@@ -167,21 +166,22 @@ public class CompanionWheelMenu : MonoBehaviour
         SuspendGameplay();
 
         Time.timeScale = 0f;
-
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         wheelCanvas.SetActive(true);
 
         if (EventSystem.current != null)
-        {
             EventSystem.current.SetSelectedGameObject(null);
-        }
 
         messageText.text =
-            "Hold Q and click a command. Release Q to resume.";
+            PlayerInputReader.Instance != null &&
+            PlayerInputReader.Instance.UsingGamepad
+                ? "Hold LB: stick/D-pad to select, A to confirm. Release LB to resume."
+                : "Hold Q and click a command. Release Q to resume.";
 
         RefreshButtons();
+        SelectFirstAvailable();
     }
 
     public void CloseWheel()
@@ -192,11 +192,12 @@ public class CompanionWheelMenu : MonoBehaviour
         isOpen = false;
 
         if (wheelCanvas != null)
-        {
             wheelCanvas.SetActive(false);
-        }
 
         Time.timeScale = previousTimeScale;
+
+        if (PlayerInputReader.Instance != null)
+            PlayerInputReader.Instance.SuppressGameplay();
 
         Cursor.lockState = previousCursorLock;
         Cursor.visible = previousCursorVisible;
@@ -206,7 +207,6 @@ public class CompanionWheelMenu : MonoBehaviour
             if (behaviour == null)
                 continue;
 
-            // 玩家死亡后，不重新启用移动组件。
             if (behaviour is PlayerMovement ||
                 behaviour is PlayerDash)
             {
@@ -223,14 +223,11 @@ public class CompanionWheelMenu : MonoBehaviour
         suspended.Clear();
 
         if (EventSystem.current != null)
-        {
             EventSystem.current.SetSelectedGameObject(null);
-        }
     }
 
     private void SuspendGameplay()
     {
-        // 部分旧脚本在 timeScale = 0 时仍可能处理输入或攻击。
         MonoBehaviour[] behaviours =
             FindObjectsByType<MonoBehaviour>(
                 FindObjectsSortMode.None
@@ -251,9 +248,7 @@ public class CompanionWheelMenu : MonoBehaviour
             return;
 
         foreach (Behaviour behaviour in additionalPausedScripts)
-        {
             Suspend(behaviour);
-        }
     }
 
     private void Suspend(Behaviour behaviour)
@@ -273,8 +268,8 @@ public class CompanionWheelMenu : MonoBehaviour
     private void SelectCommand(int index)
     {
         if (!isOpen ||
-            Keyboard.current == null ||
-            !Keyboard.current.qKey.isPressed ||
+            PlayerInputReader.Instance == null ||
+            !PlayerInputReader.Instance.WheelHeld ||
             companion == null ||
             index < 0 ||
             index >= options.Count)
@@ -307,9 +302,7 @@ public class CompanionWheelMenu : MonoBehaviour
         }
 
         if (option.onSelected != null)
-        {
             option.onSelected.Invoke();
-        }
 
         if (messageText != null)
         {
@@ -320,8 +313,6 @@ public class CompanionWheelMenu : MonoBehaviour
         }
 
         RefreshButtons();
-
-        // 点击指令后保持打开，松开 Q 才关闭。
     }
 
     private bool CanSelect(CommandType command)
@@ -426,12 +417,9 @@ public class CompanionWheelMenu : MonoBehaviour
         scaler.uiScaleMode =
             CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
-        scaler.referenceResolution =
-            new Vector2(1280f, 720f);
-
+        scaler.referenceResolution = new Vector2(1280f, 720f);
         scaler.matchWidthOrHeight = 0.5f;
 
-        // 全屏背景，阻止 UI 点击穿透。
         GameObject backdrop = new GameObject(
             "Block World Clicks",
             typeof(RectTransform),
@@ -439,10 +427,7 @@ public class CompanionWheelMenu : MonoBehaviour
             typeof(Image)
         );
 
-        backdrop.transform.SetParent(
-            wheelCanvas.transform,
-            false
-        );
+        backdrop.transform.SetParent(wheelCanvas.transform, false);
 
         RectTransform backdropRect =
             backdrop.GetComponent<RectTransform>();
@@ -456,18 +441,12 @@ public class CompanionWheelMenu : MonoBehaviour
             new Color(0f, 0f, 0f, 0.45f);
 
         float outer = Mathf.Max(120f, outerRadius);
-
-        float inner = Mathf.Clamp(
-            innerRadius,
-            0f,
-            outer - 50f
-        );
+        float inner = Mathf.Clamp(innerRadius, 0f, outer - 50f);
 
         int count = options == null ? 0 : options.Count;
 
         for (int i = 0; i < count; i++)
         {
-            // CanvasRenderer 必须在添加自定义 Graphic 前存在。
             GameObject slice = new GameObject(
                 "Command " + i,
                 typeof(RectTransform),
@@ -476,10 +455,7 @@ public class CompanionWheelMenu : MonoBehaviour
                 typeof(Button)
             );
 
-            slice.transform.SetParent(
-                wheelCanvas.transform,
-                false
-            );
+            slice.transform.SetParent(wheelCanvas.transform, false);
 
             RectTransform rect =
                 slice.GetComponent<RectTransform>();
@@ -487,14 +463,9 @@ public class CompanionWheelMenu : MonoBehaviour
             rect.anchorMin = new Vector2(0.5f, 0.5f);
             rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.sizeDelta = new Vector2(outer * 2f, outer * 2f);
 
-            rect.sizeDelta = new Vector2(
-                outer * 2f,
-                outer * 2f
-            );
-
-            float angle =
-                90f - i * (360f / count);
+            float angle = 90f - i * (360f / count);
 
             RadialSliceGraphic graphic =
                 slice.GetComponent<RadialSliceGraphic>();
@@ -516,7 +487,7 @@ public class CompanionWheelMenu : MonoBehaviour
             colors.normalColor = sliceColor;
             colors.highlightedColor = highlightColor;
             colors.pressedColor = highlightColor * 0.8f;
-            colors.selectedColor = sliceColor;
+            colors.selectedColor = highlightColor;
 
             colors.disabledColor =
                 new Color(0.16f, 0.18f, 0.20f, 0.95f);
@@ -537,23 +508,18 @@ public class CompanionWheelMenu : MonoBehaviour
 
             buttons.Add(button);
 
-            float labelRadius =
-                (inner + outer) * 0.5f;
+            float labelRadius = (inner + outer) * 0.5f;
 
-            Vector2 labelPosition =
-                new Vector2(
-                    Mathf.Cos(angle * Mathf.Deg2Rad),
-                    Mathf.Sin(angle * Mathf.Deg2Rad)
-                ) * labelRadius;
+            Vector2 labelPosition = new Vector2(
+                Mathf.Cos(angle * Mathf.Deg2Rad),
+                Mathf.Sin(angle * Mathf.Deg2Rad)
+            ) * labelRadius;
 
             TMP_Text label = CreateText(
                 slice.transform,
                 "Label",
                 labelPosition,
-                new Vector2(
-                    count > 6 ? 90f : 140f,
-                    90f
-                ),
+                new Vector2(count > 6 ? 90f : 140f, 90f),
                 19f
             );
 
@@ -584,8 +550,7 @@ public class CompanionWheelMenu : MonoBehaviour
         string objectName,
         Vector2 position,
         Vector2 size,
-        float fontSize
-    )
+        float fontSize)
     {
         GameObject textObject = new GameObject(
             objectName,
@@ -596,22 +561,18 @@ public class CompanionWheelMenu : MonoBehaviour
 
         textObject.transform.SetParent(parent, false);
 
-        TMP_Text text =
-            textObject.GetComponent<TMP_Text>();
-
+        TMP_Text text = textObject.GetComponent<TMP_Text>();
         RectTransform rect = text.rectTransform;
 
         rect.anchorMin = new Vector2(0.5f, 0.5f);
         rect.anchorMax = new Vector2(0.5f, 0.5f);
         rect.pivot = new Vector2(0.5f, 0.5f);
-
         rect.anchoredPosition = position;
         rect.sizeDelta = size;
 
-        text.font =
-            font != null
-                ? font
-                : TMP_Settings.defaultFontAsset;
+        text.font = font != null
+            ? font
+            : TMP_Settings.defaultFontAsset;
 
         text.fontSize = fontSize;
         text.enableAutoSizing = true;
@@ -627,21 +588,70 @@ public class CompanionWheelMenu : MonoBehaviour
 
     private void EnsureEventSystem()
     {
-        EventSystem existing =
-            FindFirstObjectByType<EventSystem>();
+        GamepadMenu.EnsureEventSystem();
+    }
 
-        if (existing != null)
+    private void SelectFirstAvailable()
+    {
+        if (EventSystem.current == null)
             return;
 
-        GameObject eventSystem = new GameObject(
-            "EventSystem",
-            typeof(EventSystem),
-            typeof(InputSystemUIInputModule)
-        );
+        foreach (Button button in buttons)
+        {
+            if (!button.interactable)
+                continue;
 
-        eventSystem
-            .GetComponent<InputSystemUIInputModule>()
-            .AssignDefaultActions();
+            EventSystem.current.SetSelectedGameObject(
+                button.gameObject
+            );
+
+            return;
+        }
+
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    private void UpdateGamepadSelection(PlayerInputReader input)
+    {
+        if (!input.UsingGamepad ||
+            EventSystem.current == null ||
+            buttons.Count == 0)
+        {
+            return;
+        }
+
+        Vector2 direction = input.MenuDirection;
+
+        if (direction.sqrMagnitude > 0.09f)
+        {
+            float angle =
+                Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            float step = 360f / buttons.Count;
+
+            int index = Mathf.RoundToInt((90f - angle) / step);
+
+            index = (index % buttons.Count + buttons.Count)
+                % buttons.Count;
+
+            Button button = buttons[index];
+
+            EventSystem.current.SetSelectedGameObject(
+                button.interactable ? button.gameObject : null
+            );
+        }
+        else
+        {
+            GameObject selected =
+                EventSystem.current.currentSelectedGameObject;
+
+            Button button = selected != null
+                ? selected.GetComponent<Button>()
+                : null;
+
+            if (button == null || !button.interactable)
+                SelectFirstAvailable();
+        }
     }
 
     private void OnDisable()
@@ -657,8 +667,6 @@ public class CompanionWheelMenu : MonoBehaviour
     private void OnApplicationFocus(bool hasFocus)
     {
         if (!hasFocus)
-        {
             CloseWheel();
-        }
     }
 }
