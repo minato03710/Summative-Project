@@ -27,6 +27,10 @@ public class CompanionCombat : MonoBehaviour
         attackDamage *
         (commands != null ? commands.DamageMultiplier : 1f);
 
+    // Animation Bools
+
+    public bool playCompanionAttack;
+
     private void Awake()
     {
         movement = GetComponent<CompanionMovement>();
@@ -45,6 +49,7 @@ public class CompanionCombat : MonoBehaviour
 
         if (commands != null && commands.IsSitting)
         {
+            playCompanionAttack = false;
             ClearTarget();
             return;
         }
@@ -71,6 +76,7 @@ public class CompanionCombat : MonoBehaviour
         {
             if (movement != null)
             {
+                playCompanionAttack = false;
                 movement.Move(direction, combatMoveSpeed);
             }
 
@@ -79,6 +85,7 @@ public class CompanionCombat : MonoBehaviour
 
         if (movement != null)
         {
+            playCompanionAttack = false;
             movement.Stop();
         }
 
@@ -96,6 +103,7 @@ public class CompanionCombat : MonoBehaviour
 
         if (attackTimer <= 0f)
         {
+            playCompanionAttack = true;
             currentEnemy.TakeDamage(EffectiveAttackDamage);
 
             attackTimer = Mathf.Max(0.01f, attackCooldown);
@@ -128,6 +136,7 @@ public class CompanionCombat : MonoBehaviour
 
             if (!candidate.CompareTag("Enemy"))
                 continue;
+                playCompanionAttack = true;
 
             float distance = Vector3.Distance(
                 transform.position,
