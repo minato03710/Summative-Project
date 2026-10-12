@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
+    Vector2 input;
+    public Vector2 GetMovementInput => input;
 
     [Header("Jump")]
     public float jumpHeight = 2f;
@@ -34,9 +36,37 @@ public class PlayerMovement : MonoBehaviour
         if (Time.timeScale <= 0f)
             return;
 
+        //KeyboardInputs();
         Move();
         ApplyGravity();
         Jump();
+    }
+
+    public void GetInput(InputAction.CallbackContext ctx)
+    {
+        input = ctx.ReadValue<Vector2>();
+    }
+
+    void KeyboardInputs()
+    {
+        Vector2 keyBoardinput = Vector2.zero;
+
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.wKey.isPressed)
+                keyBoardinput.y += 1;
+
+            if (Keyboard.current.sKey.isPressed)
+                keyBoardinput.y -= 1;
+
+            if (Keyboard.current.aKey.isPressed)
+                keyBoardinput.x -= 1;
+
+            if (Keyboard.current.dKey.isPressed)
+                keyBoardinput.x += 1;
+        }
+
+        //GetInput(keyBoardinput);
     }
 
     void Move()
@@ -45,23 +75,6 @@ public class PlayerMovement : MonoBehaviour
         {
             SimpleVFX.Loop(FootstepsVFX, false);
             return;
-        }
-
-        Vector2 input = Vector2.zero;
-
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.wKey.isPressed)
-                input.y += 1;
-
-            if (Keyboard.current.sKey.isPressed)
-                input.y -= 1;
-
-            if (Keyboard.current.aKey.isPressed)
-                input.x -= 1;
-
-            if (Keyboard.current.dKey.isPressed)
-                input.x += 1;
         }
 
         input = Vector2.ClampMagnitude(input, 1f);

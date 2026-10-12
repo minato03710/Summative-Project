@@ -9,6 +9,7 @@ public class PlayerDash : MonoBehaviour
     public float dashCooldown = 1f;
 
     private CharacterController controller;
+    PlayerMovement playerMovement;
 
     private Vector3 dashDirection;
     private float dashTimer;
@@ -23,6 +24,7 @@ public class PlayerDash : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
@@ -34,21 +36,39 @@ public class PlayerDash : MonoBehaviour
         }
 
         // Start Dash
-        if (!isDashing)
-        {
-            playPlayerDash = false;
-            if (Keyboard.current != null &&
-                Keyboard.current.leftShiftKey.wasPressedThisFrame)
-            {
-                TryDash();
-                playPlayerDash = true;
-            }
-        }
+        //if (!isDashing)
+        //{
+        //    playPlayerDash = false;
+        //    if (Keyboard.current != null &&
+        //        Keyboard.current.leftShiftKey.wasPressedThisFrame)
+        //    {
+        //        TryDash();
+        //        playPlayerDash = true;
+        //    }
+        //}
 
         // Dash move
         if (isDashing)
         {
             Dash();
+        }
+        else
+        {
+            playPlayerDash = false;
+        }
+    }
+
+    public void DashPressed(InputAction.CallbackContext context)
+    {
+        if(isDashing == true)
+        {
+            return;
+        }
+
+        if(context.performed == true)
+        {
+            TryDash();
+            playPlayerDash = true;
         }
     }
 
@@ -58,22 +78,7 @@ public class PlayerDash : MonoBehaviour
         if (cooldownTimer > 0)
             return;
 
-        Vector2 input = Vector2.zero;
-
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.wKey.isPressed)
-                input.y += 1;
-
-            if (Keyboard.current.sKey.isPressed)
-                input.y -= 1;
-
-            if (Keyboard.current.aKey.isPressed)
-                input.x -= 1;
-
-            if (Keyboard.current.dKey.isPressed)
-                input.x += 1;
-        }
+        Vector2 input = playerMovement.GetMovementInput;
 
         // No movement direction, cannot dash
         if (input.sqrMagnitude < 0.01f)
