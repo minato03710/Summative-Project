@@ -1058665,7 +1058665,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e6f2d3979035e4e8963c92ab4f1400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_Spawner
-  EnemyType: {fileID: 0}
+  SpawnerParent: {fileID: 2033109894}
+  EnemyType: {fileID: 3734845309299338537, guid: 3c7ab771ad1573b4e8bbb1deaa45f046, type: 3}
 --- !u!4 &2033109896
 Transform:
   m_ObjectHideFlags: 0
