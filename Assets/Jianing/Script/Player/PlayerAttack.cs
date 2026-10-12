@@ -43,11 +43,10 @@ public class PlayerAttack : MonoBehaviour
     [Header("Optional Ammo UI")]
     public TMP_Text ammoText;
 
-    // Animation bools
-
     public bool playerPlayAttack;
 
     public VisualEffect MeleeAttackVFX;
+    [Min(0.01f)] public float meleeVFXDuration = 0.2f;
 
     private class Magazine
     {
@@ -91,12 +90,15 @@ public class PlayerAttack : MonoBehaviour
     {
         InitializeStats();
         RefreshAttackStats();
+
         playerHealth = GetComponent<PlayerHealth>();
+        SimpleVFX.Prepare(MeleeAttackVFX);
     }
 
     public void InitializeStats()
     {
-        if (statsInitialized) return;
+        if (statsInitialized)
+            return;
 
         baseAttackDamage = attackDamage;
         baseAttackCooldown = attackCooldown;
@@ -116,7 +118,9 @@ public class PlayerAttack : MonoBehaviour
         }
 
         cooldownTimer = Mathf.Max(
-            0f, cooldownTimer - Time.deltaTime);
+            0f,
+            cooldownTimer - Time.deltaTime
+        );
 
         if (PointerOverUI())
         {
@@ -127,7 +131,7 @@ public class PlayerAttack : MonoBehaviour
         if (!mouse.leftButton.isPressed)
             requireRelease = false;
 
-        // 远程武器：按住连续发射。
+        // 远程武器：按住左键连续射击。
         if (IsRanged)
         {
             CancelCharge();
@@ -138,23 +142,26 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        // 近战武器：保留按下蓄力、松开发动攻击。
+        // 近战武器：按下开始蓄力，松开发动攻击。
         if (mouse.leftButton.wasPressedThisFrame &&
             cooldownTimer <= 0f &&
             !requireRelease)
-            playerPlayAttack = true;
         {
+            playerPlayAttack = true;
             isCharging = true;
             chargeStartedAt = Time.timeAsDouble;
         }
 
-        if (!isCharging) return;
+        if (!isCharging)
+            return;
 
         if (mouse.leftButton.wasReleasedThisFrame)
         {
             bool charged = IsFullyCharged;
+
             CancelCharge();
             ReleaseAttack(charged);
+
             playerPlayAttack = false;
         }
         else if (!mouse.leftButton.isPressed)
@@ -210,7 +217,8 @@ public class PlayerAttack : MonoBehaviour
             {
                 Debug.LogWarning(
                     "Assign a PlayerBullet prefab on PlayerAttack.",
-                    this);
+                    this
+                );
             }
 
             warnedMissingBullet = true;
@@ -229,21 +237,22 @@ public class PlayerAttack : MonoBehaviour
         PlayerBullet bullet = Instantiate(
             prefab,
             origin,
-            Quaternion.LookRotation(direction));
+            Quaternion.LookRotation(direction)
+        );
 
         bullet.Initialize(
             direction,
             transform,
             weapon,
             enemyLayer,
-            projectileObstacleLayers);
+            projectileObstacleLayers
+        );
 
         magazine.remaining--;
 
         magazine.nextShot =
             now + Mathf.Max(0.01f, weapon.shotInterval);
 
-        // 最后一发射出后，开始等待。
         if (magazine.remaining <= 0)
         {
             magazine.reloadEnd =
@@ -253,11 +262,13 @@ public class PlayerAttack : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (ammoText == null) return;
+        if (ammoText == null)
+            return;
 
         ammoText.gameObject.SetActive(IsRanged);
 
-        if (!IsRanged) return;
+        if (!IsRanged)
+            return;
 
         Magazine magazine = GetMagazine();
 
@@ -270,8 +281,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void ReleaseAttack(bool charged)
     {
-        MeleeAttackVFX.Play();
-
         if (IsRanged ||
             cooldownTimer > 0f ||
             !GetMouseDirection(out Vector3 direction))
@@ -280,7 +289,10 @@ public class PlayerAttack : MonoBehaviour
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
             Quaternion.LookRotation(direction),
-            rotationSpeed * Time.deltaTime);
+            rotationSpeed * Time.deltaTime
+        );
+
+        SimpleVFX.Pulse(MeleeAttackVFX, meleeVFXDuration);
 
         float damage = attackDamage *
             (charged ? Mathf.Max(1f, chargedDamageMultiplier) : 1f);
@@ -288,7 +300,8 @@ public class PlayerAttack : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(
             transform.position + direction * attackRange,
             attackRadius,
-            enemyLayer);
+            enemyLayer
+        );
 
         damagedEnemies.Clear();
 
@@ -320,7 +333,8 @@ public class PlayerAttack : MonoBehaviour
 
                 poison.Apply(
                     weapon.poisonDamagePerSecond,
-                    weapon.poisonDurationSeconds);
+                    weapon.poisonDurationSeconds
+                );
             }
         }
 
@@ -338,10 +352,13 @@ public class PlayerAttack : MonoBehaviour
             return false;
 
         Ray ray = mainCamera.ScreenPointToRay(
-            Mouse.current.position.ReadValue());
+            Mouse.current.position.ReadValue()
+        );
 
         Plane plane = new Plane(
-            Vector3.up, transform.position);
+            Vector3.up,
+            transform.position
+        );
 
         if (!plane.Raycast(ray, out float distance))
             return false;
@@ -403,16 +420,19 @@ public class PlayerAttack : MonoBehaviour
                 baseAttackRange * multiplier +
                 (weapon == null
                     ? 0f
-                    : Mathf.Max(0f, weapon.extraRange)));
+                    : Mathf.Max(0f, weapon.extraRange))
+            );
 
             attackRadius = Mathf.Max(
                 0.01f,
-                baseAttackRadius * multiplier);
+                baseAttackRadius * multiplier
+            );
         }
     }
 
     public void CancelCharge()
     {
+        playerPlayAttack = false;
         isCharging = false;
         chargeStartedAt = 0;
     }
@@ -426,16 +446,19 @@ public class PlayerAttack : MonoBehaviour
     private void OnDisable()
     {
         BlockInput();
+        SimpleVFX.Prepare(MeleeAttackVFX);
     }
 
     private void OnApplicationFocus(bool focused)
     {
-        if (!focused) BlockInput();
+        if (!focused)
+            BlockInput();
     }
 
     private void OnApplicationPause(bool paused)
     {
-        if (paused) BlockInput();
+        if (paused)
+            BlockInput();
     }
 
     private void OnDrawGizmosSelected()
@@ -448,6 +471,7 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(
             transform.position + transform.forward *
             (Application.isPlaying ? attackRange : baseAttackRange),
-            Application.isPlaying ? attackRadius : baseAttackRadius);
+            Application.isPlaying ? attackRadius : baseAttackRadius
+        );
     }
 }

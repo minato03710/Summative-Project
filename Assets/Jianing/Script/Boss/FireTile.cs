@@ -1,18 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(BoxCollider))]
 public class FireTile : MonoBehaviour
 {
-    [Min(0f)] public float damagePerTick = 5f;
-    [Min(0.05f)] public float damageInterval = 1f;
+    [Min(0f)]
+    public float damagePerTick = 5f;
 
-    [Min(0f)] public float activationDelay = 0.75f;
+    [Min(0.05f)]
+    public float damageInterval = 1f;
+
+    [Min(0f)]
+    public float activationDelay = 0.75f;
 
     [Tooltip("0 = permanent")]
-    [Min(0f)] public float lifetime = 0f;
+    [Min(0f)]
+    public float lifetime = 0f;
 
     public LayerMask playerLayers = ~0;
+
+    [Header("VFX")]
+    public VisualEffect FireVFX;
 
     private BoxCollider area;
     private double activatesAt;
@@ -28,6 +37,8 @@ public class FireTile : MonoBehaviour
     {
         area = GetComponent<BoxCollider>();
         area.isTrigger = true;
+
+        SimpleVFX.Prepare(FireVFX);
     }
 
     private void OnEnable()
@@ -39,6 +50,7 @@ public class FireTile : MonoBehaviour
             Mathf.Max(0f, activationDelay);
 
         SetLifetime(lifetime);
+        SimpleVFX.Loop(FireVFX, true);
     }
 
     public void SetLifetime(float seconds)
@@ -71,7 +83,8 @@ public class FireTile : MonoBehaviour
         scale = new Vector3(
             Mathf.Abs(scale.x),
             Mathf.Abs(scale.y),
-            Mathf.Abs(scale.z));
+            Mathf.Abs(scale.z)
+        );
 
         Vector3 halfSize =
             Vector3.Scale(area.size, scale) * 0.5f;
@@ -105,5 +118,10 @@ public class FireTile : MonoBehaviour
 
             player.TakeDamage(damagePerTick);
         }
+    }
+
+    private void OnDisable()
+    {
+        SimpleVFX.Prepare(FireVFX);
     }
 }

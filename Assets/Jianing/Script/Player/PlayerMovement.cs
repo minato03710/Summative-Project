@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,23 +14,28 @@ public class PlayerMovement : MonoBehaviour
     [Header("Gravity")]
     public float gravity = -20f;
 
+    [Header("VFX")]
+    public VisualEffect FootstepsVFX;
+
     private CharacterController controller;
     private Vector3 velocity;
-
     private PlayerDash playerDash;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         playerDash = GetComponent<PlayerDash>();
+
+        SimpleVFX.Prepare(FootstepsVFX);
     }
 
     void Update()
     {
+        if (Time.timeScale <= 0f)
+            return;
+
         Move();
-
         ApplyGravity();
-
         Jump();
     }
 
@@ -37,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerDash != null && playerDash.IsDashing())
         {
+            SimpleVFX.Loop(FootstepsVFX, false);
             return;
         }
 
@@ -65,8 +72,19 @@ public class PlayerMovement : MonoBehaviour
             input.y
         );
 
+        Vector3 beforeMove = transform.position;
+
         controller.Move(
             moveDirection * moveSpeed * Time.deltaTime
+        );
+
+        Vector3 displacement = transform.position - beforeMove;
+        displacement.y = 0f;
+
+        SimpleVFX.Loop(
+            FootstepsVFX,
+            controller.isGrounded &&
+            displacement.sqrMagnitude > 0.000001f
         );
 
         if (moveDirection.sqrMagnitude > 0.01f)
@@ -85,9 +103,7 @@ public class PlayerMovement : MonoBehaviour
     void ApplyGravity()
     {
         if (controller.isGrounded && velocity.y < 0f)
-        {
             velocity.y = -2f;
-        }
 
         velocity.y += gravity * Time.deltaTime;
 
@@ -110,6 +126,8 @@ public class PlayerMovement : MonoBehaviour
 
             if (controller.isGrounded)
             {
+                SimpleVFX.Loop(FootstepsVFX, false);
+
                 velocity.y = Mathf.Sqrt(
                     jumpHeight * -2f * gravity
                 );
@@ -118,11 +136,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    private void OnDisable()
+    {
+        SimpleVFX.Prepare(FootstepsVFX);
+    }
 }
-
-
-
-
-
-
-
