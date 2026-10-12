@@ -8,7 +8,7 @@ public class BossAnimationManager : MonoBehaviour
 
     private CharacterController bossCharacterController;
     public Animator bossAnimator;
-    public BossBruteAI bossBruteAI;
+    public BossSummonerAI bossSummonerAI;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,7 +27,6 @@ public class BossAnimationManager : MonoBehaviour
 
         MoveCheck(); // Checks if walking or idle
         GroundCheck(); // Checks if grounded or flying
-        DashCheck(); // Checks if dashing
 
         // if () Attacking
         {
@@ -41,12 +40,12 @@ public class BossAnimationManager : MonoBehaviour
 
         void MoveCheck()
         {
-            if (bossBruteAI.bossPlayMoving == false)
+            if (bossSummonerAI.bossPlayMoving == false)
             {
                 bossAnimator.SetBool("bossIsMoving", false);
             }
 
-            if (bossBruteAI.bossPlayMoving == true)
+            if (bossSummonerAI.bossPlayMoving == true)
             {
                 bossAnimator.SetBool("bossIsMoving", true);
             }
@@ -62,15 +61,6 @@ public class BossAnimationManager : MonoBehaviour
             else
             {
                 bossAnimator.SetBool("bossInAir", true);
-            }
-        }
-
-        void DashCheck()
-        {
-            if (bossBruteAI.bossPlayDash == true)
-            {
-                Debug.Log("Dash coroutine started");
-                StartCoroutine(DashAnimationTime());
             }
         }
 

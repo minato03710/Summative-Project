@@ -32,10 +32,15 @@ public class BossSummonerAI : BossBaseAI
     private double nextCast;
     private double castStarted;
 
+    // Animation Bools
+
+    public bool bossPlayMoving;
+
     protected override void TickAI()
     {
         double now = Time.timeAsDouble;
         Vector3 direction = ToPlayer();
+        bossPlayMoving = true;
 
         if (!engaged)
         {
