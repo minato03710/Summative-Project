@@ -85,29 +85,24 @@ public class PlayerAnimationManager : MonoBehaviour
     {
         if (playerDash.playPlayerDash == true)
         {
-            Debug.Log("Player dashed");
             playerAnimator.SetBool("meleeIsDashing", true);
         }
 
         if (playerDash.playPlayerDash == false)
         {
-            Debug.Log("Player dashed");
             playerAnimator.SetBool("meleeIsDashing", false);
         }
     }
 
     void PlayerAttackCheck()
     {
-        Debug.Log("Player attack check");
         if (playerAttack.playerPlayAttack == true)
         {
-            Debug.Log("Play attack is true");
             playerAnimator.SetBool("meleeIsAttacking", true);
         }
 
         if (playerAttack.playerPlayAttack == false)
         {
-            Debug.Log("Play attack is false");
             playerAnimator.SetBool("meleeIsAttacking", false);
         }
     }

@@ -12,12 +12,11 @@ public class CompanionMovement : MonoBehaviour
     private CompanionCommandController commands;
 
     private float verticalVelocity;
-    private Vector3 currentMoveDirection;
+    public Vector3 currentMoveDirection;
 
     // Animation Manager Bools
 
     public bool companionPlayJump;
-    public bool companionPlayMoving;
 
     private void Awake()
     {

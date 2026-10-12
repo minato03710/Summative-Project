@@ -22,13 +22,11 @@ public class RangedEnemyAnimationManager : MonoBehaviour
     {
         if (rangedScript.rangedPlayAttack == true)
         {
-            Debug.Log("Ranged attacking");
             rangedAnimator.SetBool("rangedIsAttacking", true);
         }
 
         if (rangedScript.rangedPlayAttack == false)
         {
-            Debug.Log("Ranged not attacking");
             rangedAnimator.SetBool("rangedIsAttacking", false);
         }
     }
