@@ -2041,6 +2041,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CompanionAnimationManager
   companionAnimator: {fileID: 1268085131}
   companionMovement: {fileID: 710283023}
+  companionVisuals: {fileID: 1268085129}
+  companionCombat: {fileID: 710283034}
+--- !u!114 &710283034 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5251349310625329162, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}
+  m_PrefabInstance: {fileID: 1874226830}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710283018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1354ed7942ddce648b066bea150a7276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompanionCombat
 --- !u!1001 &807703263
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6612,7 +6625,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 8410362828399485310}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a8741fb3e8a7f8438f90169b1f7503b, type: 3}
   m_Name: 
@@ -6757,6 +6770,10 @@ PrefabInstance:
     - target: {fileID: 549824338107739010, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4448009260659465717, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4709078803235780156, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
       propertyPath: m_LocalPosition.x

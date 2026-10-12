@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class CompanionCombat : MonoBehaviour
 {
@@ -15,9 +14,6 @@ public class CompanionCombat : MonoBehaviour
     public float attackCooldown = 1f;
     public float combatMoveSpeed = 4f;
 
-    [Header("VFX")]
-    public VisualEffect AttackVFX;
-
     private CompanionMovement movement;
     private CompanionCommandController commands;
 
@@ -26,16 +22,19 @@ public class CompanionCombat : MonoBehaviour
     private float attackTimer;
     private float searchTimer;
 
+    // 基础伤害保持不变，实际攻击时再计算临时加成。
     public float EffectiveAttackDamage =>
         attackDamage *
         (commands != null ? commands.DamageMultiplier : 1f);
+
+    // Animation Bools
+
+    public bool playCompanionAttack;
 
     private void Awake()
     {
         movement = GetComponent<CompanionMovement>();
         commands = GetComponent<CompanionCommandController>();
-
-        SimpleVFX.Prepare(AttackVFX);
     }
 
     private void Update()
@@ -50,6 +49,7 @@ public class CompanionCombat : MonoBehaviour
 
         if (commands != null && commands.IsSitting)
         {
+            playCompanionAttack = false;
             ClearTarget();
             return;
         }
@@ -69,18 +69,25 @@ public class CompanionCombat : MonoBehaviour
             currentEnemy.transform.position - transform.position;
 
         float distance = direction.magnitude;
+
         direction.y = 0f;
 
         if (distance > attackRange)
         {
             if (movement != null)
+            {
+                playCompanionAttack = false;
                 movement.Move(direction, combatMoveSpeed);
+            }
 
             return;
         }
 
         if (movement != null)
+        {
+            playCompanionAttack = false;
             movement.Stop();
+        }
 
         if (direction.sqrMagnitude > 0.01f)
         {
@@ -96,9 +103,9 @@ public class CompanionCombat : MonoBehaviour
 
         if (attackTimer <= 0f)
         {
-            SimpleVFX.Pulse(AttackVFX, 0.2f);
-
+            playCompanionAttack = true;
             currentEnemy.TakeDamage(EffectiveAttackDamage);
+
             attackTimer = Mathf.Max(0.01f, attackCooldown);
         }
     }
@@ -123,10 +130,13 @@ public class CompanionCombat : MonoBehaviour
             if (candidate == null ||
                 !candidate.isActiveAndEnabled ||
                 candidate.IsDead())
+            {
                 continue;
+            }
 
             if (!candidate.CompareTag("Enemy"))
                 continue;
+                playCompanionAttack = true;
 
             float distance = Vector3.Distance(
                 transform.position,
@@ -168,10 +178,5 @@ public class CompanionCombat : MonoBehaviour
     public Transform GetCurrentEnemy()
     {
         return IsInCombat() ? currentEnemy.transform : null;
-    }
-
-    private void OnDisable()
-    {
-        SimpleVFX.Prepare(AttackVFX);
     }
 }
