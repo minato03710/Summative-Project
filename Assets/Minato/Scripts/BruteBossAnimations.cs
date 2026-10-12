@@ -8,7 +8,10 @@ public class BossAnimationManager : MonoBehaviour
 
     private CharacterController bossCharacterController;
     public Animator bossAnimator;
-    public BossSummonerAI bossSummonerAI;
+    public BossBruteAI bossBruteAI;
+
+    private float smallBossDirection;
+    public Transform smallBossVisuals;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,15 +21,23 @@ public class BossAnimationManager : MonoBehaviour
 
         // Boss begins in idle state until player noticed
 
-        bossAnimator.SetBool("bossIsMoving", false);
+        bossAnimator.SetBool("beetleIsGrounded", true);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        MoveCheck(); // Checks if walking or idle
-        GroundCheck(); // Checks if grounded or flying
+        // smallBossDirection = Input.GetAxisRaw("Horizontal");
+
+        // if (smallBossDirection != 0)
+        {
+            // Vector3 scale = smallBossVisuals.localScale;
+            // scale.x = (smallBossDirection < 0) ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.y);
+            // smallBossVisuals.localScale = scale;
+        }
+
+        GroundCheck();
 
         // if () Attacking
         {
@@ -38,14 +49,7 @@ public class BossAnimationManager : MonoBehaviour
             //bossAnimator.SetBool("bossIsSummoning", true);
         }
 
-        void MoveCheck()
-        {
-            if (bossSummonerAI.bossPlayMoving == false)
-            {
-                bossAnimator.SetBool("bossIsMoving", false);
-            }
-
-            if (bossSummonerAI.bossPlayMoving == true)
+            if (bossBruteAI.bossPlayMoving == true)
             {
                 bossAnimator.SetBool("bossIsMoving", true);
             }
@@ -55,12 +59,12 @@ public class BossAnimationManager : MonoBehaviour
         {
             if (bossCharacterController.isGrounded)
             {
-            bossAnimator.SetBool("bossInAir", false);
+            bossAnimator.SetBool("beetleIsGrounded", true);
             }
 
             else
             {
-                bossAnimator.SetBool("bossInAir", true);
+                bossAnimator.SetBool("beetleIsGrounded", false);
             }
         }
 
@@ -73,5 +77,4 @@ public class BossAnimationManager : MonoBehaviour
             Debug.Log("Dash coroutine ended");
         }
 
-    }
 }

@@ -3,11 +3,11 @@ using UnityEngine;
 public class BossSummonerAnimations : MonoBehaviour
 {
 
-    private float bossDirection;
+    private float finalBossDirection;
     private CharacterController bossCharacterController;
     public Animator bossAnimator;
     public BossSummonerAI bossSummonerAI;
-    public Transform bossVisuals;
+    public Transform finalBossVisuals;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,13 +19,13 @@ public class BossSummonerAnimations : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bossDirection = Input.GetAxisRaw("Horizontal");
+        finalBossDirection = Input.GetAxisRaw("Horizontal");
 
-        if (bossDirection != 0)
+        if (finalBossDirection != 0)
         {
-            Vector3 scale = bossVisuals.localScale;
-            scale.x = (bossDirection < 0) ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.y);
-            bossVisuals.localScale = scale;
+            Vector3 scale = finalBossVisuals.localScale;
+            scale.x = (finalBossDirection < 0) ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.y);
+            finalBossVisuals.localScale = scale;
         }
 
         MoveCheck();
