@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 [DefaultExecutionOrder(-100)]
 [DisallowMultipleComponent]
@@ -27,6 +28,9 @@ public class CompanionCommandController : MonoBehaviour
 
     [Min(0f)]
     public float boostCooldown = 0f;
+
+    [Header("VFX")]
+    public VisualEffect BoostVFX;
 
     [Header("Optional Sitting Animation")]
     public Animator companionAnimator;
@@ -79,12 +83,11 @@ public class CompanionCommandController : MonoBehaviour
         movement = GetComponent<CompanionMovement>();
         combat = GetComponent<CompanionCombat>();
 
-        if (companionAnimator == null)
-        {
-            companionAnimator = GetComponentInChildren<Animator>();
-        }
+        SimpleVFX.Prepare(BoostVFX);
 
-        // 使用模块化同伴脚本，避免旧 AI 重复控制移动和攻击。
+        if (companionAnimator == null)
+            companionAnimator = GetComponentInChildren<Animator>();
+
         CompanionAI legacyAI = GetComponent<CompanionAI>();
 
         if (legacyAI != null && legacyAI.enabled)
@@ -106,9 +109,10 @@ public class CompanionCommandController : MonoBehaviour
         if (Time.timeScale <= 0f)
             return;
 
-        // 按游戏时间计时，暂停期间不会消耗持续时间或冷却。
         boostRemaining =
             Mathf.Max(0f, boostRemaining - Time.deltaTime);
+
+        SimpleVFX.Loop(BoostVFX, IsBoosted);
 
         healCooldownRemaining =
             Mathf.Max(0f, healCooldownRemaining - Time.deltaTime);
@@ -126,9 +130,7 @@ public class CompanionCommandController : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player");
 
         if (playerObject != null)
-        {
             playerHealth = playerObject.GetComponent<PlayerHealth>();
-        }
     }
 
     public void HealPlayer()
@@ -162,9 +164,10 @@ public class CompanionCommandController : MonoBehaviour
             return;
         }
 
-        // 重复释放刷新时间，不叠加倍率。
         boostRemaining = Mathf.Max(0.1f, boostDuration);
         boostCooldownRemaining = Mathf.Max(0f, boostCooldown);
+
+        SimpleVFX.Loop(BoostVFX, true);
 
         LastResult =
             "Boost ready for " +
@@ -177,14 +180,10 @@ public class CompanionCommandController : MonoBehaviour
         IsSitting = true;
 
         if (movement != null)
-        {
             movement.Stop();
-        }
 
         if (combat != null)
-        {
             combat.ClearTarget();
-        }
 
         SetSittingAnimation(true);
 
@@ -197,9 +196,7 @@ public class CompanionCommandController : MonoBehaviour
         IsSitting = false;
 
         if (combat != null)
-        {
             combat.ClearTarget();
-        }
 
         SetSittingAnimation(false);
 
@@ -211,14 +208,10 @@ public class CompanionCommandController : MonoBehaviour
     {
         if (companionAnimator == null ||
             string.IsNullOrWhiteSpace(sittingParameter))
-        {
             return;
-        }
 
-        foreach (
-            AnimatorControllerParameter parameter
-            in companionAnimator.parameters
-        )
+        foreach (AnimatorControllerParameter parameter
+                 in companionAnimator.parameters)
         {
             if (parameter.name == sittingParameter &&
                 parameter.type == AnimatorControllerParameterType.Bool)
@@ -227,5 +220,10 @@ public class CompanionCommandController : MonoBehaviour
                 return;
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        SimpleVFX.Prepare(BoostVFX);
     }
 }

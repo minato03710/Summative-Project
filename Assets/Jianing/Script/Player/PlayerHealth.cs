@@ -8,10 +8,15 @@ public class PlayerHealth : MonoBehaviour
     [Min(1f)] public float maxHealth = 100f;
     public float currentHealth;
 
-    //VFX STUFF
+    [Header("VFX")]
     public VisualEffect DamageVFX;
     public VisualEffect HealingVFX;
 
+    [Min(0.01f)]
+    public float damageVFXDuration = 0.15f;
+
+    [Min(0.01f)]
+    public float healingVFXDuration = 1.5f;
 
     [Header("Respawn")]
     [SerializeField] private string respawnTag = "RespawnPoint";
@@ -21,7 +26,6 @@ public class PlayerHealth : MonoBehaviour
     private bool initialized;
 
     private CharacterController controller;
-
     private Behaviour[] controls;
     private bool[] controlStates;
 
@@ -37,6 +41,9 @@ public class PlayerHealth : MonoBehaviour
         };
 
         controlStates = new bool[controls.Length];
+
+        SimpleVFX.Prepare(DamageVFX);
+        SimpleVFX.Prepare(HealingVFX);
     }
 
     private void Start()
@@ -50,45 +57,47 @@ public class PlayerHealth : MonoBehaviour
             return;
 
         initialized = true;
-
         maxHealth = Mathf.Max(1f, maxHealth);
         currentHealth = maxHealth;
     }
 
     public void TakeDamage(float damage)
     {
-
-        DamageVFX.Play(); //Damage Effect
-
         InitializeHealth();
 
         if (isDead || damage <= 0f)
             return;
+
+        float previousHealth = currentHealth;
 
         currentHealth = Mathf.Max(
             0f,
             currentHealth - damage
         );
 
+        if (currentHealth < previousHealth)
+            SimpleVFX.Spawn(DamageVFX, damageVFXDuration);
+
         if (currentHealth <= 0f)
-        {
             Die();
-        }
     }
 
     public void Heal(float amount)
     {
         InitializeHealth();
 
-        HealingVFX.Play();
-
         if (isDead || amount <= 0f)
             return;
+
+        float previousHealth = currentHealth;
 
         currentHealth = Mathf.Min(
             GetMaxHealth(),
             currentHealth + amount
         );
+
+        if (currentHealth > previousHealth)
+            SimpleVFX.Pulse(HealingVFX, healingVFXDuration);
     }
 
     private void Die()
@@ -98,6 +107,8 @@ public class PlayerHealth : MonoBehaviour
 
         isDead = true;
         currentHealth = 0f;
+
+        SimpleVFX.Prepare(HealingVFX);
 
         for (int i = 0; i < controls.Length; i++)
         {
@@ -119,9 +130,7 @@ public class PlayerHealth : MonoBehaviour
         Transform target = FindClosestPoint(respawnTag);
 
         if (target == null)
-        {
             target = FindClosestPoint(fallbackSpawnTag);
-        }
 
         if (target == null)
         {
@@ -138,30 +147,23 @@ public class PlayerHealth : MonoBehaviour
             controller != null && controller.enabled;
 
         if (controller != null)
-        {
             controller.enabled = false;
-        }
 
         transform.position = target.position;
         transform.rotation = Quaternion.identity;
 
         if (controller != null)
-        {
             controller.enabled = controllerWasEnabled;
-        }
 
         Physics.SyncTransforms();
 
-   
         currentHealth = GetMaxHealth();
         isDead = false;
 
         for (int i = 0; i < controls.Length; i++)
         {
             if (controls[i] != null)
-            {
                 controls[i].enabled = controlStates[i];
-            }
         }
     }
 
@@ -219,5 +221,11 @@ public class PlayerHealth : MonoBehaviour
     public bool IsDead()
     {
         return isDead;
+    }
+
+    private void OnDisable()
+    {
+        SimpleVFX.Prepare(DamageVFX);
+        SimpleVFX.Prepare(HealingVFX);
     }
 }
