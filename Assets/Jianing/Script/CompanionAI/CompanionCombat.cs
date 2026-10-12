@@ -49,7 +49,6 @@ public class CompanionCombat : MonoBehaviour
 
         if (commands != null && commands.IsSitting)
         {
-            playCompanionAttack = false;
             ClearTarget();
             return;
         }
@@ -76,7 +75,6 @@ public class CompanionCombat : MonoBehaviour
         {
             if (movement != null)
             {
-                playCompanionAttack = false;
                 movement.Move(direction, combatMoveSpeed);
             }
 
@@ -85,7 +83,6 @@ public class CompanionCombat : MonoBehaviour
 
         if (movement != null)
         {
-            playCompanionAttack = false;
             movement.Stop();
         }
 
@@ -103,7 +100,6 @@ public class CompanionCombat : MonoBehaviour
 
         if (attackTimer <= 0f)
         {
-            playCompanionAttack = true;
             currentEnemy.TakeDamage(EffectiveAttackDamage);
 
             attackTimer = Mathf.Max(0.01f, attackCooldown);
@@ -124,6 +120,7 @@ public class CompanionCombat : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
+
             EnemyHealth candidate =
                 hit.GetComponentInParent<EnemyHealth>();
 
@@ -131,12 +128,12 @@ public class CompanionCombat : MonoBehaviour
                 !candidate.isActiveAndEnabled ||
                 candidate.IsDead())
             {
+                playCompanionAttack = false;
                 continue;
             }
 
             if (!candidate.CompareTag("Enemy"))
                 continue;
-                playCompanionAttack = true;
 
             float distance = Vector3.Distance(
                 transform.position,
