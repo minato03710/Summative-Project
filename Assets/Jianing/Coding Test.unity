@@ -529,11 +529,11 @@ PrefabInstance:
     - target: {fileID: 7370690498877318541, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
       propertyPath: DamageVFX
       value: 
-      objectReference: {fileID: 1928206897}
+      objectReference: {fileID: 1312247042}
     - target: {fileID: 7370690498877318541, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
       propertyPath: HealingVFX
       value: 
-      objectReference: {fileID: 279110894}
+      objectReference: {fileID: 150112213}
     - target: {fileID: 7391124014603716505, guid: 0d4e04592335efe4c9a9b9092631bf3e, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -2571,6 +2571,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
+  DamageVFX: {fileID: 0}
+  DeathVFX: {fileID: 0}
   useSecondLife: 1
   reviveProtectionSeconds: 1
 --- !u!143 &431963597
@@ -6317,11 +6319,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CompanionCommandController
   playerHealth: {fileID: 1023352860}
   healAmount: 30
-  healCooldown: 0
+  healCooldown: 30
   boostDuration: 5
   boostDamageMultiplier: 1.5
   boostSpeedMultiplier: 1.5
-  boostCooldown: 0
+  boostCooldown: 45
+  BoostVFX: {fileID: 0}
   companionAnimator: {fileID: 0}
   sittingParameter: IsSitting
 --- !u!1 &1125782250
@@ -6440,6 +6443,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
+  DamageVFX: {fileID: 0}
+  DeathVFX: {fileID: 0}
   useSecondLife: 0
   reviveProtectionSeconds: 1
 --- !u!23 &1150124742
@@ -8229,6 +8234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
+  DamageVFX: {fileID: 0}
+  DeathVFX: {fileID: 0}
   useSecondLife: 1
   reviveProtectionSeconds: 1
 --- !u!143 &1575046367
@@ -9837,6 +9844,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
+  DamageVFX: {fileID: 0}
+  DeathVFX: {fileID: 0}
   useSecondLife: 0
   reviveProtectionSeconds: 1
 --- !u!1 &1905984171
@@ -11170,6 +11179,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
+  DamageVFX: {fileID: 0}
+  DeathVFX: {fileID: 0}
   useSecondLife: 0
   reviveProtectionSeconds: 1
 --- !u!23 &2106323483

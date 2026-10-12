@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.VFX;
 
 [DisallowMultipleComponent]
 public class EnemyHealth : MonoBehaviour
@@ -8,16 +9,17 @@ public class EnemyHealth : MonoBehaviour
     [Min(1f)]
     public float maxHealth = 100f;
 
+    [Header("VFX")]
+    public VisualEffect DamageVFX;
+    public VisualEffect DeathVFX;
+
     [Header("Boss Second Life")]
     public bool useSecondLife = false;
 
     [Min(0f)]
     public float reviveProtectionSeconds = 1f;
 
-    // Boss 进入第二条命时触发。
     public event Action SecondLifeStarted;
-
-    // 最终死亡时触发，第二条命复活时不会触发。
     public event Action Died;
 
     public bool IsSecondLife { get; private set; }
@@ -34,6 +36,9 @@ public class EnemyHealth : MonoBehaviour
     private void Awake()
     {
         InitializeHealth();
+
+        SimpleVFX.Prepare(DamageVFX);
+        SimpleVFX.Prepare(DeathVFX);
     }
 
     private void InitializeHealth()
@@ -54,19 +59,20 @@ public class EnemyHealth : MonoBehaviour
         if (isDead || IsReviving || damage <= 0f)
             return;
 
-        currentHealth = Mathf.Max(0f, currentHealth - damage);
+        currentHealth = Mathf.Max(
+            0f,
+            currentHealth - damage
+        );
+
+        SimpleVFX.Spawn(DamageVFX, 0.15f);
 
         if (currentHealth > 0f)
             return;
 
         if (useSecondLife && !IsSecondLife)
-        {
             BeginSecondLife();
-        }
         else
-        {
             Die();
-        }
     }
 
     private void BeginSecondLife()
@@ -82,9 +88,7 @@ public class EnemyHealth : MonoBehaviour
         EnemyPoison poison = GetComponent<EnemyPoison>();
 
         if (poison != null)
-        {
             poison.enabled = false;
-        }
 
         SecondLifeStarted?.Invoke();
     }
@@ -97,15 +101,15 @@ public class EnemyHealth : MonoBehaviour
         isDead = true;
         currentHealth = 0f;
 
+        SimpleVFX.Spawn(DeathVFX, 0.2f, 3f);
+
         Died?.Invoke();
 
         EnemyDropSystem dropSystem =
             GetComponent<EnemyDropSystem>();
 
         if (dropSystem != null)
-        {
             dropSystem.DropResources();
-        }
 
         Destroy(gameObject);
     }
