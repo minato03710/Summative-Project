@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy_Spawner : MonoBehaviour
@@ -5,6 +6,7 @@ public class Enemy_Spawner : MonoBehaviour
 
     public GameObject SpawnerParent;
     public GameObject EnemyType;
+    public float spawnerCooldownTime;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,6 +22,8 @@ public class Enemy_Spawner : MonoBehaviour
     }
 
 
+   
+
 
     public void SpawnEnemy()
     {
@@ -32,9 +36,16 @@ public class Enemy_Spawner : MonoBehaviour
     {
         if (transform.childCount == 0)
         {
-            SpawnEnemy();
+            StartCoroutine(SpawnerCooldown());
         }
 
+    }
+
+
+    public IEnumerator SpawnerCooldown()
+    {
+        yield return new WaitForSeconds(spawnerCooldownTime);
+        SpawnEnemy();
     }
 
 }
