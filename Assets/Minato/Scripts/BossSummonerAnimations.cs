@@ -14,6 +14,7 @@ public class BossSummonerAnimations : MonoBehaviour
     {
         bossCharacterController = GetComponent<CharacterController>();
         bossAnimator = GetComponentInChildren<Animator>();
+        bossAnimator.SetBool("bossIsMoving", true);
     }
 
     // Update is called once per frame
@@ -26,21 +27,6 @@ public class BossSummonerAnimations : MonoBehaviour
             Vector3 scale = finalBossVisuals.localScale;
             scale.x = (finalBossDirection < 0) ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.y);
             finalBossVisuals.localScale = scale;
-        }
-
-        MoveCheck();
-    }
-
-    void MoveCheck()
-    {
-        if (bossSummonerAI.bossPlayMoving == false)
-        {
-            bossAnimator.SetBool("bossIsMoving", false);
-        }
-
-        if (bossSummonerAI.bossPlayMoving == true)
-        {
-            bossAnimator.SetBool("bossIsMoving", true);
         }
     }
 }
