@@ -622,6 +622,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 921370782}
     m_Modifications:
+    - target: {fileID: -8686428417998925714, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8653719598885068355, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
       propertyPath: m_Name
       value: Final Boss Rig Updated
@@ -636,7 +640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.5999999
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -673,6 +677,14 @@ PrefabInstance:
     - target: {fileID: -7552582706839291426, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699332726457541493, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458137585041899192, guid: 50af82b34c1814fb9b06fe4df2fe61c2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5466,7 +5478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8215163682859013965, guid: d34271f7fdf3426429625cf0bdd87bb8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.1790185
+      value: -62.3
       objectReference: {fileID: 0}
     - target: {fileID: 8215163682859013965, guid: d34271f7fdf3426429625cf0bdd87bb8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6468,11 +6480,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4906028905537001781, guid: 5dd064374fe90a844a80c1552c6c332c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.8
       objectReference: {fileID: 0}
     - target: {fileID: 4906028905537001781, guid: 5dd064374fe90a844a80c1552c6c332c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -3.4
       objectReference: {fileID: 0}
     - target: {fileID: 4906028905537001781, guid: 5dd064374fe90a844a80c1552c6c332c, type: 3}
       propertyPath: m_LocalRotation.w
