@@ -7,6 +7,7 @@ public class BossSummonerAnimations : MonoBehaviour
     private CharacterController bossCharacterController;
     public Animator bossAnimator;
     public BossSummonerAI bossSummonerAI;
+    public BossBaseAI bossBaseAI;
     public Transform finalBossVisuals;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -14,7 +15,8 @@ public class BossSummonerAnimations : MonoBehaviour
     {
         bossCharacterController = GetComponent<CharacterController>();
         bossAnimator = GetComponentInChildren<Animator>();
-        bossAnimator.SetBool("bossIsMoving", true);
+        bossAnimator.SetBool("bossInAir", false);
+        bossAnimator.SetBool("bossIsSummoning", false);
     }
 
     // Update is called once per frame
@@ -27,6 +29,22 @@ public class BossSummonerAnimations : MonoBehaviour
             Vector3 scale = finalBossVisuals.localScale;
             scale.x = (finalBossDirection < 0) ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.y);
             finalBossVisuals.localScale = scale;
+        }
+
+        if (bossSummonerAI.bossPlaySummoning == true)
+        {
+            bossAnimator.SetBool("bossIsSummoning", true);
+        }
+
+        if (bossBaseAI.baseBossInAir == true)
+        {
+            bossAnimator.SetBool("bossInAir", true);
+        }
+
+        else
+        {
+            bossAnimator.SetBool("bossInAir", false);
+            bossAnimator.SetBool("bossIsSummoning", false);
         }
     }
 }

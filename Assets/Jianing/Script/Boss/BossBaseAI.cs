@@ -32,6 +32,10 @@ public abstract class BossBaseAI : MonoBehaviour
     private readonly HashSet<PlayerHealth> frameHits =
         new HashSet<PlayerHealth>();
 
+    // Animation Bools
+
+    public bool baseBossInAir;
+
     protected virtual void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -268,12 +272,15 @@ public abstract class BossBaseAI : MonoBehaviour
     {
         ResetAttack();
         SpawnFire();
+        baseBossInAir = true;
     }
 
     private void SpawnFire()
     {
         if (fireTilePrefab == null || fireCount <= 0)
             return;
+
+        baseBossInAir = true;
 
         float grid = Mathf.Max(0.1f, fireGridSize);
         float outer = Mathf.Max(grid, fireMaxRadius);
@@ -315,6 +322,7 @@ public abstract class BossBaseAI : MonoBehaviour
 
             tile.SetLifetime(fireLifetime);
             spawned++;
+            baseBossInAir = false;
         }
 
         if (spawned < fireCount)
@@ -329,5 +337,6 @@ public abstract class BossBaseAI : MonoBehaviour
     {
         if (health != null)
             health.SecondLifeStarted -= BeginSecondLife;
+        baseBossInAir = true;
     }
 }
