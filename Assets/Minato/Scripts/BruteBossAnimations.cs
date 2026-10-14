@@ -6,60 +6,63 @@ public class BossAnimationManager : MonoBehaviour
     
     // References
 
-    private CharacterController bossCharacterController;
+    [SerializeField] public CharacterController bossCharacterController;
     public Animator bossAnimator;
     public BossBruteAI bossBruteAI;
 
     private float smallBossDirection;
     public Transform smallBossVisuals;
 
+    public bool canDash;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        bossCharacterController = GetComponent<CharacterController>();
         bossAnimator = GetComponentInChildren<Animator>();
 
         // Boss begins in idle state until player noticed
 
         bossAnimator.SetBool("beetleIsGrounded", true);
+        bossAnimator.SetBool("beetleIsMoving", false);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        // smallBossDirection = Input.GetAxisRaw("Horizontal");
+        smallBossDirection = Input.GetAxisRaw("Horizontal");
 
-        // if (smallBossDirection != 0)
+        if (smallBossDirection != 0)
         {
-            // Vector3 scale = smallBossVisuals.localScale;
-            // scale.x = (smallBossDirection < 0) ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.y);
-            // smallBossVisuals.localScale = scale;
+            Vector3 scale = smallBossVisuals.localScale;
+            scale.x = (smallBossDirection < 0) ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.y);
+            smallBossVisuals.localScale = scale;
+            bossAnimator.SetBool("beetleIsMoving", true);
+        }
+
+        else
+        {
+            bossAnimator.SetBool("beetleIsMoving", false);
+            bossAnimator.SetBool("beetleIsDashing", false);
         }
 
         GroundCheck();
-
-        // if () Attacking
-        {
-            //bossAnimator.SetBool("bossIsAttacking", true);
-        }
+        DashCheck();
 
         // if () Summoning
         {
             //bossAnimator.SetBool("bossIsSummoning", true);
         }
 
-            if (bossBruteAI.bossPlayMoving == true)
-            {
-                bossAnimator.SetBool("bossIsMoving", true);
-            }
-        }
+    }
 
-        void GroundCheck()
+    void GroundCheck()
         {
             if (bossCharacterController.isGrounded)
             {
+            Debug.Log("Boss is grounded");
             bossAnimator.SetBool("beetleIsGrounded", true);
+            DashCheck();
             }
 
             else
@@ -68,13 +71,29 @@ public class BossAnimationManager : MonoBehaviour
             }
         }
 
-        IEnumerator DashAnimationTime()
+    void DashCheck()
         {
-            bossAnimator.SetBool("bossIsDashing", true);
-            yield return new WaitForSeconds(3f);
-            bossAnimator.SetBool("bossIsDashing", false);
-            yield return null;
-            Debug.Log("Dash coroutine ended");
+
+            if (bossBruteAI.bossPlayDash)
+                {
+                    canDash = true;
+                    bossAnimator.SetBool("beetleIsDashing", true);
+                }
+
+            if (canDash)
+            {
+                if (bossAnimator.GetBool("beetleIsDashing"))
+                {
+                    StartCoroutine("DashStop");
+                }
+            }
         }
+
+    IEnumerator DashStop()
+    {
+        yield return new WaitForSeconds(5f);
+        bossAnimator.SetBool("beetleIsDashing", false);
+        yield return null;
+    }
 
 }
