@@ -34,13 +34,14 @@ public class BossSummonerAI : BossBaseAI
 
     // Animation Bools
 
-    public bool bossPlayMoving;
+    public bool bossPlayInAir;
+    public bool bossPlaySummoning;
+    public bool bossPlayAttacking;
 
     protected override void TickAI()
     {
         double now = Time.timeAsDouble;
         Vector3 direction = ToPlayer();
-        bossPlayMoving = true;
 
         if (!engaged)
         {
@@ -62,6 +63,8 @@ public class BossSummonerAI : BossBaseAI
 
             nextCast = now +
                 Mathf.Max(summonInterval, castDuration + 0.1f);
+
+            bossPlaySummoning = true;
         }
 
         if (casting)
@@ -81,6 +84,8 @@ public class BossSummonerAI : BossBaseAI
             {
                 SummonThree();
                 casting = false;
+                bossPlaySummoning = false;
+                bossPlayInAir = true;
             }
 
             return;
@@ -222,5 +227,7 @@ public class BossSummonerAI : BossBaseAI
         nextCast =
             Time.timeAsDouble +
             Mathf.Max(0.1f, summonInterval);
+
+        bossPlayAttacking = false;
     }
 }
