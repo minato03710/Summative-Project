@@ -6,7 +6,7 @@ public class BossSummonerAnimations : MonoBehaviour
     private float finalBossDirection;
     private CharacterController bossCharacterController;
     public Animator bossAnimator;
-    public BossSummonerAI bossSummonerAI;
+    public BossSummonerAI bossSummonerAIScript;
     public BossBaseAI bossBaseAI;
     public Transform finalBossVisuals;
 
@@ -31,7 +31,7 @@ public class BossSummonerAnimations : MonoBehaviour
             finalBossVisuals.localScale = scale;
         }
 
-        if (bossSummonerAI.bossPlaySummoning == true)
+        if (bossSummonerAIScript.bossPlaySummoning == true)
         {
             bossAnimator.SetBool("bossIsSummoning", true);
         }
@@ -45,6 +45,7 @@ public class BossSummonerAnimations : MonoBehaviour
         {
             bossAnimator.SetBool("bossInAir", false);
             bossAnimator.SetBool("bossIsSummoning", false);
+            bossAnimator.SetBool("bossIsAttacking", false);
         }
     }
 }
