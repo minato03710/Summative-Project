@@ -60,11 +60,10 @@ public class BossSummonerAI : BossBaseAI
             casting = true;
             ringFired = false;
             castStarted = now;
+            bossPlaySummoning = true;
 
             nextCast = now +
                 Mathf.Max(summonInterval, castDuration + 0.1f);
-
-            bossPlaySummoning = true;
         }
 
         if (casting)
@@ -84,8 +83,6 @@ public class BossSummonerAI : BossBaseAI
             {
                 SummonThree();
                 casting = false;
-                bossPlaySummoning = false;
-                bossPlayInAir = true;
             }
 
             return;
