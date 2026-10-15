@@ -93,10 +93,17 @@ public class PlayerInputReader : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
         Input = GetComponent<PlayerInput>();
         health = GetComponent<PlayerHealth>();
+
+        // Keep the input reader belonging to the existing player.
+        if (Instance != null && Instance != this)
+        {
+            enabled = false;
+            return;
+        }
+
+        Instance = this;
     }
 
     private void Start()

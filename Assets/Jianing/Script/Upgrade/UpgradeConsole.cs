@@ -40,6 +40,20 @@ public class UpgradeConsole : MonoBehaviour
             CloseUpgradeUI();
         }
 
+        // Prefer the player that survives scene changes.
+        if (PlayerPersistence.Instance != null)
+        {
+            player = PlayerPersistence.Instance.transform;
+        }
+        else if (player == null)
+        {
+            GameObject playerObject =
+                GameObject.FindGameObjectWithTag("Player");
+
+            if (playerObject != null)
+                player = playerObject.transform;
+        }
+
         if (player == null)
             return;
 
