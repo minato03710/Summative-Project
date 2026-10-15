@@ -12,6 +12,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject choiceTouch;
 
     public GameObject canvasChoiceButtons;
+    public GameObject escapeCanvas;
 
     public string BadEnding1_Name;
     public string BadEnding2_Name;
@@ -48,6 +49,7 @@ public class TutorialManager : MonoBehaviour
         escapeLights.SetActive(true);
         CompanionBefore.SetActive(false);
         CompanionAfter.SetActive(true);
+        escapeCanvas.SetActive(true);
     }
 
 
