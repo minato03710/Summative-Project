@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.VFX;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 [DisallowMultipleComponent]
 public class PlayerHealth : MonoBehaviour
@@ -22,7 +24,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private string respawnTag = "RespawnPoint";
     [SerializeField] private string fallbackSpawnTag = "SpawnPoint";
 
-    private bool isDead;
+    public bool isDead;
+
     private bool initialized;
 
     private CharacterController controller;
@@ -127,6 +130,8 @@ public class PlayerHealth : MonoBehaviour
         if (!isDead)
             return;
 
+        
+
         Transform target = FindClosestPoint(respawnTag);
 
         if (target == null)
@@ -164,6 +169,35 @@ public class PlayerHealth : MonoBehaviour
         {
             if (controls[i] != null)
                 controls[i].enabled = controlStates[i];
+        }
+
+
+        //StartCoroutine(scene_deathChecker());
+
+        if (SceneManager.GetActiveScene().name == "Intro Area")
+        {
+            SceneManager.LoadScene("BadEnding2");
+        }
+
+        if (SceneManager.GetActiveScene().name == "zone 4")
+        {
+            SceneManager.LoadScene("zone 3");
+        }
+
+    }
+
+    public IEnumerator scene_deathChecker()
+    {
+        yield return new WaitForSeconds(2f);
+
+        if (SceneManager.GetActiveScene().name == "Intro Area")
+        {
+            SceneManager.LoadScene("BadEnding2");
+        }
+
+        if (SceneManager.GetActiveScene().name == "zone 4")
+        {
+            SceneManager.LoadScene("zone 3");
         }
     }
 
