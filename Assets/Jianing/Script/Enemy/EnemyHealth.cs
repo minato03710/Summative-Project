@@ -137,16 +137,12 @@ public class EnemyHealth : MonoBehaviour
 
     public void OnDestroy()
     {
+
         if (isFinalBoss == true)
         {
-            StartCoroutine(LoadGoodEnding());
-        }
-    }
 
-    public IEnumerator LoadGoodEnding()
-    {
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene("GoodEnding");
+            SceneManager.LoadScene("GoodEnding");
+        }
     }
 
 }
