@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
+
 
 [DisallowMultipleComponent]
 public class EnemyHealth : MonoBehaviour
@@ -15,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("Boss Second Life")]
     public bool useSecondLife = false;
+    public bool isFinalBoss;
 
     [Min(0f)]
     public float reviveProtectionSeconds = 1f;
@@ -129,4 +133,20 @@ public class EnemyHealth : MonoBehaviour
     {
         return isDead;
     }
+
+
+    public void OnDestroy()
+    {
+        if (isFinalBoss == true)
+        {
+            StartCoroutine(LoadGoodEnding());
+        }
+    }
+
+    public IEnumerator LoadGoodEnding()
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("GoodEnding");
+    }
+
 }
