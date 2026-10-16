@@ -48,19 +48,18 @@ public class CompanionAnimationManager : MonoBehaviour
 
         else
         {
-            FlipVisuals();
             companionAnimator.SetBool("companionIsMoving", true);
         }
     }
 
     void JumpCheck()
     {
-        if (companionCharacterController.isGrounded)
+        if (companionCharacterController.isGrounded == true)
         {
             companionAnimator.SetBool("companionIsJumping", false);
         }
 
-        else
+        if (companionCharacterController.isGrounded == false)
         {
             companionAnimator.SetBool("companionIsJumping", true);
         }
@@ -76,19 +75,6 @@ public class CompanionAnimationManager : MonoBehaviour
         if (companionCombat.playCompanionAttack == false)
         {
             companionAnimator.SetBool("companionIsAttacking", false);
-        }
-    }
-
-    void FlipVisuals()
-    {
-        if (companionMovement.currentMoveDirection.x > 0f)
-        {
-
-        }
-
-        if (companionMovement.currentMoveDirection.x < 0f)
-        {
-
         }
     }
 
