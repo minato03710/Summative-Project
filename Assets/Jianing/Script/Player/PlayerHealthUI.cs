@@ -16,56 +16,51 @@ public class PlayerHealthUI : MonoBehaviour
 
     private void Awake()
     {
-        // 血条只用于显示，不拦截鼠标，也不能被拖动。
-        CanvasGroup group = GetComponent<CanvasGroup>();
-        group.interactable = false;
-        group.blocksRaycasts = false;
+        if (healthSlider == null)
+            healthSlider = GetComponentInChildren<Slider>(true);
 
         if (healthSlider == null)
         {
-            healthSlider = GetComponentInChildren<Slider>(true);
-        }
-
-        if (healthSlider != null)
-        {
-            healthSlider.minValue = 0f;
-            healthSlider.maxValue = 1f;
-            healthSlider.wholeNumbers = false;
-            healthSlider.interactable = false;
-            healthSlider.direction = Slider.Direction.LeftToRight;
-
-            Navigation navigation = healthSlider.navigation;
-            navigation.mode = Navigation.Mode.None;
-            healthSlider.navigation = navigation;
-        }
-    }
-
-    private void Start()
-    {
-        // 没有手动指定时，尝试寻找场景中的玩家。
-        if (playerHealth == null)
-        {
-            playerHealth = FindFirstObjectByType<PlayerHealth>();
-        }
-
-        if (playerHealth == null || healthSlider == null)
-        {
             Debug.LogError(
-                "PlayerHealthUI: Assign Player Health and Health Slider.",
+                "PlayerHealthUI: Assign Health Slider.",
                 this
             );
 
             enabled = false;
+            return;
         }
+
+        // Display only: no clicking, dragging or selection.
+        healthSlider.transition = Selectable.Transition.None;
+        healthSlider.interactable = false;
+        healthSlider.minValue = 0f;
+        healthSlider.maxValue = 1f;
+        healthSlider.wholeNumbers = false;
+        healthSlider.direction = Slider.Direction.LeftToRight;
+
+        Navigation navigation = healthSlider.navigation;
+        navigation.mode = Navigation.Mode.None;
+        healthSlider.navigation = navigation;
+
+        CanvasGroup group = GetComponent<CanvasGroup>();
+        group.interactable = false;
+        group.blocksRaycasts = false;
+    }
+
+    private void OnEnable()
+    {
+        ResetDisplayedValues();
     }
 
     private void LateUpdate()
     {
+        FindPlayer();
+
         if (playerHealth == null || healthSlider == null)
             return;
 
         float maxHealth = Mathf.Max(
-            0f,
+            1f,
             playerHealth.GetMaxHealth()
         );
 
@@ -75,7 +70,6 @@ public class PlayerHealthUI : MonoBehaviour
             maxHealth
         );
 
-        // 血量没有变化时，不重复更新界面。
         if (Mathf.Approximately(currentHealth, displayedHealth) &&
             Mathf.Approximately(maxHealth, displayedMaxHealth))
         {
@@ -85,11 +79,9 @@ public class PlayerHealthUI : MonoBehaviour
         displayedHealth = currentHealth;
         displayedMaxHealth = maxHealth;
 
-        float ratio = maxHealth > 0f
-            ? currentHealth / maxHealth
-            : 0f;
-
-        healthSlider.SetValueWithoutNotify(ratio);
+        healthSlider.SetValueWithoutNotify(
+            currentHealth / maxHealth
+        );
 
         if (healthText != null)
         {
@@ -97,5 +89,44 @@ public class PlayerHealthUI : MonoBehaviour
                 $"{Mathf.CeilToInt(currentHealth)} / " +
                 $"{Mathf.CeilToInt(maxHealth)}";
         }
+    }
+
+    private void FindPlayer()
+    {
+        // Prefer the player preserved between scenes.
+        // Replace references to a duplicate scene player.
+        if (PlayerPersistence.Instance != null)
+        {
+            PlayerHealth persistentHealth =
+                PlayerPersistence.Instance
+                    .GetComponent<PlayerHealth>();
+
+            if (persistentHealth != null)
+            {
+                if (playerHealth != persistentHealth)
+                {
+                    playerHealth = persistentHealth;
+                    ResetDisplayedValues();
+                }
+
+                return;
+            }
+        }
+
+        // Support scenes without a persistent player.
+        // Retry later if no player exists yet.
+        if (playerHealth == null)
+        {
+            playerHealth =
+                FindFirstObjectByType<PlayerHealth>();
+
+            ResetDisplayedValues();
+        }
+    }
+
+    private void ResetDisplayedValues()
+    {
+        displayedHealth = -1f;
+        displayedMaxHealth = -1f;
     }
 }
