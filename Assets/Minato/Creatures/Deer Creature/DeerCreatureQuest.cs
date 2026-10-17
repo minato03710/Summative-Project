@@ -9,6 +9,7 @@ public class DeerCreatureQuest : MonoBehaviour
     public Animator deerAnimator;
     public FindFlower findFlower;
     public GameObject caveBarrier;
+    public GameObject playerReference;
 
     void Awake()
     {
@@ -19,6 +20,8 @@ public class DeerCreatureQuest : MonoBehaviour
     void Start()
     {
         caveBarrier = GameObject.Find("Cave Barrier");
+        playerReference = GameObject.Find("Player Animated");
+        findFlower = playerReference.GetComponent<FindFlower>();
     }
 
     // Update is called once per frame
@@ -31,9 +34,12 @@ public class DeerCreatureQuest : MonoBehaviour
     {
         if (findFlower.flowersCollected == true)
         {
-            searchTrigger.SetActive(false);
-            FoundFlowersCutscene();
-            Destroy(caveBarrier);
+            if (collision.CompareTag("Player"))
+            {
+                searchTrigger.SetActive(false);
+                FoundFlowersCutscene();
+                Destroy(caveBarrier);
+            }
         }
     }
 
