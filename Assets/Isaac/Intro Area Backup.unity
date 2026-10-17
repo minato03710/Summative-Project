@@ -27091,10 +27091,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1833536989}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a67c98b574d9df9409f26b576e4ea9a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e28722106fb0ec469d4f339281edace, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaterHazard
+  m_EditorClassIdentifier: Assembly-CSharp::LavaHazard
+  instantKill: 0
   damageAmount: 10
+  playerTag: Player
+  respawnTag: RespawnPoint
+  fallbackSpawnTag: SpawnPoint
+  burnInterval: 1
 --- !u!1 &1835426600
 GameObject:
   m_ObjectHideFlags: 0
