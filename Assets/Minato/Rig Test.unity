@@ -3041,6 +3041,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Companion Animated
       objectReference: {fileID: 0}
+    - target: {fileID: 1479660078924852862, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+      propertyPath: companionCommandController
+      value: 
+      objectReference: {fileID: 885052935}
     - target: {fileID: 7160015228856078445, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
       propertyPath: m_Size.x
       value: 0.9230467
@@ -3648,6 +3652,7 @@ MonoBehaviour:
   BoostVFX: {fileID: 0}
   companionAnimator: {fileID: 1993072699}
   sittingParameter: IsSitting
+  companionPlayHeal: 0
 --- !u!4 &885052946 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5159523035502090603, guid: 46e3a7a87885105408df4f2467ecb867, type: 3}

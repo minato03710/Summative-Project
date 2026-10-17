@@ -13,6 +13,7 @@ public class CompanionAnimationManager : MonoBehaviour
     public CompanionMovement companionMovement;
     public Transform companionVisuals;
     public CompanionCombat companionCombat;
+    public CompanionCommandController companionCommandController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -49,6 +50,8 @@ public class CompanionAnimationManager : MonoBehaviour
         MoveCheck();
 
         AttackCheck();
+
+        HealCheck();
     }
 
     void MoveCheck()
@@ -84,6 +87,15 @@ public class CompanionAnimationManager : MonoBehaviour
         {
             companionAnimator.SetBool("companionIsAttacking", false);
         }
+    }
+
+    void HealCheck()
+    {
+        if (companionCommandController.companionPlayHeal == true)
+        {
+            companionAnimator.SetBool("companionHealing", true);
+        }
+
     }
 
 }

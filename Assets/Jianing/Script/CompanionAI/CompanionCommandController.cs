@@ -78,6 +78,9 @@ public class CompanionCommandController : MonoBehaviour
 
     public bool CanBoost => boostCooldownRemaining <= 0f;
 
+    // Animation Bools
+    public bool companionPlayHeal;
+
     private void Awake()
     {
         movement = GetComponent<CompanionMovement>();
@@ -142,6 +145,8 @@ public class CompanionCommandController : MonoBehaviour
 
             return;
         }
+
+        companionPlayHeal = true;
 
         float previousHealth = playerHealth.GetCurrentHealth();
 
