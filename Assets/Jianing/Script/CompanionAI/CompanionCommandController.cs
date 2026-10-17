@@ -142,6 +142,7 @@ public class CompanionCommandController : MonoBehaviour
         {
             LastResult =
                 "Healing unavailable: full HP, cooldown, or no living player.";
+            companionPlayHeal = false;
 
             return;
         }
@@ -198,6 +199,7 @@ public class CompanionCommandController : MonoBehaviour
 
     public void FollowAndAttack()
     {
+        companionPlayHeal = false;
         IsSitting = false;
 
         if (combat != null)
@@ -230,5 +232,6 @@ public class CompanionCommandController : MonoBehaviour
     private void OnDisable()
     {
         SimpleVFX.Prepare(BoostVFX);
+        companionPlayHeal = false;
     }
 }

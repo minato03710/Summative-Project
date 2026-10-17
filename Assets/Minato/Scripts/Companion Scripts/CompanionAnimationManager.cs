@@ -50,20 +50,21 @@ public class CompanionAnimationManager : MonoBehaviour
         MoveCheck();
 
         AttackCheck();
-
-        HealCheck();
     }
 
     void MoveCheck()
     {
+
         if (companionMovement.currentMoveDirection == Vector3.zero)
         {
+            HealCheck();
             companionAnimator.SetBool("companionIsMoving", false);
         }
 
         else
         {
             companionAnimator.SetBool("companionIsMoving", true);
+            companionAnimator.SetBool("companionHealing", false);
         }
 
         JumpCheck();
@@ -94,6 +95,12 @@ public class CompanionAnimationManager : MonoBehaviour
         if (companionCommandController.companionPlayHeal == true)
         {
             companionAnimator.SetBool("companionHealing", true);
+            companionCommandController.companionPlayHeal = false;
+        }
+
+        else
+        {
+            companionAnimator.SetBool("companionHealing", false);
         }
 
     }
