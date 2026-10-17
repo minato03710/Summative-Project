@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1116226411642102227}
   - component: {fileID: 902004828546593005}
   - component: {fileID: 3295278819198388861}
+  - component: {fileID: 865074540702153416}
   m_Layer: 0
   m_Name: Companion Updated New
   m_TagString: Companion
@@ -266,6 +267,23 @@ MonoBehaviour:
   companionAnimator: {fileID: 3593070277701815152}
   sittingParameter: IsSitting
   companionPlayHeal: 0
+--- !u!114 &865074540702153416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910709813655311445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a896564b672c1b448465cfeb2a94b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompanionAnimationManager
+  companionAnimator: {fileID: 3593070277701815152}
+  companionMovement: {fileID: 0}
+  companionVisuals: {fileID: 1515115432820595796}
+  companionCombat: {fileID: 0}
+  companionCommandController: {fileID: 3295278819198388861}
 --- !u!1001 &7774855451444642514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -368,6 +386,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1836648523710506298, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+    - {fileID: 1479660078924852862, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+    - {fileID: 6466264011208909433, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+    - {fileID: 5461504045196170544, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+    - {fileID: 1586176174543072832, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+    - {fileID: 4093120309240861248, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+    - {fileID: 2911403258519174004, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+    - {fileID: 5193446111958956009, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -392,6 +417,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bfc69c2d60d8f04b99b705931e48495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpriteBillboard
+--- !u!4 &1515115432820595796 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9143169958571007622, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+  m_PrefabInstance: {fileID: 7774855451444642514}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &3593070277701815152 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6501214026732685730, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
