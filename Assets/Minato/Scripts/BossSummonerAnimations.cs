@@ -9,6 +9,7 @@ public class BossSummonerAnimations : MonoBehaviour
     public BossSummonerAI bossSummonerAIScript;
     public BossBaseAI bossBaseAI;
     public Transform finalBossVisuals;
+    public CutsceneStarter cutsceneStarter;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,17 +18,21 @@ public class BossSummonerAnimations : MonoBehaviour
         bossAnimator = GetComponentInChildren<Animator>();
         bossAnimator.SetBool("bossInAir", false);
         bossAnimator.SetBool("bossIsSummoning", false);
+        bossAnimator.SetBool("bossCutscene", false);
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        CutsceneCheck();
+
         finalBossDirection = Input.GetAxisRaw("Horizontal");
 
         if (finalBossDirection != 0)
         {
             Vector3 scale = finalBossVisuals.localScale;
-            scale.x = (finalBossDirection < 0) ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.y);
+            scale.x = (finalBossDirection > 0) ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.y);
             finalBossVisuals.localScale = scale;
         }
 
@@ -48,4 +53,13 @@ public class BossSummonerAnimations : MonoBehaviour
             bossAnimator.SetBool("bossIsAttacking", false);
         }
     }
+
+    void CutsceneCheck()
+    {
+        if (cutsceneStarter.bossStart == true)
+        {
+            bossAnimator.SetBool("bossCutscene", true);
+        }
+    }
+
 }
