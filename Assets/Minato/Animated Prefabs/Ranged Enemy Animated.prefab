@@ -336,7 +336,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2063450653860599724}
-  - component: {fileID: 1790716533844995710}
   m_Layer: 0
   m_Name: Ranged Robot Rig Visuals
   m_TagString: Untagged
@@ -360,18 +359,6 @@ Transform:
   - {fileID: 6830019192677150859}
   m_Father: {fileID: 2632095049392658529}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1790716533844995710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9058263445360391514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bfc69c2d60d8f04b99b705931e48495, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpriteBillboard
 --- !u!1 &9172488599797156839
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,6 +704,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7552917959383159465}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 531255168816982377}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
 --- !u!1 &5620777727349254376 stripped
 GameObject:
@@ -745,6 +735,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &531255168816982377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620777727349254376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfc69c2d60d8f04b99b705931e48495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpriteBillboard
 --- !u!4 &6830019192677150859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 53a211f4321334f6b8272105b93ee6ac, type: 3}
