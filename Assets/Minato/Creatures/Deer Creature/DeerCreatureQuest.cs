@@ -34,9 +34,12 @@ public class DeerCreatureQuest : MonoBehaviour
     {
         if (findFlower.flowersCollected == true)
         {
-            searchTrigger.SetActive(false);
-            FoundFlowersCutscene();
-            Destroy(caveBarrier);
+            if (collision.CompareTag("Player"))
+            {
+                searchTrigger.SetActive(false);
+                FoundFlowersCutscene();
+                Destroy(caveBarrier);
+            }
         }
     }
 
