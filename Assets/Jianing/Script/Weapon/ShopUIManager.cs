@@ -231,45 +231,31 @@ public class ShopUIManager : MonoBehaviour
             return;
         }
 
-        string speed = data.useFixedAttackInterval
-            ? $"Interval: {data.attackCooldown:0.###} s"
-            : $"Attack speed: x{data.attackSpeedMultiplier:0.##}";
+        string cost = "";
 
-        string range = data.useCustomRange
-            ? $"Range offset: {data.customAttackRange:0.##} / " +
-              $"Radius: {data.customAttackRadius:0.##}"
-            : $"Range: x{data.rangeMultiplier:0.##} + " +
-              $"{data.extraRange:0.##}";
+        if (data.scrapCost > 0)
+            cost = $"{data.scrapCost} Scrap";
 
-        string cost =
-            $"Cost: {data.scrapCost} Scrap / " +
-            $"{data.batteryCost} Battery / " +
-            $"{data.energyCost} Energy";
-
-        string stats = data.isRanged
-            ? $"Damage: {data.bulletDamage:0.##} / bullet\n" +
-              $"Magazine: {data.magazineSize}\n" +
-              $"Shot interval: {data.shotInterval:0.##}s\n" +
-              $"Reload: {data.reloadDuration:0.##}s\n" +
-              $"Bullet speed: {data.bulletSpeed:0.##}"
-            : $"Damage: x{data.damageMultiplier:0.##}\n" +
-              $"{speed}\n{range}";
-
-        text.text =
-            $"{data.weaponName}\n{stats}\n" +
-            (equipped
-                ? "EQUIPPED"
-                : owned
-                    ? "OWNED - equip free"
-                    : cost);
-
-        if (data.poisonDamagePerSecond > 0 &&
-            data.poisonDurationSeconds > 0)
+        if (data.batteryCost > 0)
         {
-            text.text +=
-                $"\nPoison: {data.poisonDamagePerSecond:0.##}/s " +
-                $"for {data.poisonDurationSeconds}s";
+            if (cost.Length > 0)
+                cost += " / ";
+
+            cost += $"{data.batteryCost} Battery";
         }
+
+        if (data.energyCost > 0)
+        {
+            if (cost.Length > 0)
+                cost += " / ";
+
+            cost += $"{data.energyCost} Energy";
+        }
+
+        if (cost.Length == 0)
+            cost = "Free";
+
+        text.text = $"{data.weaponName}\nCost: {cost}";
     }
 
     private void SetMessage(string message)
