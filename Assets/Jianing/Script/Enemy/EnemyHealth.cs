@@ -31,7 +31,7 @@ public class EnemyHealth : MonoBehaviour
     public bool IsReviving =>
         !isDead && Time.timeAsDouble < protectedUntil;
 
-    private float currentHealth;
+    public float currentHealth;
     private bool initialized;
     private bool isDead;
 

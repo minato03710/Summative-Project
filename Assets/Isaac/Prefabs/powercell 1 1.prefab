@@ -331,6 +331,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7906674858277190958}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5432027174574328074}
   m_SourcePrefab: {fileID: 100100000, guid: 413259016c0ad494ebd1da5f0b56c2e8, type: 3}
 --- !u!4 &452886562509434439 stripped
 Transform:
@@ -397,3 +400,29 @@ MonoBehaviour:
   useSecondLife: 0
   isFinalBoss: 0
   reviveProtectionSeconds: 1
+  currentHealth: 0
+--- !u!114 &5432027174574328074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937638507702940925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c043bd362eda29a468a78ca613d85db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDropSystem
+  dropItems:
+  - prefab: {fileID: 4800880825906529960, guid: 3c8358f45bea17948858ca7f3a3ed1ea, type: 3}
+    dropChance: 100
+    minAmount: 15
+    maxAmount: 30
+  - prefab: {fileID: 828523802254707236, guid: 8438de0ee5c75cc46b456b9502e943b9, type: 3}
+    dropChance: 100
+    minAmount: 15
+    maxAmount: 30
+  - prefab: {fileID: 5752412496533139731, guid: 375fc830137253947bc1bef2f8ac7d72, type: 3}
+    dropChance: 100
+    minAmount: 5
+    maxAmount: 10

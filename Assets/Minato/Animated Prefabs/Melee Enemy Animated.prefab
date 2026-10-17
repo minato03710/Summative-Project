@@ -1849,6 +1849,7 @@ MonoBehaviour:
   useSecondLife: 0
   isFinalBoss: 0
   reviveProtectionSeconds: 1
+  currentHealth: 0
 --- !u!114 &5581198034156317283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1913,19 +1914,15 @@ MonoBehaviour:
   - prefab: {fileID: 4800880825906529960, guid: 3c8358f45bea17948858ca7f3a3ed1ea, type: 3}
     dropChance: 50
     minAmount: 1
-    maxAmount: 3
+    maxAmount: 2
   - prefab: {fileID: 828523802254707236, guid: 8438de0ee5c75cc46b456b9502e943b9, type: 3}
-    dropChance: 50
+    dropChance: 100
     minAmount: 1
-    maxAmount: 2
-  - prefab: {fileID: 5397553753494864174, guid: b0b3bd9561b616c4ca824f2eed1b0856, type: 3}
-    dropChance: 30
-    minAmount: 1
-    maxAmount: 2
+    maxAmount: 3
   - prefab: {fileID: 5752412496533139731, guid: 375fc830137253947bc1bef2f8ac7d72, type: 3}
-    dropChance: 20
-    minAmount: 1
-    maxAmount: 2
+    dropChance: 100
+    minAmount: 2
+    maxAmount: 5
 --- !u!114 &5520545443446164948
 MonoBehaviour:
   m_ObjectHideFlags: 0
