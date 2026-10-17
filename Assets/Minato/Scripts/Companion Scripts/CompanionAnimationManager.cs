@@ -7,6 +7,7 @@ public class CompanionAnimationManager : MonoBehaviour
     // References
 
     private float companionDirection;
+    private float companionVerticalDirection;
     public Animator companionAnimator;
     private CharacterController companionCharacterController;
     public CompanionMovement companionMovement;
@@ -32,9 +33,20 @@ public class CompanionAnimationManager : MonoBehaviour
             companionVisuals.localScale = scale;
         }
 
-        MoveCheck();
+        companionVerticalDirection = Input.GetAxisRaw("Vertical");
 
-        JumpCheck();
+        if (companionVerticalDirection != 0)
+        {
+            companionAnimator.SetBool("companionIsMoving", true);
+        }
+
+        else
+        {
+            companionAnimator.SetBool("companionIsMoving", false);
+        }
+
+
+        MoveCheck();
 
         AttackCheck();
     }
@@ -50,19 +62,15 @@ public class CompanionAnimationManager : MonoBehaviour
         {
             companionAnimator.SetBool("companionIsMoving", true);
         }
+
+        JumpCheck();
     }
 
     void JumpCheck()
     {
-        if (companionCharacterController.isGrounded == true)
-        {
-            companionAnimator.SetBool("companionIsJumping", false);
-        }
-
-        if (companionCharacterController.isGrounded == false)
-        {
-            companionAnimator.SetBool("companionIsJumping", true);
-        }
+            companionAnimator.SetBool("companionIsGrounded",
+            companionCharacterController != null &&
+            companionCharacterController.isGrounded);
     }
 
     void AttackCheck()

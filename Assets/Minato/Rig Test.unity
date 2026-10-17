@@ -3646,7 +3646,7 @@ MonoBehaviour:
   boostSpeedMultiplier: 1.5
   boostCooldown: 45
   BoostVFX: {fileID: 0}
-  companionAnimator: {fileID: 0}
+  companionAnimator: {fileID: 1993072699}
   sittingParameter: IsSitting
 --- !u!4 &885052946 stripped
 Transform:
@@ -4873,6 +4873,7 @@ MonoBehaviour:
   deerAnimator: {fileID: 2031711626}
   findFlower: {fileID: 0}
   caveBarrier: {fileID: 0}
+  playerReference: {fileID: 0}
 --- !u!65 &1202947894
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7311,7 +7312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1707620244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8308,6 +8309,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bfc69c2d60d8f04b99b705931e48495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpriteBillboard
+--- !u!95 &1993072699 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6501214026732685730, guid: 695a3f5f05f050944bf48259b4eb91d6, type: 3}
+  m_PrefabInstance: {fileID: 709385977}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2031711623
 PrefabInstance:
   m_ObjectHideFlags: 0
