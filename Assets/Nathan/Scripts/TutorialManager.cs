@@ -21,6 +21,10 @@ public class TutorialManager : MonoBehaviour
 
     public bool choiceActive = false;
 
+    //SFX
+    public AudioSource BG_Music;
+    public AudioSource EscapeMusic;
+
 
 
 
@@ -50,6 +54,9 @@ public class TutorialManager : MonoBehaviour
         CompanionBefore.SetActive(false);
         CompanionAfter.SetActive(true);
         escapeCanvas.SetActive(true);
+
+        BG_Music.Stop();
+        EscapeMusic.Play();
     }
 
 

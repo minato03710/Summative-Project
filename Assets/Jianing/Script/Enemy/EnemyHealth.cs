@@ -16,6 +16,10 @@ public class EnemyHealth : MonoBehaviour
     public VisualEffect DamageVFX;
     public VisualEffect DeathVFX;
 
+    [Header("SFX")]
+    public AudioSource DamageSFX;
+    public AudioSource DestroySFX;
+
     [Header("Boss Second Life")]
     public bool useSecondLife = false;
     public bool isFinalBoss;
@@ -43,6 +47,7 @@ public class EnemyHealth : MonoBehaviour
 
         SimpleVFX.Prepare(DamageVFX);
         SimpleVFX.Prepare(DeathVFX);
+        
     }
 
     private void InitializeHealth()
@@ -69,6 +74,8 @@ public class EnemyHealth : MonoBehaviour
         );
 
         SimpleVFX.Spawn(DamageVFX, 0.15f);
+        DamageSFX.Play();
+
 
         if (currentHealth > 0f)
             return;
@@ -76,6 +83,7 @@ public class EnemyHealth : MonoBehaviour
         if (useSecondLife && !IsSecondLife)
             BeginSecondLife();
         else
+            
             Die();
     }
 
@@ -99,6 +107,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void Die()
     {
+        
         if (isDead)
             return;
 
@@ -106,6 +115,7 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = 0f;
 
         SimpleVFX.Spawn(DeathVFX, 0.2f, 3f);
+        
 
         Died?.Invoke();
 
@@ -114,6 +124,20 @@ public class EnemyHealth : MonoBehaviour
 
         if (dropSystem != null)
             dropSystem.DropResources();
+
+
+        if (DestroySFX != null) // Plays destroy SFX
+        {
+            AudioSource audio = DestroySFX;
+
+            audio.transform.SetParent(null);
+            audio.spatialBlend = 0f;
+            //audio.volume = 1f;
+            audio.Play();
+
+            Destroy(audio.gameObject, audio.clip.length + 0.1f);
+        }
+
 
         Destroy(gameObject);
     }
@@ -137,7 +161,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void OnDestroy()
     {
-
+        
         if (isFinalBoss == true)
         {
 
