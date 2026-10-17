@@ -100,6 +100,7 @@ public class CompanionCombat : MonoBehaviour
 
         if (attackTimer <= 0f)
         {
+            playCompanionAttack = true;
             currentEnemy.TakeDamage(EffectiveAttackDamage);
 
             attackTimer = Mathf.Max(0.01f, attackCooldown);
@@ -120,6 +121,7 @@ public class CompanionCombat : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
+            playCompanionAttack = true;
 
             EnemyHealth candidate =
                 hit.GetComponentInParent<EnemyHealth>();
@@ -162,6 +164,7 @@ public class CompanionCombat : MonoBehaviour
     public void ClearTarget()
     {
         currentEnemy = null;
+        playCompanionAttack = false;
         searchTimer = 0f;
     }
 
