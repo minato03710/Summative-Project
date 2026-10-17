@@ -18,6 +18,8 @@ public class PlayerDash : MonoBehaviour
 
     public bool playPlayerDash;
 
+    public AudioSource PlayerAudioSource;
+
     public void DashPressed(InputAction.CallbackContext context)
     {
         GetComponent<PlayerInputReader>().ReadDash(context);
@@ -79,6 +81,7 @@ public class PlayerDash : MonoBehaviour
 
     void Dash()
     {
+        PlayerAudioSource.Play();
         controller.Move(
             dashDirection * dashSpeed * Time.deltaTime
         );

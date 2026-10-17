@@ -363347,6 +363347,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EventSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 3836531560896473893, guid: 67c26eb2926425644893dd6b8ddf64ff, type: 3}
+      propertyPath: m_FirstSelected
+      value: 
+      objectReference: {fileID: 2046728488}
     - target: {fileID: 5517766130130497168, guid: 67c26eb2926425644893dd6b8ddf64ff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1067529,6 +1067533,11 @@ PrefabInstance:
       addedObject: {fileID: 1861727093}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
+--- !u!1 &2046728488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6222652906253873028, guid: 10cf5a0692c6860498635a35f31ebbe7, type: 3}
+  m_PrefabInstance: {fileID: 2046728487}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2050583131
 PrefabInstance:
   m_ObjectHideFlags: 0

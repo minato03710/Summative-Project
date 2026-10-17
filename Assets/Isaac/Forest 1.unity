@@ -15773,6 +15773,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EventSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 3836531560896473893, guid: 67c26eb2926425644893dd6b8ddf64ff, type: 3}
+      propertyPath: m_FirstSelected
+      value: 
+      objectReference: {fileID: 1359073637}
     - target: {fileID: 5517766130130497168, guid: 67c26eb2926425644893dd6b8ddf64ff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -30050,6 +30054,11 @@ GameObject:
 --- !u!224 &1359073636 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4147454808593020467, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
+  m_PrefabInstance: {fileID: 1359073634}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1359073637 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 726033262453198531, guid: 86dce1e71ed0147e9ac9f8443bc57e33, type: 3}
   m_PrefabInstance: {fileID: 1359073634}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1360592321

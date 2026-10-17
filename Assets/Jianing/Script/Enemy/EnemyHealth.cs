@@ -162,7 +162,7 @@ public class EnemyHealth : MonoBehaviour
     public void OnDestroy()
     {
         
-        if (isFinalBoss == true)
+        if ((isFinalBoss == true) && isDead == true)
         {
 
             SceneManager.LoadScene("GoodEnding");
