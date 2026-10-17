@@ -937,6 +937,7 @@ MonoBehaviour:
   useSecondLife: 0
   isFinalBoss: 0
   reviveProtectionSeconds: 1
+  currentHealth: 0
 --- !u!4 &36971921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4906028905537001781, guid: 5dd064374fe90a844a80c1552c6c332c, type: 3}
@@ -1609,7 +1610,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2
@@ -4965,6 +4966,7 @@ MonoBehaviour:
   useSecondLife: 0
   isFinalBoss: 0
   reviveProtectionSeconds: 1
+  currentHealth: 0
 --- !u!23 &201878864
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29630,6 +29632,7 @@ MonoBehaviour:
   useSecondLife: 0
   isFinalBoss: 0
   reviveProtectionSeconds: 1
+  currentHealth: 0
 --- !u!23 &1350282056
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42355,8 +42358,8 @@ Transform:
   m_GameObject: {fileID: 1961024154}
   serializedVersion: 2
   m_LocalRotation: {x: 0.04606268, y: 0.26942238, z: 0.17618571, w: 0.9456471}
-  m_LocalPosition: {x: 18.66, y: 6.49, z: 9.3}
-  m_LocalScale: {x: 2.4480565, y: 6.7574606, z: 13.170179}
+  m_LocalPosition: {x: 23.88, y: 8.85, z: 6.05}
+  m_LocalScale: {x: 16.60982, y: 6.7574606, z: 5.084427}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1012486679}
@@ -45949,6 +45952,7 @@ MonoBehaviour:
   useSecondLife: 0
   isFinalBoss: 0
   reviveProtectionSeconds: 1
+  currentHealth: 0
 --- !u!65 &2136138916
 BoxCollider:
   m_ObjectHideFlags: 0
